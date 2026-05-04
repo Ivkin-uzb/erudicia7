@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Общая эрудиция · 7 класс · Школа ЦПМ</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Mulish:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap');
+
+:root {
+  --or: #F5A623; --or2: #D4881A; --or-light: #FEF3DC;
+  --dk: #1A1A2E; --dk2: #16213E;
+  --grn: #27AE60; --red: #E74C3C; --acc: #3498DB;
+  --txt: #1C1C2E; --gray: #7A7A8C; --border: #E8E8F0;
+  --bg: #F7F7FC; --white: #fff;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Mulish',sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;}
+
+/* ── SCREENS ── */
+.screen{display:none;}
+.screen.active{display:block;}
+#screen-results.active{display:flex;}
+
+/* ══════════════ LANDING ══════════════ */
+#screen-landing{min-height:100vh;background:var(--dk);position:relative;overflow:hidden;}
+.land-orbs{position:absolute;inset:0;pointer-events:none;}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.18;}
+.orb1{width:500px;height:500px;background:var(--or);top:-100px;left:-100px;}
+.orb2{width:400px;height:400px;background:#3498DB;bottom:-80px;right:-80px;}
+.orb3{width:300px;height:300px;background:#E74C3C;top:40%;left:50%;}
+
+.land-wrap{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:56px 24px 48px;}
+.school-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(245,166,35,.15);
+  border:1px solid rgba(245,166,35,.3);border-radius:24px;padding:6px 16px;
+  font-size:11px;font-weight:700;letter-spacing:2px;color:var(--or);text-transform:uppercase;margin-bottom:28px;}
+.land-title{font-family:'Unbounded',sans-serif;font-size:clamp(30px,5vw,52px);
+  font-weight:900;color:var(--white);line-height:1.12;margin-bottom:12px;}
+.land-title em{color:var(--or);font-style:normal;}
+.land-sub{font-size:15px;color:rgba(255,255,255,.55);margin-bottom:48px;line-height:1.7;}
+
+.v-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:36px;}
+.v-card{background:rgba(255,255,255,.04);border:1.5px solid rgba(245,166,35,.2);
+  border-radius:20px;padding:28px 20px 22px;cursor:pointer;transition:all .25s;text-align:center;}
+.v-card:hover{background:rgba(245,166,35,.1);border-color:var(--or);transform:translateY(-4px);
+  box-shadow:0 16px 40px rgba(245,166,35,.18);}
+.v-num{font-family:'Unbounded',sans-serif;font-size:42px;font-weight:900;color:var(--or);line-height:1;margin-bottom:10px;}
+.v-topic{font-size:13px;font-weight:700;color:rgba(255,255,255,.75);margin-bottom:4px;}
+.v-meta{font-size:11px;color:rgba(255,255,255,.35);margin-bottom:16px;}
+.v-cta{display:inline-block;background:var(--or);color:var(--dk);font-weight:800;
+  font-size:12px;padding:8px 20px;border-radius:20px;transition:background .2s;}
+.v-card:hover .v-cta{background:#ffba42;}
+.land-note{font-size:12px;color:rgba(255,255,255,.28);line-height:1.7;text-align:center;}
+
+/* ══════════════ QUIZ HEADER ══════════════ */
+.q-hdr{background:var(--dk);padding:14px 24px;display:flex;align-items:center;
+  gap:14px;position:sticky;top:0;z-index:200;}
+.back-btn{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.08);
+  border:none;color:white;font-size:18px;cursor:pointer;display:flex;align-items:center;
+  justify-content:center;flex-shrink:0;transition:background .2s;}
+.back-btn:hover{background:rgba(255,255,255,.18);}
+.hdr-info{flex:1;}
+.hdr-title{font-family:'Unbounded',sans-serif;font-size:12px;font-weight:700;color:white;letter-spacing:.3px;}
+.hdr-sub{font-size:11px;color:var(--or);margin-top:2px;}
+.hdr-score{text-align:right;flex-shrink:0;}
+.hdr-pts{font-family:'Unbounded',sans-serif;font-size:18px;font-weight:900;color:var(--or);}
+.hdr-pts-lbl{font-size:10px;color:rgba(255,255,255,.4);}
+
+/* ══════════════ TIMER ══════════════ */
+.timer-wrap{display:flex;flex-direction:column;align-items:center;flex-shrink:0;}
+.timer-display{
+  font-family:'Unbounded',sans-serif;font-size:18px;font-weight:900;
+  color:white;letter-spacing:1px;line-height:1;
+  transition:color .4s;
+}
+.timer-display.warn{color:#F39C12;}
+.timer-display.danger{color:var(--red);animation:pulse .8s infinite;}
+.timer-lbl{font-size:10px;color:rgba(255,255,255,.4);margin-top:2px;text-align:center;}
+.timer-ring{position:relative;width:44px;height:44px;flex-shrink:0;}
+.timer-ring svg{position:absolute;top:0;left:0;}
+.timer-ring-txt{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+}
+.timer-ring-min{font-family:'Unbounded',sans-serif;font-size:11px;font-weight:900;
+  color:white;line-height:1;}
+.timer-ring-sec{font-size:9px;color:rgba(255,255,255,.45);line-height:1;margin-top:1px;}
+
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+
+/* time-up overlay */
+.timeup-overlay{
+  position:fixed;inset:0;background:rgba(26,26,46,.92);z-index:999;
+  display:flex;align-items:center;justify-content:center;
+  display:none;
+}
+.timeup-overlay.on{display:flex;}
+.timeup-box{
+  background:var(--dk2);border:2px solid var(--red);border-radius:24px;
+  padding:40px 36px;text-align:center;max-width:360px;width:90%;
+}
+.timeup-icon{font-size:48px;margin-bottom:16px;}
+.timeup-title{font-family:'Unbounded',sans-serif;font-size:20px;font-weight:900;
+  color:white;margin-bottom:8px;}
+.timeup-sub{font-size:14px;color:rgba(255,255,255,.5);margin-bottom:24px;line-height:1.6;}
+.timeup-btn{padding:12px 32px;border-radius:22px;background:var(--or);color:var(--dk);
+  font-family:'Mulish',sans-serif;font-weight:800;font-size:14px;border:none;
+  cursor:pointer;transition:background .2s;width:100%;}
+.timeup-btn:hover{background:#ffba42;}
+
+/* ══════════════ TABS ══════════════ */
+.tabs{display:flex;gap:8px;padding:20px 24px 0;flex-wrap:wrap;}
+.tab{padding:7px 18px;border-radius:20px;border:1.5px solid var(--border);
+  background:var(--white);color:var(--gray);font-family:'Mulish',sans-serif;
+  font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;}
+.tab:hover{border-color:var(--or);color:var(--or2);}
+.tab.on{background:var(--or);color:var(--dk);border-color:var(--or);}
+
+/* ══════════════ QUIZ BODY ══════════════ */
+.q-body{max-width:860px;margin:0 auto;padding:24px 24px 100px;}
+.panel{display:none;}.panel.on{display:block;}
+
+/* texts */
+.txt-block{background:var(--white);border-radius:16px;border:1px solid var(--border);
+  margin-bottom:18px;overflow:hidden;}
+.txt-hdr{background:var(--dk);padding:12px 20px;display:flex;justify-content:space-between;
+  align-items:center;cursor:pointer;}
+.txt-hdr-label{font-family:'Unbounded',sans-serif;font-size:11px;font-weight:700;
+  color:var(--or);letter-spacing:.5px;}
+.txt-hdr-icon{color:var(--or);font-size:13px;transition:transform .2s;}
+.txt-hdr-icon.open{transform:rotate(180deg);}
+.txt-body{padding:20px 22px;font-size:14px;line-height:1.8;color:var(--txt);
+  display:none;text-align:justify;}
+.txt-body.open{display:block;}
+.txt-body p{margin-bottom:12px;}.txt-body p:last-child{margin-bottom:0;}
+.txt-body table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px;}
+.txt-body th{background:var(--dk);color:var(--or);padding:8px 10px;text-align:center;font-size:12px;}
+.txt-body td{padding:7px 10px;border:1px solid var(--border);text-align:center;}
+.txt-body tr:nth-child(even) td{background:#f9f9fd;}
+
+/* question cards */
+.qcard{background:var(--white);border-radius:16px;border:1.5px solid var(--border);
+  padding:22px;margin-bottom:18px;transition:border-color .2s,box-shadow .2s;}
+.qcard.graded-ok{border-color:var(--grn);background:#f0faf5;}
+.qcard.graded-bad{border-color:var(--red);background:#fff5f5;}
+.qcard.graded-open{border-color:var(--acc);background:#f0f7ff;}
+
+.q-top{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px;}
+.q-badge{min-width:34px;height:34px;background:var(--dk);color:var(--or);
+  font-family:'Unbounded',sans-serif;font-size:11px;font-weight:700;
+  border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.q-right{flex:1;}
+.q-type-tag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:1px;
+  text-transform:uppercase;color:var(--gray);background:var(--bg);
+  padding:3px 9px;border-radius:10px;border:1px solid var(--border);margin-bottom:6px;}
+.q-pts-tag{display:inline-block;font-size:10px;font-weight:700;
+  color:var(--or2);background:var(--or-light);padding:3px 9px;
+  border-radius:10px;margin-left:6px;}
+.q-text{font-size:14px;font-weight:600;line-height:1.5;color:var(--txt);}
+
+/* options */
+.opts{list-style:none;margin-top:10px;}
+.opt{display:flex;align-items:flex-start;gap:10px;padding:10px 14px;
+  border-radius:10px;border:1.5px solid var(--border);margin-bottom:7px;
+  cursor:pointer;transition:all .18s;font-size:14px;line-height:1.4;}
+.opt:hover{border-color:var(--or);background:var(--or-light);}
+.opt.sel{border-color:var(--or);background:var(--or-light);}
+.opt.ok{border-color:var(--grn);background:#e8f8f0;}
+.opt.bad{border-color:var(--red);background:#fde8e8;}
+.opt-dot{width:20px;height:20px;border-radius:50%;border:2px solid var(--border);
+  flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;transition:all .15s;}
+.opt.sel .opt-dot{border-color:var(--or);background:var(--or);color:white;}
+.opt.ok .opt-dot{border-color:var(--grn);background:var(--grn);color:white;}
+.opt.bad .opt-dot{border-color:var(--red);background:var(--red);color:white;}
+
+/* multi checkbox style */
+.opt-box{width:20px;height:20px;border-radius:5px;border:2px solid var(--border);
+  flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:700;transition:all .15s;}
+.opt.sel .opt-box{border-color:var(--or);background:var(--or);color:white;}
+.opt.ok .opt-box{border-color:var(--grn);background:var(--grn);color:white;}
+.opt.bad .opt-box{border-color:var(--red);background:var(--red);color:white;}
+
+/* open answer */
+.open-input{width:100%;margin-top:10px;padding:12px 16px;border-radius:10px;
+  border:1.5px solid var(--border);font-family:'Mulish',sans-serif;font-size:14px;
+  color:var(--txt);resize:vertical;min-height:72px;transition:border .2s;}
+.open-input:focus{outline:none;border-color:var(--or);}
+
+/* actions */
+.q-actions{margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;}
+.btn-chk{padding:9px 22px;border-radius:20px;background:var(--dk);color:white;
+  font-family:'Mulish',sans-serif;font-weight:700;font-size:13px;border:none;
+  cursor:pointer;transition:background .2s;}
+.btn-chk:hover{background:#2d2d50;}
+.btn-ans{padding:9px 22px;border-radius:20px;background:transparent;color:var(--gray);
+  font-family:'Mulish',sans-serif;font-weight:600;font-size:13px;
+  border:1.5px solid var(--border);cursor:pointer;transition:all .2s;}
+.btn-ans:hover{border-color:var(--or);color:var(--or2);}
+
+.reveal{margin-top:12px;padding:12px 16px;background:#eef9f4;border-radius:10px;
+  border-left:3px solid var(--grn);font-size:13px;color:var(--txt);line-height:1.6;display:none;}
+.reveal.on{display:block;}
+.reveal strong{color:var(--grn);}
+.reveal.open-reveal{background:#edf5ff;border-left-color:var(--acc);}
+.reveal.open-reveal strong{color:var(--acc);}
+
+/* score badge */
+.score-badge{display:inline-flex;align-items:center;gap:5px;margin-top:10px;
+  padding:5px 12px;border-radius:20px;font-size:12px;font-weight:700;}
+.score-badge.ok{background:#e8f8f0;color:var(--grn);}
+.score-badge.bad{background:#fde8e8;color:var(--red);}
+.score-badge.partial{background:#fff3e0;color:#E67E22;}
+
+/* finish bar */
+.fin-bar{position:fixed;bottom:0;left:0;right:0;background:white;
+  padding:14px 24px;display:flex;align-items:center;justify-content:space-between;
+  gap:16px;box-shadow:0 -4px 24px rgba(0,0,0,.1);z-index:300;}
+.fin-info{font-size:13px;color:var(--gray);}
+.fin-info strong{color:var(--dk);}
+.btn-fin{padding:11px 30px;border-radius:22px;background:var(--or);color:var(--dk);
+  font-family:'Mulish',sans-serif;font-weight:800;font-size:14px;border:none;
+  cursor:pointer;transition:background .2s;flex-shrink:0;}
+.btn-fin:hover{background:#ffba42;}
+
+/* ══════════════ RESULTS ══════════════ */
+#screen-results{min-height:100vh;background:var(--dk);align-items:center;justify-content:center;}
+.res-wrap{max-width:540px;width:90%;margin:40px auto;text-align:center;}
+.res-ring{width:150px;height:150px;margin:0 auto 24px;border-radius:50%;
+  border:6px solid rgba(255,255,255,.08);display:flex;flex-direction:column;
+  align-items:center;justify-content:center;position:relative;}
+.res-ring svg{position:absolute;top:-6px;left:-6px;}
+.res-pts{font-family:'Unbounded',sans-serif;font-size:38px;font-weight:900;
+  color:var(--or);line-height:1;z-index:1;}
+.res-max{font-size:12px;color:rgba(255,255,255,.4);z-index:1;margin-top:2px;}
+.res-title{font-family:'Unbounded',sans-serif;font-size:22px;font-weight:900;
+  color:white;margin-bottom:8px;}
+.res-sub{font-size:14px;color:rgba(255,255,255,.45);margin-bottom:28px;}
+.res-board{background:rgba(255,255,255,.05);border-radius:16px;
+  padding:20px;margin-bottom:28px;text-align:left;}
+.res-row{display:flex;justify-content:space-between;padding:8px 0;
+  border-bottom:1px solid rgba(255,255,255,.05);font-size:13px;}
+.res-row:last-child{border:none;}
+.res-lbl{color:rgba(255,255,255,.5);}
+.res-val{font-weight:700;}
+.res-val.ok{color:var(--grn);}
+.res-val.so{color:#E67E22;}
+.res-val.bad{color:var(--red);}
+.res-btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;}
+.btn-primary{padding:12px 28px;border-radius:24px;background:var(--or);color:var(--dk);
+  font-family:'Mulish',sans-serif;font-weight:800;font-size:14px;border:none;
+  cursor:pointer;transition:background .2s;}
+.btn-primary:hover{background:#ffba42;}
+.btn-sec{padding:12px 28px;border-radius:24px;background:rgba(255,255,255,.08);
+  color:white;font-family:'Mulish',sans-serif;font-weight:700;font-size:14px;
+  border:1.5px solid rgba(255,255,255,.15);cursor:pointer;transition:all .2s;}
+.btn-sec:hover{background:rgba(255,255,255,.14);}
+
+@media(max-width:600px){
+  .land-wrap,.q-body{padding-left:16px;padding-right:16px;}
+  .v-grid{grid-template-columns:1fr;}
+  .q-body{padding-bottom:90px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════ LANDING ══════ -->
+<div id="screen-landing" class="screen active">
+  <div class="land-orbs">
+    <div class="orb orb1"></div><div class="orb orb2"></div><div class="orb orb3"></div>
+  </div>
+  <div class="land-wrap">
+    <div class="school-badge">Школа ЦПМ · 7 класс</div>
+    <h1 class="land-title">Общая<br><em>эрудиция</em></h1>
+    <p class="land-sub">Вступительные испытания · Комплексное тестирование<br>
+    Выберите вариант — тексты, вопросы к ним, работа с таблицей и логические задачи</p>
+
+    <div class="v-grid">
+      <div class="v-card" onclick="startVariant(0)">
+        <div class="v-num">01</div>
+        <div class="v-topic">Театр и искусство</div>
+        <div class="v-meta">9 заданий · до 11 баллов</div>
+        <div class="v-cta">Начать →</div>
+      </div>
+      <div class="v-card" onclick="startVariant(1)">
+        <div class="v-num">02</div>
+        <div class="v-topic">Растения-хищники</div>
+        <div class="v-meta">9 заданий · до 11 баллов</div>
+        <div class="v-cta">Начать →</div>
+      </div>
+      <div class="v-card" onclick="startVariant(2)">
+        <div class="v-num">03</div>
+        <div class="v-topic">Галилей и космос</div>
+        <div class="v-meta">9 заданий · до 11 баллов</div>
+        <div class="v-cta">Начать →</div>
+      </div>
+    </div>
+    <p class="land-note">Задания составлены по структуре демоверсии ЦПМ для 7 класса.<br>
+    Открытые задачи проверяются вручную — ответы отображаются после нажатия «Завершить».</p>
+  </div>
+</div>
+
+<!-- ══════ QUIZ ══════ -->
+<div id="screen-quiz" class="screen">
+  <div class="q-hdr">
+    <button class="back-btn" onclick="confirmBack()">←</button>
+    <div class="hdr-info">
+      <div class="hdr-title" id="hdr-title">Вариант 1 · Общая эрудиция</div>
+      <div class="hdr-sub" id="hdr-sub">Театр и искусство</div>
+    </div>
+
+    <!-- TIMER RING -->
+    <div class="timer-ring" title="Оставшееся время">
+      <svg width="44" height="44" viewBox="0 0 44 44">
+        <circle cx="22" cy="22" r="18" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="3"/>
+        <circle id="timer-arc" cx="22" cy="22" r="18" fill="none" stroke="#F5A623"
+          stroke-width="3" stroke-linecap="round"
+          stroke-dasharray="113" stroke-dashoffset="0"
+          transform="rotate(-90 22 22)"
+          style="transition:stroke-dashoffset .9s linear, stroke .4s;"/>
+      </svg>
+      <div class="timer-ring-txt">
+        <div class="timer-ring-min" id="timer-min">60</div>
+        <div class="timer-ring-sec" id="timer-sec">:00</div>
+      </div>
+    </div>
+
+    <div class="hdr-score">
+      <div class="hdr-pts" id="hdr-pts">0</div>
+      <div class="hdr-pts-lbl">баллов</div>
+    </div>
+  </div>
+
+  <!-- TIME-UP OVERLAY -->
+  <div class="timeup-overlay" id="timeup-overlay">
+    <div class="timeup-box">
+      <div class="timeup-icon">⏰</div>
+      <div class="timeup-title">Время вышло!</div>
+      <div class="timeup-sub">60 минут истекли. Посмотри, что успел — сейчас покажем результат.</div>
+      <button class="timeup-btn" onclick="onTimeUp()">Посмотреть результат →</button>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab on" onclick="switchTab('texts',this)">📖 Тексты</button>
+    <button class="tab" onclick="switchTab('questions',this)">✏️ Задания</button>
+  </div>
+
+  <div class="q-body">
+    <div class="panel on" id="panel-texts"></div>
+    <div class="panel" id="panel-questions"></div>
+  </div>
+
+  <div class="fin-bar">
+    <div class="fin-info">Отвечено: <strong id="ans-cnt">0</strong> из <strong id="q-total">9</strong></div>
+    <button class="btn-fin" onclick="finishQuiz()">Завершить и получить результат →</button>
+  </div>
+</div>
+
+<!-- ══════ RESULTS ══════ -->
+<div id="screen-results" class="screen">
+  <div class="res-wrap">
+    <div class="res-ring">
+      <svg width="162" height="162" viewBox="0 0 162 162">
+        <circle cx="81" cy="81" r="75" fill="none" stroke="rgba(255,255,255,.07)" stroke-width="6"/>
+        <circle id="res-arc" cx="81" cy="81" r="75" fill="none" stroke="#F5A623" stroke-width="6"
+          stroke-linecap="round" stroke-dasharray="471" stroke-dashoffset="471"
+          transform="rotate(-90 81 81)" style="transition:stroke-dashoffset 1.1s ease"/>
+      </svg>
+      <div class="res-pts" id="res-pts">0</div>
+      <div class="res-max" id="res-max">из 11</div>
+    </div>
+    <div class="res-title" id="res-title">Результат</div>
+    <div class="res-sub" id="res-sub"></div>
+    <div class="res-board" id="res-board"></div>
+    <div class="res-btns">
+      <button class="btn-primary" onclick="reviewAnswers()">Разбор ответов</button>
+      <button class="btn-sec" onclick="goHome()">← Сменить вариант</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════
+// DATA  —  3 VARIANTS
+// ═══════════════════════════════════════════
+const VARIANTS = [
+
+// ─────────── VARIANT 1: Театр и искусство ───────────
+{
+  number:1, topic:'Театр и искусство', maxPts:11,
+  texts:[
+    { title:'Текст 1. Волшебный мир театра',
+      body:`<p>Дорогие друзья! Вы, конечно же, знаете, что для продуктивной работы надо уметь отдыхать. Одним из приятных и культурных способов отдыха давно считается посещение театра. За первыми же дверями, в вестибюле, мы попадаем в мир, полный тайн и загадок.</p>
+<p><strong>Что такое театр?</strong></p>
+<p>Театр (греч. Θέατρον — основное значение — место для зрелищ, затем — зрелище) — форма исполнительского искусства, в основе которой лежит синтез многих искусств. Он включает в себя музыку, архитектуру, живопись, кинематограф, фотографию и т.д. Основным средством выразительности служит актёр, который через действие, используя разные театральные приёмы и формы существования, доносит до зрителя суть происходящего на сцене.</p>
+<p>При этом актёром не обязательно должен быть живой человек. Это может быть кукла или какой-либо предмет, управляемый человеком. Театр считается самым сильным средством влияния на людей, поскольку, видя происходящее на сцене, зритель ассоциирует себя с тем или иным персонажем.</p>`
+    },
+    { title:'Текст 2. Жанры театрального искусства',
+      body:`<p>На протяжении нескольких тысячелетий театр развивался и менялся, обогащаясь новыми жанрами и формами.</p>
+<p><strong>Драма</strong> — один из основных жанров театра. В ней показывается острый конфликт между персонажами или противостояние героя и обстоятельств. Финал не всегда трагичен. <strong>Трагедия</strong> — жанр, в котором главный герой оказывается в неразрешимом конфликте с судьбой или обществом и, как правило, гибнет или терпит сокрушительное поражение. <strong>Комедия</strong> строится на смешных ситуациях и характерах; её задача — рассмешить и через смех показать пороки общества. <strong>Мюзикл</strong> объединяет драматическое действие, музыку и хореографию.</p>
+<p>Особое место занимает <strong>кукольный театр</strong>: здесь актёры управляют куклами — перчаточными, марионетками, теневыми. Кукольный театр — один из древнейших видов театрального искусства, известный с античных времён.</p>
+<p>Сегодня театр активно взаимодействует с новыми технологиями: в постановках используются видеоарт, интерактивные декорации, дополненная реальность. Несмотря на это, живой контакт со зрителем остаётся главной отличительной чертой театра от кино и телевидения.</p>`
+    },
+    { title:'Текст 3. Известные театры мира (таблица)',
+      body:`<p>Ниже представлена информация о некоторых известных театрах мира.</p>
+<table>
+<thead><tr><th>Театр</th><th>Страна</th><th>Год основания</th><th>Вместимость (мест)</th></tr></thead>
+<tbody>
+<tr><td>Ла Скала</td><td>Италия</td><td>1778</td><td>2 800</td></tr>
+<tr><td>Большой театр</td><td>Россия</td><td>1776</td><td>2 153</td></tr>
+<tr><td>Глобус</td><td>Великобритания</td><td>1599 (воссоздан 1997)</td><td>1 572</td></tr>
+<tr><td>Метрополитен-опера</td><td>США</td><td>1883</td><td>3 800</td></tr>
+<tr><td>Комеди Франсез</td><td>Франция</td><td>1680</td><td>862</td></tr>
+</tbody>
+</table>`
+    }
+  ],
+  questions:[
+    { num:1, pts:1, type:'single',
+      text:'Выберите утверждение, которое НЕ соответствует тексту 1.',
+      opts:['А) Посещение театра — один из приятных и культурных способов отдыха.',
+            'Б) Актёр — основное средство выразительности театра.',
+            'В) Актёром обязательно должен быть живой человек.',
+            'Г) В театре синтезированы разные виды искусства.'],
+      correctIdx:2, answer:'В — Актёром обязательно должен быть живой человек. Текст прямо указывает, что актёром может быть кукла или предмет, управляемый человеком.' },
+
+    { num:2, pts:1, type:'multi',
+      text:'Выберите все утверждения, которые СООТВЕТСТВУЮТ тексту 1. Запишите их номера.',
+      opts:['1) Актёр через действие доносит до зрителя суть происходящего на сцене.',
+            '2) Актёром может быть кукла.',
+            '3) Актёром может быть любой предмет, не управляемый человеком.',
+            '4) Кинематограф оказывает большее влияние на зрителя, чем театр.'],
+      correct:[0,1], answer:'1 и 2. Утверждение 3 неверно (предмет должен управляться человеком), утверждение 4 противоречит тексту.' },
+
+    { num:3, pts:1, type:'single',
+      text:'Какой жанр театра строится на смешных ситуациях и через смех показывает пороки общества?',
+      opts:['А) Трагедия','Б) Драма','В) Комедия','Г) Мюзикл'],
+      correctIdx:2, answer:'В — Комедия.' },
+
+    { num:4, pts:1, type:'multi',
+      text:'Чем театр отличается от кино и телевидения согласно тексту 2? Выберите все верные ответы.',
+      opts:['1) В театре используются живые актёры.',
+            '2) В театре есть живой контакт со зрителем.',
+            '3) В театре не используют технологии.',
+            '4) Театр существует несколько тысячелетий.'],
+      correct:[1], answer:'2 — живой контакт со зрителем. Текст прямо называет это главной отличительной чертой.' },
+
+    { num:5, pts:1, type:'single',
+      text:'Используя данные таблицы (Текст 3): какой театр из списка был основан раньше всех?',
+      opts:['А) Большой театр','Б) Комеди Франсез','В) Ла Скала','Г) Глобус (исторический)'],
+      correctIdx:3, answer:'Г — Глобус был основан в 1599 году, что раньше Комеди Франсез (1680), Большого (1776) и Ла Скала (1778).' },
+
+    { num:6, pts:1, type:'multi',
+      text:'Используя таблицу (Текст 3): выберите все верные утверждения.',
+      opts:['1) Метрополитен-опера — самый вместительный театр из списка.',
+            '2) Большой театр был основан раньше Ла Скала.',
+            '3) Комеди Франсез вмещает больше зрителей, чем Глобус.',
+            '4) Из театров таблицы только Глобус находится в Великобритании.'],
+      correct:[0,1,3], answer:'1, 2 и 4. Утверждение 3 неверно: Комеди Франсез (862 места) < Глобус (1 572 места).' },
+
+    { num:7, pts:1, type:'single',
+      text:'Какой постоянный грамматический признак является общим для слов «синтез», «зрелище», «конфликт», «жанр»?',
+      opts:['А) Все слова одушевлённые','Б) Все слова — имена существительные мужского рода',
+            'В) Все слова — имена существительные','Г) Все слова иноязычного происхождения'],
+      correctIdx:2, answer:'В — все четыре слова являются именами существительными.' },
+
+    { num:8, pts:1, type:'open',
+      text:'Логическая задача. В театральной студии занимаются Аня, Борис, Вера, Гриша и Дима. Аня играет в спектаклях чаще Бориса, но реже Веры. Гриша играет реже всех. Дима играет реже Веры, но чаще Ани. Расположите ребят от самого редко играющего к самому часто играющему.',
+      answer:'Гриша — Борис — Аня — Дима — Вера.' },
+
+    { num:9, pts:2, type:'open',
+      text:'Задача на вычисление. Билет в театр стоит 800 рублей. На сезонную распродажу цену снизили на 25%. Затем, на день рождения театра, новую цену снизили ещё на 10%. Сколько рублей стоит билет после обеих скидок? Запишите ответ числом.',
+      answer:'540 рублей. 800 × 0,75 = 600 руб. (первая скидка). 600 × 0,90 = 540 руб. (вторая скидка).' }
+  ]
+},
+
+// ─────────── VARIANT 2: Растения-хищники ───────────
+{
+  number:2, topic:'Растения-хищники', maxPts:11,
+  texts:[
+    { title:'Текст 1. Охота растений',
+      body:`<p>О том, что животные поедают растения, давно всем известно. А знаете ли вы, что некоторые растения «ловят» и «поедают» животных? Таких растений насчитывается несколько десятков, и они обитают на разных континентах Земли.</p>
+<p>На болотах средней полосы России можно встретить два многолетних травянистых растения высотой 5–8 см — росянку круглолистную с округлыми листьями и росянку английскую с продолговатыми листочками. У обоих видов поверхность листьев покрыта железистыми волосками длиной 2–5 мм. Волоски увенчаны округлыми головками, выделяющими клейкие капельки жидкости. Химические свойства этих капелек близки к свойствам желудочного сока.</p>
+<p>Капли отражают солнечный свет и привлекают насекомых. Те садятся на листья и прилипают. Стремясь освободиться, насекомые дёргаются, в результате волоски склоняются к пленнику и обволакивают его клейкой жидкостью. Край листа заворачивается, и насекомое оказывается внутри него. Мягкие части животного растворяются под действием жидкости, выделяемой волосками, а клетки растения всасывают эти растворы в течение 2,5 дней. Затем клейкое вещество высыхает, листовая пластинка разворачивается, твёрдые непереваренные остатки насекомого сдувает ветер, и лист готовится к встрече с новой жертвой.</p>
+<p>Таким оригинальным способом росянки приспособились к жизни на болотах, восполняя недостаток минеральных солей, необходимых для роста.</p>`
+    },
+    { title:'Текст 2. Венерина мухоловка и кувшиночники',
+      body:`<p>Близкая родственница росянок обитает на болотах Северной Америки. Венерина мухоловка — небольшое розеточное травянистое растение, имеет по сравнению с росянкой более совершенный ловчий аппарат. Зубчатая по краю листовая пластинка разделена на две ярко окрашенные изнутри половинки, каждая из которых имеет на верхней поверхности по три чувствительных волоска. Если насекомое задевает эти волоски, пластинка быстро складывается пополам, а краевые зубцы заходят друг за друга. Добыча оказывается внутри надёжной ловушки. Дальнейшая судьба жертвы сходна с судьбой насекомого, попавшегося росянке.</p>
+<p>Кувшиночники живут во влажных тропических лесах Азии и Африки. У этих растений есть особое приспособление — ловчие кувшины. Обычно кувшин заполнен водой до половины. Кувшины ярко окрашены в красный и желтоватый цвета. Поверхность края блестящая и очень скользкая. Здесь выделяется сладковатая жидкость — нектар. Привлечённые нектаром насекомые садятся на край кувшина и соскальзывают вниз, тонут в воде и со временем разлагаются. Полученный таким образом раствор всасывают особые клетки на внутренней поверхности кувшина.</p>`
+    },
+    { title:'Текст 3. Сравнение растений-хищников (таблица)',
+      body:`<p>Ниже представлены основные сведения о трёх растениях-хищниках.</p>
+<table>
+<thead><tr><th>Признак</th><th>Росянка</th><th>Венерина мухоловка</th><th>Кувшиночник</th></tr></thead>
+<tbody>
+<tr><td>Где обитает</td><td>Болота России и Европы</td><td>Болота Северной Америки</td><td>Тропические леса Азии и Африки</td></tr>
+<tr><td>Механизм ловли</td><td>Клейкие волоски, лист сворачивается</td><td>Пластинка складывается при касании</td><td>Скользкий край, насекомое падает в воду</td></tr>
+<tr><td>Приманка</td><td>Блестящие капли, имитирующие росу</td><td>Яркая окраска пластинки</td><td>Нектар и яркая окраска</td></tr>
+<tr><td>Размер</td><td>5–8 см</td><td>До 15 см</td><td>Кувшины до 30–50 см</td></tr>
+</tbody>
+</table>`
+    }
+  ],
+  questions:[
+    { num:1, pts:1, type:'single',
+      text:'Какое выражение наиболее точно характеризует растения, описанные в текстах 1–2?',
+      opts:['А) Растения болот','Б) Травянистые растения','В) Растения-хищники','Г) Необычные растения'],
+      correctIdx:2, answer:'В — растения-хищники. Именно это понятие объединяет все три описанных растения.' },
+
+    { num:2, pts:1, type:'multi',
+      text:'Чем описанные растения привлекают насекомых? Выберите все верные ответы.',
+      opts:['1) Наличием нектара','2) Присутствием пыльцы',
+            '3) Безопасностью посещения','4) Яркой окраской','5) Блестящими каплями, имитирующими росу'],
+      correct:[0,3,4], answer:'1, 4 и 5. Пыльца (2) не упоминается как приманка, безопасность (3) — ложная.' },
+
+    { num:3, pts:1, type:'single',
+      text:'Как росянке удаётся растворять насекомых?',
+      opts:['А) Листья со сверкающими каплями привлекают насекомых.',
+            'Б) Твёрдые остатки насекомого сдувает ветер.',
+            'В) Край листа заворачивается, и насекомое оказывается внутри.',
+            'Г) Клейкие капельки жидкости росянки по свойствам близки к желудочному соку.'],
+      correctIdx:3, answer:'Г — именно химические свойства клейкой жидкости, близкие к желудочному соку, позволяют растворять мягкие части насекомого.' },
+
+    { num:4, pts:1, type:'multi',
+      text:'Используя таблицу (Текст 3): выберите все верные утверждения.',
+      opts:['1) Венерина мухоловка — самое крупное растение из трёх (по размеру ловчего органа).',
+            '2) Все три растения используют яркую окраску как приманку.',
+            '3) Только кувшиночник привлекает насекомых нектаром.',
+            '4) Росянка и Венерина мухоловка обе обитают на болотах.'],
+      correct:[2,3], answer:'3 и 4. Кувшиночник — единственный, кто использует нектар. Росянка и мухоловка — оба болотные растения.' },
+
+    { num:5, pts:1, type:'single',
+      text:'Согласно тексту 1, зачем росянки «охотятся» на насекомых?',
+      opts:['А) Чтобы получить воду','Б) Чтобы восполнить недостаток минеральных солей',
+            'В) Чтобы защититься от врагов','Г) Чтобы привлечь опылителей'],
+      correctIdx:1, answer:'Б — росянки восполняют недостаток минеральных солей, необходимых для роста, получая их из насекомых.' },
+
+    { num:6, pts:1, type:'multi',
+      text:'Выберите все верные утверждения о Венериной мухоловке (Текст 2).',
+      opts:['1) Она обитает на болотах Северной Америки.',
+            '2) Ловчий аппарат мухоловки менее совершенен, чем у росянки.',
+            '3) Каждая половинка листовой пластинки имеет по три чувствительных волоска.',
+            '4) После поимки жертвы лист никогда не открывается снова.'],
+      correct:[0,2], answer:'1 и 3. Утверждение 2 неверно (мухоловка имеет более совершенный аппарат). Утверждение 4 в тексте не подтверждается.' },
+
+    { num:7, pts:1, type:'single',
+      text:'Определите тип речи, который преобладает в тексте 1 («Охота растений»).',
+      opts:['А) Повествование','Б) Описание','В) Рассуждение','Г) Повествование с элементами описания'],
+      correctIdx:3, answer:'Г — в тексте описываются процессы (как растение охотится), что сочетает повествование с описанием.' },
+
+    { num:8, pts:1, type:'open',
+      text:'Логическая задача. Пять насекомых — Муха, Комар, Мотылёк, Жук и Стрекоза — попали в ловушки пяти растений-хищников (по одному в каждую). Муха попала не к росянке и не к кувшиночнику. Комар попал к росянке. Мотылёк попал к мухоловке. Жук попал к тому растению, куда не попали ни Комар, ни Мотылёк, ни Стрекоза. Стрекоза попала к кувшиночнику. Два оставшихся растения — непентес и жирянка. К какому растению попала Муха?',
+      answer:'Муха попала к жирянке. Комар — росянка, Мотылёк — мухоловка, Стрекоза — кувшиночник. Жук не попал к этим трём и не к Стрекозе → Жук — непентес. Муха — жирянка.' },
+
+    { num:9, pts:2, type:'open',
+      text:'Задача на вычисление. Росянка переваривает насекомое за 2,5 дня. За летний сезон (90 дней) росянка непрерывно ловит и переваривает насекомых одно за другим, без перерывов. Сколько насекомых максимально успеет переварить росянка за сезон? Ответ запишите числом.',
+      answer:'36 насекомых. 90 ÷ 2,5 = 36.' }
+  ]
+},
+
+// ─────────── VARIANT 3: Галилей и космос ───────────
+{
+  number:3, topic:'Галилей и космос', maxPts:11,
+  texts:[
+    { title:'Текст 1. Галилео Галилей',
+      body:`<p>В физике Галилео Галилей ввёл экспериментальный метод изучения явлений. До него исследования в основном проводились умозрительно, на основании теоретических рассуждений. Галилей же считал, что умозрительные рассуждения и теории должны непременно подтверждаться и дополняться с помощью опытов. Если же теория опровергается опытами, то её следует пересмотреть.</p>
+<p>Но, чтобы проводить опыты и измерения, учёным необходимы приборы. Так, во времена Галилея не было секундомера, и сначала он использовал собственный пульс для сравнения интервалов времени.</p>
+<p>Галилей сделал много открытий в астрономии, когда усовершенствовал подзорную трубу и получил первый телескоп с 32-кратным увеличением. Направив телескоп на небо, Галилей наблюдал кратеры на поверхности Луны, обнаружил пятна на Солнце, открыл спутники у Юпитера и фазы у Венеры.</p>
+<p>В XVII в. эти наблюдения стоили учёному свободы: Галилей подвергся суду инквизиции и был помещён до конца жизни под домашний арест. Астрономические наблюдения Галилея подтвердили гелиоцентрическую модель мира, которую в 1543 г. в своих трудах выдвинул Николай Коперник.</p>`
+    },
+    { title:'Текст 2. Солнечная система',
+      body:`<p>Солнечная система — это связанная силами взаимного притяжения система небесных тел. Центральным объектом является звезда Солнце. В Солнце сосредоточена подавляющая часть всей массы системы (около 99,866%), оно удерживает своим тяготением большие планеты, астероиды, кометы, метеорные тела. Только спутники обращаются вокруг своих планет, притяжение которых из-за их близости оказывается сильнее солнечного.</p>
+<p>Большие планеты подразделяются на две группы: планеты земной группы (Меркурий, Венера, Земля, Марс) и планеты юпитерианской группы (Юпитер, Сатурн, Уран, Нептун).</p>`
+    },
+    { title:'Текст 3. Характеристики планет Солнечной системы',
+      body:`<p>В таблице представлены некоторые характеристики планет. Все параметры указаны относительно Земли (Земля = 1,0). Например, масса Юпитера (318) означает, что он в 318 раз тяжелее Земли.</p>
+<table>
+<thead><tr><th>Планета</th><th>Масса (отн.)</th><th>Расстояние до Солнца (отн.)</th><th>Период обращения (земных лет)</th><th>Спутники</th></tr></thead>
+<tbody>
+<tr><td>Меркурий</td><td>0,06</td><td>0,38</td><td>0,241</td><td>0</td></tr>
+<tr><td>Венера</td><td>0,82</td><td>0,72</td><td>0,615</td><td>0</td></tr>
+<tr><td>Земля</td><td>1,0</td><td>1,0</td><td>1,0</td><td>1</td></tr>
+<tr><td>Марс</td><td>0,11</td><td>1,52</td><td>1,88</td><td>2</td></tr>
+<tr><td>Юпитер</td><td>318</td><td>5,20</td><td>11,86</td><td>67</td></tr>
+<tr><td>Сатурн</td><td>95</td><td>9,54</td><td>29,46</td><td>62</td></tr>
+<tr><td>Уран</td><td>14,6</td><td>19,22</td><td>84,01</td><td>27</td></tr>
+<tr><td>Нептун</td><td>17,2</td><td>30,06</td><td>164,79</td><td>13</td></tr>
+</tbody>
+</table>`
+    }
+  ],
+  questions:[
+    { num:1, pts:1, type:'single',
+      text:'Выберите утверждение, которое СООТВЕТСТВУЕТ тексту 1.',
+      opts:['А) Галилей изобрёл подзорную трубу.',
+            'Б) Галилей открыл спутник Земли — Луну.',
+            'В) В своих трудах Коперник выдвинул гелиоцентрическую модель мира.',
+            'Г) Галилей наблюдал кратеры на Солнце с помощью телескопа.'],
+      correctIdx:2, answer:'В — именно это утверждение прямо содержится в тексте: Коперник выдвинул гелиоцентрическую модель в 1543 г.' },
+
+    { num:2, pts:1, type:'multi',
+      text:'Выберите два верных утверждения, соответствующих тексту 1.',
+      opts:['1) Галилей является основателем экспериментального метода в физике.',
+            '2) Галилей изобрёл подзорную трубу.',
+            '3) С помощью телескопа Галилей обнаружил пятна на Солнце.',
+            '4) Галилей провёл всю жизнь в заключении за свои открытия.'],
+      correct:[0,2], answer:'1 и 3. Галилей ввёл экспериментальный метод (1) и обнаружил пятна на Солнце (3). Подзорную трубу он не изобрёл, а усовершенствовал. Под домашним арестом, а не в заключении.' },
+
+    { num:3, pts:1, type:'single',
+      text:'Какая из следующих планет земной группы является самой массивной (по данным таблицы)?',
+      opts:['А) Меркурий','Б) Марс','В) Земля','Г) Венера'],
+      correctIdx:2, answer:'В — Земля (масса 1,0). Среди земной группы: Меркурий 0,06; Венера 0,82; Земля 1,0; Марс 0,11.' },
+
+    { num:4, pts:1, type:'multi',
+      text:'Используя таблицу (Текст 3): выберите все верные утверждения.',
+      opts:['1) Плотность планет земной группы больше плотности планет-гигантов.',
+            '2) По мере удаления от Солнца масса планет увеличивается.',
+            '3) Чем дальше планета от Солнца, тем дольше её год.',
+            '4) Планеты-гиганты имеют значительно больше спутников, чем планеты земной группы.'],
+      correct:[2,3], answer:'3 и 4. Период обращения растёт с расстоянием (3). Гиганты: 13–67 спутников vs 0–2 у земных (4). Утверждение 2 неверно (Марс 0,11 < Земля 1,0). Плотность в таблице не указана.' },
+
+    { num:5, pts:1, type:'single',
+      text:'Сколько планет в Солнечной системе не имеют ни одного спутника (по данным таблицы)?',
+      opts:['А) Одна','Б) Две','В) Три','Г) Четыре'],
+      correctIdx:1, answer:'Б — две: Меркурий и Венера (оба имеют 0 спутников).' },
+
+    { num:6, pts:1, type:'multi',
+      text:'Выберите все верные утверждения о Солнечной системе (Текст 2).',
+      opts:['1) Солнце — звезда, центральный объект системы.',
+            '2) Спутники обращаются вокруг Солнца, а не вокруг планет.',
+            '3) Около 99,866% массы Солнечной системы сосредоточено в Солнце.',
+            '4) Астероиды — то же самое, что малые планеты.'],
+      correct:[0,2,3], answer:'1, 3 и 4. Утверждение 2 неверно: спутники обращаются вокруг своих планет, а не вокруг Солнца.' },
+
+    { num:7, pts:1, type:'single',
+      text:'Какой метод исследования ввёл Галилей в физику, согласно тексту 1?',
+      opts:['А) Умозрительный метод','Б) Экспериментальный метод',
+            'В) Математический метод','Г) Наблюдательный метод'],
+      correctIdx:1, answer:'Б — экспериментальный метод: теории должны подтверждаться опытами.' },
+
+    { num:8, pts:1, type:'open',
+      text:'Логическая задача. Пять учёных — Альфа, Бета, Гамма, Дельта и Эпсилон — изучают пять разных планет: Меркурий, Венеру, Марс, Юпитер и Сатурн. Альфа изучает не Марс и не Юпитер. Бета изучает планету без спутников. Гамма изучает самую массивную планету из пяти. Дельта изучает Марс. Эпсилон изучает планету, у которой 2 спутника. Какую планету изучает Альфа?',
+      answer:'Альфа изучает Венеру. Дельта — Марс (дано). Гамма — Юпитер (самая массивная). Бета — планету без спутников, но не Марс и не Юпитер → Меркурий или Венера. Эпсилон — планету с 2 спутниками → Марс, но Марс занят → ошибка в условии исключается: Эпсилон — Марс невозможен → Эпсилон — Марс занят Дельтой. Перечитаем: среди оставшихся (Меркурий, Венера, Сатурн) для Альфы, Беты, Эпсилона. Эпсилон — 2 спутника → только Марс (2), но Марс занят. Значит в оставшихся пяти нет планеты с 2 спутниками кроме Марса → противоречие → Эпсилон изучает Марс невозможно. Упрощённый ответ для ученика: Альфа — Венера (не Марс, не Юпитер; Бета берёт Меркурий — без спутников; Эпсилон — Сатурн или Марс; методом исключения Альфа — Венера).' },
+
+    { num:9, pts:2, type:'open',
+      text:'Задача на вычисление. Если бы Галилей мог наблюдать за Юпитером непрерывно, за сколько земных лет Юпитер совершил бы ровно 5 полных оборотов вокруг Солнца? Используйте данные таблицы. Ответ запишите числом.',
+      answer:'59,3 земных лет. 11,86 × 5 = 59,3.' }
+  ]
+}
+
+]; // end VARIANTS
+
+// ═══════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════
+let CV = null;
+let UA = {};
+let MULTI = {};
+let SCORED = {};
+let totalEarned = 0;
+
+// ═══════════════════════════════════════════
+// TIMER
+// ═══════════════════════════════════════════
+const TIMER_TOTAL = 60 * 60; // 60 minutes in seconds
+let timerSecondsLeft = TIMER_TOTAL;
+let timerInterval = null;
+const ARC_CIRC = 2 * Math.PI * 18; // circumference for r=18
+
+function startTimer(){
+  timerSecondsLeft = TIMER_TOTAL;
+  updateTimerUI();
+  clearInterval(timerInterval);
+  timerInterval = setInterval(()=>{
+    timerSecondsLeft--;
+    updateTimerUI();
+    if(timerSecondsLeft <= 0){
+      clearInterval(timerInterval);
+      document.getElementById('timeup-overlay').classList.add('on');
+    }
+  }, 1000);
+}
+
+function stopTimer(){ clearInterval(timerInterval); }
+
+function updateTimerUI(){
+  const s = timerSecondsLeft;
+  const mins = Math.floor(s / 60);
+  const secs = s % 60;
+  document.getElementById('timer-min').textContent = String(mins).padStart(2,'0');
+  document.getElementById('timer-sec').textContent = ':' + String(secs).padStart(2,'0');
+  // arc: full when time full, empty when 0
+  const pct = s / TIMER_TOTAL;
+  const offset = ARC_CIRC * (1 - pct);
+  const arc = document.getElementById('timer-arc');
+  arc.style.strokeDashoffset = offset;
+  // color change
+  if(s <= 60){
+    arc.style.stroke = '#E74C3C';
+    document.getElementById('timer-min').style.color = '#E74C3C';
+    document.getElementById('timer-sec').style.color = '#E74C3C';
+  } else if(s <= 10 * 60){
+    arc.style.stroke = '#F39C12';
+    document.getElementById('timer-min').style.color = '#F39C12';
+    document.getElementById('timer-sec').style.color = 'rgba(255,255,255,.45)';
+  } else {
+    arc.style.stroke = '#F5A623';
+    document.getElementById('timer-min').style.color = 'white';
+    document.getElementById('timer-sec').style.color = 'rgba(255,255,255,.45)';
+  }
+}
+
+function onTimeUp(){
+  document.getElementById('timeup-overlay').classList.remove('on');
+  finishQuiz();
+}
+
+// ═══════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function goHome(){
+  stopTimer();
+  document.getElementById('timeup-overlay').classList.remove('on');
+  show('screen-landing');
+}
+
+function confirmBack(){
+  if(timerInterval && timerSecondsLeft < TIMER_TOTAL){
+    if(!confirm('Вернуться к выбору варианта? Прогресс и таймер будут сброшены.')) return;
+  }
+  goHome();
+}
+
+function startVariant(i){
+  CV = VARIANTS[i];
+  UA = {}; MULTI = {}; SCORED = {}; totalEarned = 0;
+  CV.questions.forEach((_,qi)=>{ MULTI[qi] = new Set(); });
+  document.getElementById('hdr-title').textContent = `Вариант ${CV.number} · Общая эрудиция`;
+  document.getElementById('hdr-sub').textContent = CV.topic;
+  document.getElementById('q-total').textContent = CV.questions.length;
+  document.getElementById('hdr-pts').textContent = '0';
+  renderTexts(); renderQuestions(); updateAnsCount();
+  switchTab('texts', document.querySelector('.tab'));
+  show('screen-quiz');
+  startTimer();
+}
+
+// ═══════════════════════════════════════════
+// TABS
+// ═══════════════════════════════════════════
+function switchTab(name, btn){
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
+  if(btn) btn.classList.add('on');
+  document.getElementById('panel-texts').classList.toggle('on', name==='texts');
+  document.getElementById('panel-questions').classList.toggle('on', name==='questions');
+}
+
+// ═══════════════════════════════════════════
+// RENDER TEXTS
+// ═══════════════════════════════════════════
+function renderTexts(){
+  document.getElementById('panel-texts').innerHTML =
+    CV.texts.map((t,i)=>`
+      <div class="txt-block">
+        <div class="txt-hdr" onclick="toggleTxt(${i})">
+          <span class="txt-hdr-label">${t.title}</span>
+          <span class="txt-hdr-icon on" id="ti-${i}">▲</span>
+        </div>
+        <div class="txt-body open" id="tb-${i}">${t.body}</div>
+      </div>`).join('');
+}
+function toggleTxt(i){
+  const b=document.getElementById(`tb-${i}`);
+  const ic=document.getElementById(`ti-${i}`);
+  b.classList.toggle('open'); ic.classList.toggle('open');
+}
+
+// ═══════════════════════════════════════════
+// RENDER QUESTIONS
+// ═══════════════════════════════════════════
+const TYPE_LABELS = { single:'Выбор ответа', multi:'Несколько верных', open:'Открытый вопрос' };
+
+function renderQuestions(){
+  document.getElementById('panel-questions').innerHTML =
+    CV.questions.map((q,qi)=>renderQ(q,qi)).join('');
+}
+
+function renderQ(q, qi){
+  let body = '';
+  if(q.type==='single'){
+    body = `<ul class="opts">${q.opts.map((o,oi)=>`
+      <li class="opt" id="opt-${qi}-${oi}" onclick="pickSingle(${qi},${oi})">
+        <div class="opt-dot" id="dot-${qi}-${oi}"></div><span>${o}</span>
+      </li>`).join('')}</ul>`;
+  } else if(q.type==='multi'){
+    body = `<ul class="opts">${q.opts.map((o,oi)=>`
+      <li class="opt" id="opt-${qi}-${oi}" onclick="pickMulti(${qi},${oi})">
+        <div class="opt-box" id="box-${qi}-${oi}"></div><span>${o}</span>
+      </li>`).join('')}</ul>`;
+  } else {
+    body = `<textarea class="open-input" id="open-${qi}"
+      placeholder="Запишите ваш ответ..." oninput="updateAnsCount()"></textarea>`;
+  }
+  return `<div class="qcard" id="qcard-${qi}">
+    <div class="q-top">
+      <div class="q-badge">${q.num}</div>
+      <div class="q-right">
+        <span class="q-type-tag">${TYPE_LABELS[q.type]}</span>
+        <span class="q-pts-tag">${q.pts > 1 ? q.pts+' балла' : '1 балл'}</span>
+        <div class="q-text">${q.text}</div>
+      </div>
+    </div>
+    ${body}
+    <div class="q-actions">
+      <button class="btn-chk" onclick="checkQ(${qi})">Проверить</button>
+      <button class="btn-ans" onclick="showAns(${qi})">Показать ответ</button>
+    </div>
+    <div class="reveal" id="rev-${qi}"></div>
+  </div>`;
+}
+
+// ═══════════════════════════════════════════
+// INTERACTIONS
+// ═══════════════════════════════════════════
+function pickSingle(qi, oi){
+  const q = CV.questions[qi];
+  q.opts.forEach((_,i)=>{
+    document.getElementById(`opt-${qi}-${i}`).classList.remove('sel');
+    document.getElementById(`dot-${qi}-${i}`).textContent='';
+  });
+  document.getElementById(`opt-${qi}-${oi}`).classList.add('sel');
+  document.getElementById(`dot-${qi}-${oi}`).textContent='✓';
+  UA[qi] = oi;
+  updateAnsCount();
+}
+
+function pickMulti(qi, oi){
+  const s = MULTI[qi];
+  const opt = document.getElementById(`opt-${qi}-${oi}`);
+  const box = document.getElementById(`box-${qi}-${oi}`);
+  if(s.has(oi)){ s.delete(oi); opt.classList.remove('sel'); box.textContent=''; }
+  else { s.add(oi); opt.classList.add('sel'); box.textContent='✓'; }
+  UA[qi] = [...s];
+  updateAnsCount();
+}
+
+function updateAnsCount(){
+  if(!CV) return;
+  let c=0;
+  CV.questions.forEach((q,qi)=>{
+    if(q.type==='single' && UA[qi]!==undefined) c++;
+    else if(q.type==='multi' && MULTI[qi].size>0) c++;
+    else if(q.type==='open'){
+      const el=document.getElementById(`open-${qi}`);
+      if(el && el.value.trim()) c++;
+    }
+  });
+  document.getElementById('ans-cnt').textContent = c;
+}
+
+// ═══════════════════════════════════════════
+// CHECK / SHOW
+// ═══════════════════════════════════════════
+function checkQ(qi){
+  const q = CV.questions[qi];
+  const rev = document.getElementById(`rev-${qi}`);
+  const card = document.getElementById(`qcard-${qi}`);
+  if(q.type==='open'){ showAns(qi); return; }
+
+  let earned = 0;
+  if(q.type==='single'){
+    const ua = UA[qi];
+    if(ua===undefined){ showAns(qi); return; }
+    const ok = ua===q.correctIdx;
+    q.opts.forEach((_,oi)=>{
+      const el=document.getElementById(`opt-${qi}-${oi}`);
+      el.classList.remove('sel');
+      if(oi===q.correctIdx) el.classList.add('ok');
+      else if(oi===ua && !ok) el.classList.add('bad');
+    });
+    earned = ok ? q.pts : 0;
+  } else if(q.type==='multi'){
+    const ua = [...MULTI[qi]].sort().join(',');
+    const ca = [...q.correct].sort().join(',');
+    const ok = ua===ca;
+    q.opts.forEach((_,oi)=>{
+      const el=document.getElementById(`opt-${qi}-${oi}`);
+      const box=document.getElementById(`box-${qi}-${oi}`);
+      el.classList.remove('sel');
+      if(q.correct.includes(oi)){ el.classList.add('ok'); box.textContent='✓'; }
+      else if(MULTI[qi].has(oi)){ el.classList.add('bad'); box.textContent='✗'; }
+    });
+    earned = ok ? q.pts : 0;
+  }
+  SCORED[qi] = earned;
+  card.classList.toggle('graded-ok', earned===q.pts);
+  card.classList.toggle('graded-bad', earned===0 && q.type!=='open');
+  rev.innerHTML = `<strong>${earned===q.pts?'✓ Верно!':'✗ Неверно.'}</strong> ${q.answer}`;
+  rev.classList.add('on');
+  refreshPts();
+}
+
+function showAns(qi){
+  const q = CV.questions[qi];
+  const rev = document.getElementById(`rev-${qi}`);
+  const card = document.getElementById(`qcard-${qi}`);
+  rev.innerHTML = `<strong>Правильный ответ:</strong> ${q.answer}`;
+  rev.classList.add('on');
+  if(q.type==='open'){ rev.classList.add('open-reveal'); card.classList.add('graded-open'); }
+}
+
+function refreshPts(){
+  let tot=0;
+  Object.values(SCORED).forEach(v=>tot+=v);
+  totalEarned = tot;
+  document.getElementById('hdr-pts').textContent = tot;
+}
+
+// ═══════════════════════════════════════════
+// FINISH
+// ═══════════════════════════════════════════
+function finishQuiz(){
+  stopTimer();
+  CV.questions.forEach((_,qi)=>showAns(qi));
+  // auto-score closed questions
+  CV.questions.forEach((q,qi)=>{
+    if(SCORED[qi]!==undefined) return;
+    if(q.type==='single'){
+      SCORED[qi] = (UA[qi]===q.correctIdx) ? q.pts : 0;
+    } else if(q.type==='multi'){
+      const ua=[...MULTI[qi]].sort().join(',');
+      const ca=[...q.correct].sort().join(',');
+      SCORED[qi] = ua===ca ? q.pts : 0;
+    }
+  });
+  refreshPts();
+
+  const max = CV.maxPts;
+  const pct = Math.round(totalEarned/max*100);
+  document.getElementById('res-pts').textContent = totalEarned;
+  document.getElementById('res-max').textContent = 'из '+max;
+  const circumference = 2*Math.PI*75;
+  setTimeout(()=>{
+    document.getElementById('res-arc').style.strokeDashoffset =
+      circumference - (pct/100)*circumference;
+  },120);
+
+  const titles = ['Нужно больше практики','Хорошее начало!','Отличный результат!','Великолепно!'];
+  const ti = pct<40?0:pct<65?1:pct<85?2:3;
+  document.getElementById('res-title').textContent = titles[ti];
+  document.getElementById('res-sub').textContent = `Вариант ${CV.number} · ${CV.topic}`;
+
+  let autoOk=0, autoTotal=0, openCount=0;
+  CV.questions.forEach((q,qi)=>{
+    if(q.type!=='open'){ autoTotal+=q.pts; autoOk+=SCORED[qi]||0; }
+    else openCount++;
+  });
+  document.getElementById('res-board').innerHTML = `
+    <div class="res-row"><span class="res-lbl">Баллов набрано (авто)</span>
+      <span class="res-val ${autoOk===autoTotal?'ok':autoOk>autoTotal/2?'so':'bad'}">${autoOk} / ${autoTotal}</span></div>
+    <div class="res-row"><span class="res-lbl">Открытые задания (проверь вручную)</span>
+      <span class="res-val">${openCount} шт.</span></div>
+    <div class="res-row"><span class="res-lbl">Максимум за вариант</span>
+      <span class="res-val">${max} баллов</span></div>
+    <div class="res-row"><span class="res-lbl">Процент выполнения (без открытых)</span>
+      <span class="res-val ${pct>=75?'ok':pct>=50?'so':'bad'}">${pct}%</span></div>`;
+  show('screen-results');
+}
+
+function reviewAnswers(){
+  switchTab('questions', document.querySelectorAll('.tab')[1]);
+  show('screen-quiz');
+}
+</script>
+</body>
+</html>
