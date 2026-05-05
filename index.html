@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Тест · 7 класс · Читательская грамотность и логика</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Mulish:wght@400;600;700;800&display=swap');
+:root{--or:#F5A623;--or2:#D4881A;--orl:#FEF3DC;--dk:#1A1A2E;--dk2:#16213E;--grn:#27AE60;--red:#E74C3C;--blu:#3498DB;--txt:#1C1C2E;--gray:#7A7A8C;--brd:#E8E8F0;--bg:#F7F7FC;--wh:#fff;--logic:#8E44AD;--logic-l:#F5EEF8;--read:#1A6E9E;--read-l:#EBF5FB;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Mulish',sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;}
+.screen{display:none;}.screen.active{display:block;}
+#sc-results.active,#sc-saved.active{display:flex;}
+#sc-landing{min-height:100vh;background:var(--dk);position:relative;overflow:hidden;}
+.land-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 15% 50%,rgba(245,166,35,.18) 0%,transparent 55%),radial-gradient(ellipse at 85% 20%,rgba(52,152,219,.12) 0%,transparent 50%),radial-gradient(ellipse at 60% 80%,rgba(142,68,173,.1) 0%,transparent 45%);}
+.land-inner{position:relative;z-index:1;max-width:780px;margin:0 auto;padding:52px 24px 48px;}
+.badge{display:inline-flex;align-items:center;gap:8px;background:rgba(245,166,35,.15);border:1px solid rgba(245,166,35,.3);border-radius:24px;padding:6px 16px;font-size:11px;font-weight:700;letter-spacing:2px;color:var(--or);text-transform:uppercase;margin-bottom:28px;}
+.land-title{font-family:'Unbounded',sans-serif;font-size:clamp(28px,5vw,50px);font-weight:900;color:#fff;line-height:1.12;margin-bottom:12px;}
+.land-title em{color:var(--or);font-style:normal;}
+.land-sub{font-size:15px;color:rgba(255,255,255,.5);margin-bottom:12px;line-height:1.7;}
+.land-tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:40px;}
+.land-tag{padding:5px 12px;border-radius:20px;font-size:12px;font-weight:700;}
+.tag-read{background:rgba(26,110,158,.3);color:#74C0E8;border:1px solid rgba(116,192,232,.3);}
+.tag-logic{background:rgba(142,68,173,.3);color:#C39BD3;border:1px solid rgba(195,155,211,.3);}
+.tag-time{background:rgba(245,166,35,.15);color:var(--or);border:1px solid rgba(245,166,35,.3);}
+.vcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-bottom:32px;}
+.vcard{background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.1);border-radius:18px;padding:22px 16px 18px;cursor:pointer;transition:all .25s;text-align:center;}
+.vcard:hover{border-color:var(--or);transform:translateY(-3px);box-shadow:0 14px 36px rgba(245,166,35,.18);}
+.vn{font-family:'Unbounded',sans-serif;font-size:38px;font-weight:900;color:var(--or);line-height:1;margin-bottom:8px;}
+.vcard-labels{display:flex;flex-direction:column;gap:4px;margin-bottom:14px;}
+.vcard-label{font-size:11px;font-weight:700;padding:3px 8px;border-radius:8px;display:inline-block;}
+.vlr{background:rgba(26,110,158,.25);color:#74C0E8;}.vll{background:rgba(142,68,173,.25);color:#C39BD3;}
+.vcta{display:inline-block;background:var(--or);color:var(--dk);font-weight:800;font-size:12px;padding:7px 18px;border-radius:18px;}
+.vcard:hover .vcta{background:#ffba42;}
+.saved-btn-wrap{text-align:center;margin-bottom:12px;}
+.btn-saved-open{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.6);font-family:'Mulish',sans-serif;font-size:13px;font-weight:600;padding:9px 22px;border-radius:20px;cursor:pointer;}
+.land-note{font-size:12px;color:rgba(255,255,255,.25);line-height:1.7;text-align:center;}
+.qhdr{background:var(--dk);padding:12px 20px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:200;border-bottom:1px solid rgba(255,255,255,.06);}
+.back-btn{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.08);border:none;color:#fff;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.back-btn:hover{background:rgba(255,255,255,.18);}
+.qhdr-info{flex:1;min-width:0;}
+.qhdr-title{font-family:'Unbounded',sans-serif;font-size:11px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.qhdr-sub{font-size:10px;color:var(--or);margin-top:2px;}
+.t-ring{position:relative;width:42px;height:42px;flex-shrink:0;}
+.t-ring svg{position:absolute;top:0;left:0;}
+.t-ring-txt{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.t-min{font-family:'Unbounded',sans-serif;font-size:10px;font-weight:900;color:#fff;line-height:1;}
+.t-sec{font-size:8px;color:rgba(255,255,255,.4);line-height:1;margin-top:1px;}
+@keyframes tpulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+.qhdr-prog{flex-shrink:0;text-align:right;}
+.prog-track{width:80px;height:5px;background:rgba(255,255,255,.12);border-radius:3px;overflow:hidden;}
+.prog-fill{height:100%;background:var(--or);border-radius:3px;transition:width .4s;}
+.prog-lbl{font-size:9px;color:rgba(255,255,255,.35);margin-top:3px;text-align:right;}
+.to-overlay{position:fixed;inset:0;background:rgba(26,26,46,.93);z-index:999;display:none;align-items:center;justify-content:center;}
+.to-overlay.on{display:flex;}
+.to-box{background:var(--dk2);border:2px solid var(--red);border-radius:22px;padding:36px 32px;text-align:center;max-width:340px;width:90%;}
+.to-icon{font-size:44px;margin-bottom:14px;}
+.to-title{font-family:'Unbounded',sans-serif;font-size:18px;font-weight:900;color:#fff;margin-bottom:8px;}
+.to-sub{font-size:13px;color:rgba(255,255,255,.5);margin-bottom:20px;line-height:1.6;}
+.to-btn{width:100%;padding:11px;border-radius:20px;background:var(--or);color:var(--dk);font-family:'Mulish',sans-serif;font-weight:800;font-size:14px;border:none;cursor:pointer;}
+.tabs{display:flex;gap:8px;padding:16px 20px 0;flex-wrap:wrap;background:var(--wh);border-bottom:1px solid var(--brd);}
+.tab{padding:7px 16px;border-radius:18px 18px 0 0;border:1.5px solid var(--brd);border-bottom:none;background:var(--bg);color:var(--gray);font-family:'Mulish',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;}
+.tab.on{background:var(--or);color:var(--dk);border-color:var(--or);}
+.qbody{max-width:840px;margin:0 auto;padding:20px 20px 90px;}
+.panel{display:none;}.panel.on{display:block;}
+.sec-divider{display:flex;align-items:center;gap:12px;margin:24px 0 16px;}
+.sec-divider-line{flex:1;height:1px;background:var(--brd);}
+.sec-divider-badge{padding:5px 14px;border-radius:20px;font-size:11px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;}
+.sdb-read{background:var(--read-l);color:var(--read);}
+.sdb-logic{background:var(--logic-l);color:var(--logic);}
+.txt-block{background:var(--wh);border-radius:14px;border:1px solid var(--brd);margin-bottom:14px;overflow:hidden;}
+.txt-hdr{background:var(--dk);padding:11px 18px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;}
+.txt-hdr-lbl{font-family:'Unbounded',sans-serif;font-size:10px;font-weight:700;color:var(--or);letter-spacing:.5px;}
+.txt-hdr-ic{color:var(--or);font-size:12px;}
+.txt-body{padding:18px 20px;font-size:14px;line-height:1.8;color:var(--txt);display:none;text-align:justify;}
+.txt-body.open{display:block;}
+.txt-body p{margin-bottom:10px;}.txt-body p:last-child{margin-bottom:0;}
+.txt-body ul{margin:8px 0 8px 20px;}.txt-body li{margin-bottom:5px;}
+.txt-body h4{color:var(--dk);margin:10px 0 4px;font-size:14px;font-weight:700;}
+.qcard{background:var(--wh);border-radius:14px;border:1.5px solid var(--brd);padding:20px;margin-bottom:14px;}
+.qcard.ok{border-color:var(--grn);background:#f0faf5;}
+.qcard.bad{border-color:var(--red);background:#fff5f5;}
+.qcard.open-done{border-color:var(--blu);background:#f0f7ff;}
+.qtop{display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;}
+.qnum{min-width:30px;height:30px;background:var(--dk);color:var(--or);font-family:'Unbounded',sans-serif;font-size:10px;font-weight:700;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.qmeta{flex:1;}
+.qtag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:2px 8px;border-radius:8px;border:1px solid var(--brd);color:var(--gray);background:var(--bg);margin-bottom:5px;}
+.qtag.read{color:var(--read);background:var(--read-l);border-color:rgba(26,110,158,.2);}
+.qtag.logic{color:var(--logic);background:var(--logic-l);border-color:rgba(142,68,173,.2);}
+.qtext{font-size:14px;font-weight:600;line-height:1.5;color:var(--txt);}
+.opts{list-style:none;margin-top:10px;}
+.opt{display:flex;align-items:flex-start;gap:9px;padding:9px 13px;border-radius:9px;border:1.5px solid var(--brd);margin-bottom:6px;cursor:pointer;transition:all .15s;font-size:14px;line-height:1.4;}
+.opt:hover{border-color:var(--or);background:var(--orl);}
+.opt.sel{border-color:var(--or);background:var(--orl);}
+.opt.ok{border-color:var(--grn);background:#e8f8f0;}
+.opt.bad{border-color:var(--red);background:#fde8e8;}
+.odot{width:18px;height:18px;border-radius:50%;border:2px solid var(--brd);flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;transition:all .15s;}
+.opt.sel .odot{border-color:var(--or);background:var(--or);color:#fff;}
+.opt.ok .odot{border-color:var(--grn);background:var(--grn);color:#fff;}
+.opt.bad .odot{border-color:var(--red);background:var(--red);color:#fff;}
+.match-wrap{margin-top:10px;}
+.match-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap;}
+.match-label{flex:1;min-width:160px;font-size:13px;padding:8px 12px;background:var(--bg);border-radius:8px;border:1px solid var(--brd);font-weight:600;}
+.match-arrow{color:var(--gray);font-size:14px;flex-shrink:0;}
+.match-select{flex:1.2;min-width:160px;padding:8px 10px;border-radius:8px;border:1.5px solid var(--brd);font-family:'Mulish',sans-serif;font-size:13px;color:var(--txt);background:var(--wh);cursor:pointer;transition:border .2s;}
+.match-select:focus{outline:none;border-color:var(--or);}
+.match-select.ok{border-color:var(--grn);background:#e8f8f0;}
+.match-select.bad{border-color:var(--red);background:#fde8e8;}
+.mmatch-block{margin-bottom:14px;}
+.mmatch-key{font-size:13px;font-weight:700;color:var(--dk);margin-bottom:6px;padding:6px 12px;background:var(--read-l);border-radius:8px;}
+.mmatch-opts{display:flex;flex-wrap:wrap;gap:6px;padding-left:4px;}
+.mmatch-opt{display:flex;align-items:center;gap:5px;padding:5px 12px;border-radius:8px;border:1.5px solid var(--brd);cursor:pointer;font-size:13px;transition:all .15s;background:var(--wh);}
+.mmatch-opt:hover{border-color:var(--or);background:var(--orl);}
+.mmatch-opt.sel{border-color:var(--or);background:var(--orl);}
+.mmatch-opt.ok{border-color:var(--grn);background:#e8f8f0;}
+.mmatch-opt.bad{border-color:var(--red);background:#fde8e8;}
+.mmatch-cb{width:14px;height:14px;border-radius:4px;border:2px solid var(--brd);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0;transition:all .15s;}
+.mmatch-opt.sel .mmatch-cb{border-color:var(--or);background:var(--or);color:#fff;}
+.mmatch-opt.ok .mmatch-cb{border-color:var(--grn);background:var(--grn);color:#fff;}
+.mmatch-opt.bad .mmatch-cb{border-color:var(--red);background:var(--red);color:#fff;}
+.open-in{width:100%;margin-top:10px;padding:11px 14px;border-radius:9px;border:1.5px solid var(--brd);font-family:'Mulish',sans-serif;font-size:14px;color:var(--txt);resize:vertical;min-height:80px;transition:border .2s;}
+.open-in:focus{outline:none;border-color:var(--or);}
+.polygon-wrap{margin:16px 0;display:flex;flex-direction:column;align-items:center;gap:8px;}
+.poly-svg-box{background:var(--bg);border-radius:12px;border:1px solid var(--brd);padding:12px;display:inline-block;}
+.poly-caption{font-size:12px;color:var(--gray);text-align:center;max-width:300px;}
+.qactions{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;}
+.btn-chk{padding:8px 20px;border-radius:18px;background:var(--dk);color:#fff;font-family:'Mulish',sans-serif;font-weight:700;font-size:12px;border:none;cursor:pointer;transition:background .2s;}
+.btn-chk:hover{background:#2d2d50;}
+.reveal{margin-top:10px;padding:11px 14px;border-radius:9px;font-size:13px;line-height:1.6;display:none;}
+.reveal.on{display:block;}
+.reveal.auto{background:#eef9f3;border-left:3px solid var(--grn);}
+.reveal.open-r{background:#edf5ff;border-left:3px solid var(--blu);}
+.reveal strong{color:var(--grn);}
+.reveal.open-r strong{color:var(--blu);}
+.fin-bar{position:fixed;bottom:0;left:0;right:0;background:var(--wh);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:14px;box-shadow:0 -4px 20px rgba(0,0,0,.1);z-index:300;}
+.fin-info{font-size:13px;color:var(--gray);}
+.fin-info strong{color:var(--dk);}
+.btn-fin{padding:10px 22px;border-radius:20px;background:var(--or);color:var(--dk);font-family:'Mulish',sans-serif;font-weight:800;font-size:13px;border:none;cursor:pointer;}
+.btn-fin:hover{background:#ffba42;}
+#sc-results{min-height:100vh;background:var(--dk);align-items:flex-start;justify-content:center;padding:40px 16px;}
+.res-card{max-width:520px;width:100%;text-align:center;}
+.res-ring{width:140px;height:140px;margin:0 auto 20px;border-radius:50%;border:5px solid rgba(255,255,255,.07);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;}
+.res-ring svg{position:absolute;top:-5px;left:-5px;}
+.res-pts{font-family:'Unbounded',sans-serif;font-size:36px;font-weight:900;color:var(--or);line-height:1;z-index:1;}
+.res-max{font-size:12px;color:rgba(255,255,255,.4);z-index:1;margin-top:2px;}
+.res-title{font-family:'Unbounded',sans-serif;font-size:20px;font-weight:900;color:#fff;margin-bottom:8px;}
+.res-sub{font-size:13px;color:rgba(255,255,255,.45);margin-bottom:24px;}
+.res-board{background:rgba(255,255,255,.05);border-radius:14px;padding:18px;margin-bottom:22px;text-align:left;}
+.res-row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:13px;}
+.res-row:last-child{border:none;}
+.rl{color:rgba(255,255,255,.5);}
+.rv{font-weight:700;}
+.rv.ok{color:var(--grn);}.rv.so{color:#E67E22;}.rv.bad{color:var(--red);}
+.res-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+.btn-primary{padding:11px 26px;border-radius:22px;background:var(--or);color:var(--dk);font-family:'Mulish',sans-serif;font-weight:800;font-size:13px;border:none;cursor:pointer;}
+.btn-primary:hover{background:#ffba42;}
+.btn-sec{padding:11px 26px;border-radius:22px;background:rgba(255,255,255,.08);color:#fff;font-family:'Mulish',sans-serif;font-weight:700;font-size:13px;border:1.5px solid rgba(255,255,255,.15);cursor:pointer;}
+.btn-save{padding:11px 26px;border-radius:22px;background:var(--grn);color:#fff;font-family:'Mulish',sans-serif;font-weight:800;font-size:13px;border:none;cursor:pointer;}
+.save-status{font-size:12px;color:rgba(255,255,255,.4);margin-top:10px;}
+#sc-saved{min-height:100vh;background:var(--dk);align-items:flex-start;justify-content:center;padding:40px 16px;}
+.saved-wrap{max-width:600px;width:100%;}
+.saved-title{font-family:'Unbounded',sans-serif;font-size:18px;font-weight:900;color:#fff;margin-bottom:6px;text-align:center;}
+.saved-sub{font-size:13px;color:rgba(255,255,255,.4);text-align:center;margin-bottom:24px;}
+.saved-empty{text-align:center;padding:40px 20px;color:rgba(255,255,255,.3);font-size:14px;}
+.saved-item{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:16px 18px;margin-bottom:12px;cursor:pointer;transition:all .2s;}
+.saved-item:hover{border-color:rgba(245,166,35,.4);}
+.si-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+.si-vnum{font-family:'Unbounded',sans-serif;font-size:12px;font-weight:700;color:var(--or);}
+.si-date{font-size:11px;color:rgba(255,255,255,.35);}
+.si-score{font-size:15px;font-weight:800;color:#fff;}
+.si-score span{color:var(--or);}
+.si-meta{font-size:11px;color:rgba(255,255,255,.35);margin-top:4px;}
+.si-del{float:right;background:rgba(231,76,60,.15);border:none;color:var(--red);font-size:11px;font-weight:700;padding:4px 10px;border-radius:8px;cursor:pointer;margin-left:8px;}
+.btn-back-land{display:block;margin:20px auto 0;padding:10px 24px;border-radius:20px;background:rgba(255,255,255,.08);color:#fff;font-family:'Mulish',sans-serif;font-weight:700;font-size:13px;border:1.5px solid rgba(255,255,255,.15);cursor:pointer;width:fit-content;}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:500;display:none;align-items:flex-start;justify-content:center;padding:30px 16px;overflow-y:auto;}
+.modal-overlay.on{display:flex;}
+.modal-box{background:var(--wh);border-radius:18px;max-width:640px;width:100%;padding:24px;position:relative;}
+.modal-close{position:absolute;top:14px;right:14px;background:var(--bg);border:none;width:30px;height:30px;border-radius:50%;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--gray);}
+.modal-title{font-family:'Unbounded',sans-serif;font-size:14px;font-weight:700;color:var(--dk);margin-bottom:18px;}
+.review-q{padding:12px 0;border-bottom:1px solid var(--brd);}
+.review-q:last-child{border:none;}
+.rq-num{font-size:11px;font-weight:800;color:var(--gray);margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px;}
+.rq-text{font-size:13px;font-weight:600;color:var(--dk);margin-bottom:6px;line-height:1.4;}
+.rq-ans{font-size:13px;padding:6px 10px;border-radius:7px;line-height:1.4;}
+.rq-ans.ok-ans{background:#e8f8f0;color:var(--grn);}
+.rq-ans.bad-ans{background:#fde8e8;color:var(--red);}
+.rq-ans.open-ans{background:#edf5ff;color:var(--blu);}
+.rq-correct{font-size:12px;color:var(--gray);margin-top:4px;}
+@media(max-width:600px){.land-inner,.qbody{padding-left:14px;padding-right:14px;}.vcards{grid-template-columns:1fr 1fr;}.qbody{padding-bottom:100px;}}
+</style>
+</head>
+<body>
+
+<div id="sc-landing" class="screen active">
+  <div class="land-bg"></div>
+  <div class="land-inner">
+    <div class="badge">Школа ЦПМ · 7 класс</div>
+    <h1 class="land-title">Читательская<br><em>грамотность</em><br>и логика</h1>
+    <p class="land-sub">Тренировочные варианты вступительного тестирования</p>
+    <div class="land-tags">
+      <span class="land-tag tag-read">📖 Читательская грамотность</span>
+      <span class="land-tag tag-logic">🧩 Логика</span>
+      <span class="land-tag tag-time">⏱ 45 минут</span>
+    </div>
+    <div class="vcards" id="vcard-list"></div>
+    <div class="saved-btn-wrap">
+      <button class="btn-saved-open" onclick="showSaved()">📋 Сохранённые результаты</button>
+    </div>
+    <p class="land-note">7 заданий читательской грамотности + 2 задачи по логике.<br>Задача с многоугольником проверяется автоматически, задача со временем — с учителем.</p>
+  </div>
+</div>
+
+<div id="sc-quiz" class="screen">
+  <div class="qhdr">
+    <button class="back-btn" onclick="confirmBack()">←</button>
+    <div class="qhdr-info">
+      <div class="qhdr-title" id="hdr-title">Вариант 1</div>
+      <div class="qhdr-sub" id="hdr-sub">Читательская грамотность + Логика</div>
+    </div>
+    <div class="t-ring">
+      <svg width="42" height="42" viewBox="0 0 42 42">
+        <circle cx="21" cy="21" r="17" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="3"/>
+        <circle id="t-arc" cx="21" cy="21" r="17" fill="none" stroke="#F5A623" stroke-width="3" stroke-linecap="round" stroke-dasharray="107" stroke-dashoffset="0" transform="rotate(-90 21 21)" style="transition:stroke-dashoffset .9s linear,stroke .4s;"/>
+      </svg>
+      <div class="t-ring-txt"><div class="t-min" id="t-min">45</div><div class="t-sec" id="t-sec">:00</div></div>
+    </div>
+    <div class="qhdr-prog">
+      <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+      <div class="prog-lbl" id="prog-lbl">0 / 9</div>
+    </div>
+  </div>
+  <div class="to-overlay" id="to-overlay">
+    <div class="to-box">
+      <div class="to-icon">⏰</div>
+      <div class="to-title">Время вышло!</div>
+      <div class="to-sub">45 минут истекли. Смотрим результат.</div>
+      <button class="to-btn" onclick="onTimeUp()">Посмотреть результат →</button>
+    </div>
+  </div>
+  <div class="tabs">
+    <button class="tab on" onclick="switchTab('texts',this)">📖 Тексты</button>
+    <button class="tab" onclick="switchTab('questions',this)">✏️ Задания</button>
+  </div>
+  <div class="qbody">
+    <div class="panel on" id="panel-texts"></div>
+    <div class="panel" id="panel-questions"></div>
+  </div>
+  <div class="fin-bar">
+    <div class="fin-info">Отвечено: <strong id="ans-cnt">0</strong> из <strong id="ans-tot">9</strong></div>
+    <button class="btn-fin" onclick="finishQuiz()">Завершить →</button>
+  </div>
+</div>
+
+<div id="sc-results" class="screen">
+  <div class="res-card">
+    <div class="res-ring">
+      <svg width="150" height="150" viewBox="0 0 150 150">
+        <circle cx="75" cy="75" r="68" fill="none" stroke="rgba(255,255,255,.07)" stroke-width="5"/>
+        <circle id="res-arc" cx="75" cy="75" r="68" fill="none" stroke="#F5A623" stroke-width="5" stroke-linecap="round" stroke-dasharray="427" stroke-dashoffset="427" transform="rotate(-90 75 75)" style="transition:stroke-dashoffset 1s ease;"/>
+      </svg>
+      <div class="res-pts" id="res-pts">0</div>
+      <div class="res-max" id="res-max">из 8</div>
+    </div>
+    <div class="res-title" id="res-title">Результат</div>
+    <div class="res-sub" id="res-sub"></div>
+    <div class="res-board" id="res-board"></div>
+    <div class="res-btns">
+      <button class="btn-save" onclick="saveResult()">💾 Сохранить результат</button>
+      <button class="btn-primary" onclick="reviewMode()">Разбор ответов</button>
+      <button class="btn-sec" onclick="goHome()">← На главную</button>
+    </div>
+    <div class="save-status" id="save-status"></div>
+  </div>
+</div>
+
+<div id="sc-saved" class="screen">
+  <div class="saved-wrap">
+    <div class="saved-title">📋 Сохранённые результаты</div>
+    <div class="saved-sub">Нажми на результат для просмотра разбора</div>
+    <div id="saved-list"></div>
+    <button class="btn-back-land" onclick="showScreen('sc-landing')">← Назад</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="review-modal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeReview()">✕</button>
+    <div class="modal-title" id="review-title">Разбор ответов</div>
+    <div id="review-body"></div>
+  </div>
+</div>
+
+<script>
+// ═══ POLYGON SVG ═══
+function makePolygon(sides, startCount, highlightIdx, sz) {
+  sz = sz || 180;
+  const cx=sz/2, cy=sz/2, R=sz/2-24;
+  const pts=[];
+  for(let i=0;i<sides;i++){
+    const a=(2*Math.PI*i/sides)-Math.PI/2;
+    pts.push({x:cx+R*Math.cos(a),y:cy+R*Math.sin(a)});
+  }
+  let s=`<svg width="${sz}" height="${sz}" viewBox="0 0 ${sz} ${sz}">`;
+  for(let i=0;i<sides;i++){
+    const p1=pts[i],p2=pts[(i+1)%sides];
+    s+=`<line x1="${p1.x.toFixed(1)}" y1="${p1.y.toFixed(1)}" x2="${p2.x.toFixed(1)}" y2="${p2.y.toFixed(1)}" stroke="#CBD5E1" stroke-width="1.5"/>`;
+  }
+  for(let i=0;i<sides;i++){
+    const p=pts[i];
+    const isHi=(i===highlightIdx), isStart=(i===0);
+    const fill=isHi?'#EDE7F6':isStart?'#1A1A2E':'#F8FAFC';
+    const stroke=isHi?'#8E44AD':isStart?'#F5A623':'#94A3B8';
+    const sw=isHi||isStart?2.5:1.5;
+    s+=`<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="20" fill="${fill}" stroke="${stroke}" stroke-width="${sw}"/>`;
+    if(isStart && startCount>0){
+      s+=`<text x="${p.x.toFixed(1)}" y="${(p.y+5).toFixed(1)}" text-anchor="middle" font-size="12" font-weight="900" fill="#F5A623" font-family="Unbounded,sans-serif">${startCount}</text>`;
+    } else if(isHi){
+      s+=`<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="7" fill="#8E44AD" opacity="0.6"/>`;
+    }
+  }
+  s+='</svg>';
+  return s;
+}
+
+// ═══ DATA ═══
+const VARIANTS=[
+// ── V1: ЧГ1 + Л2 ──
+{id:1,label:'Вариант 1',
+reading:{title:'Древнерусский язык · Летописи',
+texts:[
+{title:'Текст 1. Древнерусский язык',body:`<p>Древнерусский язык — это язык, на котором говорили и писали в Древней Руси с IX по XIV век. Он был общим языком для восточных славян и служил основой для формирования современных русского, украинского и белорусского языков.</p><p>Древнерусский язык имел свои особенности, такие как использование кириллицы, которая была создана на основе греческого алфавита. В нём были свои грамматические и фонетические особенности, которые отличали его от современных языков.</p><p>Древнерусский язык использовался в официальных документах, летописях, религиозных текстах и литературных произведениях. Одним из самых известных памятников древнерусской литературы является «Слово о полку Игореве», написанное в XII веке.</p>`},
+{title:'Текст 2. Повесть временных лет',body:`<p>«Повесть временных лет» — это один из самых значимых исторических источников, описывающих раннюю историю Руси. Она была создана в начале XII века и представляет собой летопись, которая охватывает период с древнейших времён до 1110-х годов. Авторство летописи приписывается монаху Нестору, хотя в создании текста могли участвовать и другие летописцы.</p><p>«Повесть временных лет» рассказывает о происхождении славянских народов, основании Киева, крещении Руси и других важных событиях. Она содержит не только исторические факты, но и легенды, мифы и предания, что делает её уникальным источником для изучения культуры и мировоззрения древних славян.</p><p>Летопись также важна для понимания политических и социальных процессов того времени. Она описывает взаимоотношения между различными княжествами, войны и дипломатические переговоры. «Повесть временных лет» является основой для изучения истории Древней Руси и до сих пор остаётся одним из главных источников для историков и исследователей.</p>`},
+{title:'Текст 3. Слово о полку Игореве',body:`<p>«Слово о полку Игореве» — это одно из самых известных произведений древнерусской литературы, созданное в XII веке. Оно посвящено походу новгород-северского князя Игоря Святославича против половцев в 1185 году. Авторство произведения неизвестно, но оно считается шедевром древнерусской литературы.</p><p>«Слово о полку Игореве» написано в форме эпической поэмы, которая сочетает в себе элементы героического эпоса и лирики. В произведении описываются события похода, героизм и мужество русских воинов, а также их страдания и поражения. Автор использует яркие образы и метафоры, чтобы передать атмосферу тех времён и выразить свои мысли о судьбе Руси.</p><p>Произведение имеет большое историческое и культурное значение. Оно отражает мировоззрение и ценности древнерусского общества, а также показывает, как люди того времени воспринимали мир и свою роль в нём. «Слово о полку Игореве» стало символом патриотизма и героизма, а его язык и стиль оказали огромное влияние на развитие русской литературы.</p>`},
+{title:'Текст 4. А.А. Зализняк',body:`<p>Андрей Анатольевич Зализняк — выдающийся российский лингвист, специалист в области древнерусского языка и истории русского языка. Он известен своими исследованиями в области грамматики и фонетики древнерусского языка, а также своими работами по текстологии и филологии.</p><p>Одним из самых известных произведений древнерусской литературы, которое привлекло внимание Зализняка, является «Слово о полку Игореве». Это эпическое произведение, созданное в XII веке, посвящено походу новгород-северского князя Игоря Святославича против половцев. Зализняк провёл тщательный анализ текста «Слова о полку Игореве», изучив его язык, стиль и содержание. Он доказал, что произведение действительно было создано в XII веке, а не в более поздние времена, как предполагалось ранее.</p><p>Зализняк также занимался изучением других памятников древнерусской литературы, таких как «Повесть временных лет» и «Русская правда». Его работы внесли значительный вклад в понимание истории русского языка и культуры. Зализняк был удостоен множества наград и премий за свои научные достижения, включая Государственную премию СССР и премию Президента России.</p>`}
+],
+questions:[
+{num:1,type:'single',tag:'read',text:'К какой группе языков относится русский язык?',opts:['1) к южнославянской','2) к восточнославянской','3) к западнославянской','4) к севернославянской'],correct:1,answer:'2 — к восточнославянской.'},
+{num:2,type:'single',tag:'read',text:'Выберите верное утверждение.',opts:['1) Древнерусский язык имел свои синтаксические особенности, которые отличают его от современных языков.','2) Древнерусский алфавит был создан на основе латинского.','3) Древнерусский язык был только письменным.','4) Древнерусский язык был создан на основе древнегреческого.'],correct:0,answer:'1 — Древнерусский язык имел свои грамматические и фонетические особенности (кириллица создана на основе греческого алфавита, но сам язык этого не означает).'},
+{num:3,type:'match2',tag:'read',text:'Соотнесите древнерусские тексты и факты о них.',keys:['А. «Повесть временных лет»','Б. «Слово о полку Игореве»'],vals:['1. Предполагается, что текст создан монахом Нестором.','2. Авторство неизвестно.','3. Повествует о походе против половцев.','4. Повествует о крещении Руси.'],correct:['14','23'],answer:'А — 1, 4 (монах Нестор; крещение Руси); Б — 2, 3 (неизвестный автор; поход против половцев).'},
+{num:4,type:'single',tag:'read',text:'Что такое летопись?',opts:['1) художественное произведение о воинах','2) запись важных событий истории по векам','3) запись важных событий истории по годам','4) выдержки из газет'],correct:2,answer:'3 — запись важных событий истории по годам.'},
+{num:5,type:'single',tag:'read',text:'Какие рода литературы совмещаются в «Слове о полку Игореве»?',opts:['1) лирика и драма','2) лирика и эпос','3) драма и эпос','4) эпос, лирика и драма'],correct:1,answer:'2 — лирика и эпос.'},
+{num:6,type:'single',tag:'read',text:'Подлинность какого древнерусского текста доказал Андрей Анатольевич Зализняк?',opts:['1) никакого','2) «Повести временных лет»','3) «Русской правды»','4) «Слова о полку Игореве»'],correct:3,answer:'4 — «Слова о полку Игореве».'},
+{num:7,type:'single',tag:'read',text:'Выберите НЕВЕРНОЕ утверждение.',opts:['1) А.А. Зализняк занимался исследованиями, связанными с древнерусским языком.','2) «Повесть временных лет» содержит только исторические факты.','3) А.А. Зализняк был удостоен множества наград.','4) В «Слове о полку Игореве» автор использует метафоры.'],correct:1,answer:'2 — НЕВЕРНОЕ: «Повесть временных лет» содержит не только исторические факты, но и легенды, мифы и предания.'}
+]},
+logic:{title:'Логика',questions:[
+{num:8,type:'poly',tag:'logic',poly:{sides:8,start:96,hi:4},
+text:'В каждой вершине восьмиугольника расположена круглая ячейка. В одну из ячеек поместили 96 улиток. Каждый час все улитки из каждой ячейки перебираются в соседние: ровно половина в одну соседнюю ячейку, а другая половина — в другую. Сколько улиток окажется в выделенной ячейке через 5 часов?',
+answer:'15.',correctNum:15},
+{num:9,type:'open',tag:'logic',
+text:'Винни-Пух пошёл в гости к Пятачку. Он вышел из дома в 11:00, однако через 160 метров его одолела умная мысль, он остановился и 20 минут её думал, затем снова пошёл дальше. И через 80 метров к нему снова пришла умная мысль и Пух остановился на 20 минут и т.д. Каждый раз на мысль уходило ровно 20 минут, но после этого до следующей остановки Винни-Пух проходил в два раза меньше, чем предыдущий раз. Расстояние между домами Пуха и Пятачка составляет 305 метров, и если бы Пух не останавливался, то прошёл бы весь путь за полчаса. Во сколько Винни-Пух придёт к Пятачку? Ответ запишите в формате ЧЧ:ММ.',
+answer:'12:50.'}
+]}},
+// ── V2: ЧГ2 + Л3 ──
+{id:2,label:'Вариант 2',
+reading:{title:'Поезда и вокзалы · Шишкин',
+texts:[
+{title:'Текст 1. Виды поездов',body:`<p>Поезда различаются по назначению, типу тяги, скорости движения и другим характеристикам. Рассмотрим основные виды поездов.</p><h4>По назначению:</h4><ul><li><em>Пассажирские поезда:</em> дальнего следования (фирменные и скорые); пригородные электрички; высокоскоростные экспрессы («Сапсан», «Аллегро»).</li><li><em>Грузовые поезда:</em> перевозят товары и сырьё, включая контейнерные перевозки, уголь, нефть и др.</li><li><em>Специальные поезда:</em> пожарные, восстановительные, санитарные составы, используемые для экстренных работ и специальных нужд.</li></ul><h4>По типу тяги:</h4><ul><li><em>Локомотивные поезда:</em> имеют локомотив, тянущий вагоны (тепловозы, электровозы).</li><li><em>Электропоезда (электрички):</em> электроподвижной состав, работающий от контактной сети.</li><li><em>Дизель-поезда:</em> автономные дизель-электрические составы.</li><li><em>Маглев-трейн:</em> поезд на магнитной подвеске, движущийся над путями без контакта колёс.</li></ul><h4>По скорости движения:</h4><ul><li><em>Высокоскоростные поезда:</em> скорость выше 200 км/ч (SapSan, Allegro, Eurostar).</li><li><em>Скоростные поезда:</em> средняя скорость около 120–200 км/ч.</li><li><em>Среднескоростные поезда:</em> обычная скорость порядка 80–120 км/ч.</li><li><em>Пригородные поезда:</em> низкая скорость передвижения (примерная скорость 50–80 км/ч).</li></ul><p>Каждый вид поезда предназначен для конкретных целей и условий эксплуатации, обеспечивая эффективную транспортировку пассажиров и грузов.</p>`},
+{title:'Текст 2. Железнодорожные вокзалы',body:`<p>Железнодорожные вокзалы являются важнейшими транспортными узлами городов и стран, служащими местом прибытия и отправления пассажирских поездов. Они играют ключевую роль в инфраструктуре транспорта, соединяя разные регионы и города, обеспечивая комфортное перемещение пассажиров.</p><h4>Основные типы вокзалов:</h4><ul><li><em>Железнодорожные вокзалы:</em> предназначены исключительно для обслуживания железнодорожных перевозок.</li><li><em>Автовокзалы:</em> обслуживают автобусные маршруты.</li><li><em>Аэровокзалы (аэропорты):</em> обеспечивают отправление и прибытие авиарейсов.</li><li><em>Комбинированные транспортные узлы:</em> объединяют железнодорожные станции, автовокзалы и аэропорты, позволяя пассажирам легко переключаться между разными видами транспорта.</li></ul><h4>Функции вокзала:</h4><ul><li>обеспечение посадки и высадки пассажиров;</li><li>продажа билетов и предоставление справочной информации;</li><li>предоставление услуг общественного питания, торговли товарами первой необходимости;</li><li>организация хранения багажа и ручной клади;</li><li>оказание медицинских и социальных услуг.</li></ul>`},
+{title:'Текст 3. Иван Шишкин',body:`<p>Иван Иванович Шишкин (1832–1898) — выдающийся русский художник-пейзажист, представитель реалистического направления живописи. Его творчество занимает особое место в истории искусства России благодаря глубокому пониманию природы и её красоты.</p><p>И.И. Шишкин родился в Елабуге Вятской губернии (ныне Республика Татарстан). Художественное образование получил сначала в Московском училище живописи, ваяния и зодчества, а позже продолжил обучение в Императорской Академии художеств в Петербурге. Там он совершенствовал своё мастерство, изучая технику рисования пейзажей.</p><p>Его ранние картины демонстрируют влияние европейских мастеров, однако вскоре Шишкин нашёл собственный путь, сосредоточившись на изображении величественных русских лесов, полей и рек. Именно природа родного края стала главным источником вдохновения художника.</p><p>И.И. Шишкин стал знаменитым благодаря своим детальным и реалистичным картинам, показывающим природу во всей её красоте и многообразии. Среди его лучших работ выделяются «Утро в сосновом лесу» (1889 г.), «Среди долины ровныя…» (1883 г.), «На севере диком…» (1891 г.), «Рубка леса» (1867 г.).</p><p>Эти полотна передают ощущение гармонии и мощи природы, вызывают чувство восхищения и уважения к окружающему миру. Особенность картин И.И. Шишкина заключается в точности передачи деталей: каждая веточка, листик и травинка прорисованы с большой тщательностью.</p><p>Творчество Ивана Ивановича оказало значительное влияние на развитие русской пейзажной живописи. Благодаря своему таланту и трудолюбию, он создал уникальный художественный язык, отражающий дух и красоту России. Работы Шишкина хранятся в крупнейших музеях мира. Сегодня искусство Ивана Шишкина продолжает вдохновлять новые поколения художников и ценителей прекрасного, являясь ярким символом любви к природе и гордости за свою страну.</p>`},
+{title:'Текст 4. Картина «Утро в сосновом лесу»',body:`<p>Картина «Утро в сосновом лесу» (1889 год) принадлежит кисти великого русского живописца Ивана Ивановича Шишкина, хотя известна также как совместная работа мастера пейзажа Шишкина и талантливого анималиста Константина Аполлоновича Савицкого.</p><p>История создания картины началась ещё раньше, когда Шишкин работал над серией этюдов лесных массивов в окрестностях Подмосковья. Эти наброски впоследствии легли в основу будущей композиции, которая должна была передать утреннюю свежесть, тишину и спокойствие хвойного леса.</p><p>Однако первоначально задумывалось добавить в картину медведей, поскольку лес ассоциируется именно с этими животными. Для воплощения задуманного образов животных было решено привлечь опытного художника-живописца К.А. Савицкого, известного своими картинами с изображением диких зверей. Изначально медведи были нарисованы самим Савицким, но позже оказалось, что вклад Савицкого сильно уменьшили, оставив право подписи только за Шишкиным.</p><p>Эта картина сразу же привлекла внимание публики своей простотой и одновременно глубиной содержания. Удивительная передача света, воздуха и пространства создаёт иллюзию присутствия зрителя внутри лесной чащи. Это произведение стало визитной карточкой художника, вошло в золотой фонд русской культуры и получило признание как одна из любимых детских иллюстраций, знакомящих малышей с природой и красотой окружающей среды.</p><p>Таким образом, создание знаменитой картины «Утро в сосновом лесу» демонстрирует удивительное сочетание мастерства двух великих русских художников, создавших шедевр, навсегда закрепившийся в памяти народа и искусстве России.</p>`}
+],
+questions:[
+{num:1,type:'match',tag:'read',text:'Соотнесите типы поездов и их примеры.',keys:['А. Специальные.','Б. Грузовые.','В. Пассажирские.'],vals:['1. Нефтеперевозящие.','2. «Сапсан».','3. Санитарный состав.'],correct:['3','1','2'],answer:'А–3 (Санитарный состав), Б–1 (Нефтеперевозящие), В–2 («Сапсан»).'},
+{num:2,type:'single',tag:'read',text:'Какую скорость могут развивать скоростные поезда?',opts:['1) 220 км/ч','2) 180 км/ч','3) 100 км/ч','4) 50 км/ч'],correct:1,answer:'2 — около 120–200 км/ч (среднее около 180 км/ч).'},
+{num:3,type:'single',tag:'read',text:'Что не входит в функции вокзала?',opts:['1) хранение багажа','2) продажа билетов','3) предоставление бесплатного питания','4) обеспечение посадки пассажиров'],correct:2,answer:'3 — предоставление бесплатного питания (питание платное).'},
+{num:4,type:'single',tag:'read',text:'Какое прилагательное из текста 2 восходит к латинскому слову со значением «общее»?',opts:['1) транспортный','2) социальный','3) комфортный','4) служащий'],correct:1,answer:'2 — социальный (лат. socialis — «общий, товарищеский»).'},
+{num:5,type:'single',tag:'read',text:'Какие картины писал Иван Шишкин?',opts:['1) изображения предметов домашнего быта','2) изображения людей в полный рост','3) изображения природы','4) изображения фантастических сюжетов'],correct:2,answer:'3 — изображения природы: леса, поля, реки.'},
+{num:6,type:'single',tag:'read',text:'В каком городе Иван Шишкин не получал художественное образование?',opts:['1) Елабуга','2) Москва','3) Петербург'],correct:0,answer:'1 — Елабуга. Шишкин родился в Елабуге, но учился в Москве и Петербурге.'},
+{num:7,type:'single',tag:'read',text:'Сколько художников участвовало в создании картины «Утро в сосновом лесу»?',opts:['1) один','2) двое','3) трое','4) четверо'],correct:1,answer:'2 — двое: Шишкин и Савицкий.'}
+]},
+logic:{title:'Логика',questions:[
+{num:8,type:'poly',tag:'logic',poly:{sides:7,start:48,hi:3},
+text:'В вершинах правильного семиугольника расположены ячейки. В одну из ячеек поместили 48 улиток. Каждый час все улитки из каждой ячейки перебираются в соседние: ровно половина в одну соседнюю ячейку, а другая половина — в другую. Сколько улиток окажется в выделенной ячейке через 3 часа?',
+answer:'6.',correctNum:6},
+{num:9,type:'open',tag:'logic',
+text:'Смышлёный робот решил доехать от гаража до мастерской. Он выехал в 09:00. Через 160 метров робот перегрелся и вынужден был остановиться охладиться на 15 минут. После охлаждения он поехал дальше. Ещё через 80 метров робот опять перегрелся и снова охладился 15 минут и т.д. Каждый раз охлаждение занимало ровно 15 минут, но после каждого охлаждения робот проезжал в 2 раза меньше, чем в предыдущий раз. Во сколько робот достигнет мастерской, если расстояние между гаражом и мастерской — 280 метров, а если бы робот не останавливался, то проехал бы этот путь за 20 минут? Ответ запишите в формате ЧЧ:ММ.',
+answer:'09:50.'}
+]}},
+// ── V3: ЧГ3 + Л4 ──
+{id:3,label:'Вариант 3',
+reading:{title:'Цветовой круг · Оптика · Радуга',
+texts:[
+{title:'Текст 1. Цветовой круг',body:`<p>Цветовой круг — инструмент, используемый художниками, дизайнерами и специалистами по цвету для понимания взаимоотношений цветов друг с другом. Впервые идею круга предложил Исаак Ньютон в XVII веке, а позднее усовершенствованную версию представил швейцарский художник Иоганнес Иттен в XX веке.</p><p>Классический цветовой круг состоит из трёх основных компонентов.</p><p><strong>1. Основные цвета:</strong> красный, жёлтый и синий. Их нельзя создать путём смешивания других оттенков.</p><p><strong>2. Вторичные цвета:</strong> оранжевый, зелёный и фиолетовый. Получаются путём смешивания соседних пар первичных цветов.</p><p><strong>3. Третичные цвета:</strong> получаются при смешивании вторичного цвета с ближайшим основным цветом (красно-оранжевый, сине-фиолетовый и т.п.).</p><p>Также выделяют дополнительные характеристики. <strong>Комплементарные (противоположные) цвета</strong> расположены напротив друг друга на круге, создают контраст и привлекают внимание. <strong>Аналогичные цвета</strong> соседствуют на кругу, образуют гармоничные комбинации. <strong>Триадные цвета</strong> — три равноудалённых оттенка, создающих сбалансированную композицию.</p><p>Цветовой круг помогает правильно подбирать палитру красок для живописных полотен, графических проектов, интерьерных решений и веб-дизайна. Правильно подобранные цвета влияют на восприятие, эмоции и настроение зрителей, помогая создавать выразительные и эстетически приятные визуальные образы.</p>`},
+{title:'Текст 2. Оттенки цвета',body:`<p>Оттенки представляют собой разновидности основного цвета, отличающиеся насыщенностью, яркостью и светлотой. Каждый оттенок обладает уникальными характеристиками, позволяющими выразить определённые настроения, ассоциации и чувства.</p><p>Рассмотрим основные понятия, связанные с оттенками.</p><p><strong>1. Тон:</strong> базовая характеристика цвета, определяющая его положение на спектре.</p><p><strong>2. Насыщенность:</strong> степень выраженности тона относительно белого или серого цвета.</p><p><strong>3. Светлота:</strong> мера близости цвета к белому или чёрному.</p><p><strong>4. Яркость:</strong> интенсивность восприятия цвета человеческим глазом.</p><p>Различают несколько видов оттенков: <strong>Тёплые оттенки</strong> — красно-оранжевые и жёлтые тона, ассоциируются с солнцем, теплом и уютом. <strong>Холодные оттенки</strong> — синие, голубые и зелёные тона, воспринимаются как освежающие и спокойные. <strong>Нейтральные оттенки</strong> — серый, бежевый, коричневый, используются для придания композиции равновесия и стабильности.</p><p>Применение правильных оттенков играет значительную роль в дизайне интерьера, моде, искусстве и рекламе. Грамотно выбранные цвета способны подчеркнуть индивидуальность образа, создать нужную атмосферу помещения или вызвать необходимые эмоциональные реакции у аудитории.</p>`},
+{title:'Текст 3. Оптика',body:`<p>Оптика — наука, занимающаяся исследованием свойств света и способов его распространения, преломления, отражения и поглощения. Она включает изучение характеристик электромагнитных волн, используемых для передачи энергии и информации.</p><p>Основные разделы оптики включают следующие.</p><p><strong>1. Физическая оптика:</strong> занимается фундаментальными свойствами света, такими как волны, частицы и квантовые свойства фотонов.</p><p><strong>2. Геометрическая оптика:</strong> рассматривает распространение света в форме лучей, используя законы отражения и преломления.</p><p><strong>3. Волновая оптика:</strong> объясняет явления интерференции, дифракции и поляризации света.</p><p><strong>4. Прикладная оптика:</strong> охватывает разработку приборов и технологий, использующих принципы оптики (микроскопы, телескопы, лазеры, волоконная оптика).</p><p>Оптика находит широкое применение в науке, технике и медицине. Например, лазерные технологии применяются в хирургии, телекоммуникациях и промышленности, а микроскопы позволяют изучать микромир живых организмов и материалов.</p><p>Развитие оптики способствовало созданию множества устройств, облегчающих жизнь человека и расширяющих наши возможности познания окружающего мира. Современные достижения в области оптики открывают перспективные пути развития новых технологий, которые будут определять будущее науки и техники.</p>`},
+{title:'Текст 4. Свойства света. Радуга',body:`<p>Свойства света определяются физическими законами, регулирующими его поведение в пространстве и взаимодействие с различными средами. Свет представляет собой форму электромагнитного излучения, обладающего двойственностью — волновой и корпускулярной природой. Основные свойства света:</p><ul><li><strong>Распространение</strong> — свет распространяется прямолинейно в однородной среде, отклоняется при переходе границы сред разной плотности (законы преломления и отражения).</li><li><strong>Интерференция</strong> — способность волн складываться, усиливая или ослабляя друг друга.</li><li><strong>Дифракция</strong> — огибание препятствий светом, проявляющееся в образовании световых полос и теневых областей.</li><li><strong>Поляризация</strong> — ориентация колебаний электрического поля в плоскости перпендикулярно направлению распространения.</li><li><strong>Поглощение и рассеяние</strong> — процессы, происходящие при взаимодействии света с веществом, приводящие к изменению интенсивности и спектра излучения.</li></ul><p>Радуга — природное явление, возникающее в результате сложных физических процессов, включающих отражение, преломление и дисперсию солнечного света в каплях воды. Физика радуги объясняется следующим образом.</p><ul><li><strong>1. Преломление:</strong> солнечный луч, попадая в каплю дождя, изгибается (преломляется) из-за разницы показателей преломления воздуха и воды.</li><li><strong>2. Отражение:</strong> внутри капли лучи частично отражаются от внутренней поверхности и возвращаются обратно наружу.</li><li><strong>3. Дисперсия:</strong> при прохождении через воду белый свет расщепляется на составляющие цвета (спектр), так как каждый цвет имеет различную длину волны и показатель преломления.</li></ul><p>Именно комбинация этих эффектов создаёт разноцветную полосу, видимую наблюдателям под углом примерно 42 градуса от линии, направленной на солнце.</p>`}
+],
+questions:[
+{num:1,type:'match2',tag:'read',text:'Соотнесите оттенки и цвета.',keys:['А. Тёплый оттенок','Б. Холодный оттенок','В. Нейтральный оттенок'],vals:['1. Бледно-салатовый','2. Алый','3. Телесный'],correct:['2','1','3'],answer:'А–2 (Алый), Б–1 (Бледно-салатовый), В–3 (Телесный).'},
+{num:2,type:'single',tag:'read',text:'В каком веке была предложена современная версия цветового круга?',opts:['1) в XVII веке','2) в XVIII веке','3) в XIX веке','4) в XX веке'],correct:3,answer:'4 — в XX веке (Иоганнес Иттен).'},
+{num:3,type:'single',tag:'read',text:'Сколько вторичных цветов выделяется в цветовом круге?',opts:['1) два','2) три','3) десять','4) двенадцать'],correct:1,answer:'2 — три: оранжевый, зелёный и фиолетовый.'},
+{num:4,type:'single',tag:'read',text:'Какая характеристика цвета измеряет его близость к чёрному?',opts:['1) светлота','2) тон','3) яркость','4) насыщенность'],correct:0,answer:'1 — светлота: мера близости цвета к белому или чёрному.'},
+{num:5,type:'match',tag:'read',text:'Соотнесите раздел оптики и что он изучает.',keys:['А. Волновая оптика','Б. Геометрическая оптика','В. Физическая оптика','Г. Прикладная оптика'],vals:['1. Квантовые свойства света','2. Закон отражения','3. Явление поляризации света','4. Разработка микроскопов'],correct:['3','2','1','4'],answer:'А–3 (поляризация), Б–2 (закон отражения), В–1 (квантовые свойства), Г–4 (разработка микроскопов).'},
+{num:6,type:'single',tag:'read',text:'Какой процесс отвечает за расщепление светового луча на цвета во время появления радуги?',opts:['1) дисперсия','2) поляризация','3) отражение','4) интерференция.'],correct:0,answer:'1 — дисперсия.'},
+{num:7,type:'single',tag:'read',text:'Выберите верное утверждение.',opts:['1) Процесс, приводящий к изменению интенсивности излучения, называется интерференция.','2) Свет имеет тройственную природу.','3) Преломление светового луча происходит из-за разных показателей преломления у воды и воздуха.','4) Оптика применяется в науке и механике, но не применяется в медицине.'],correct:2,answer:'3 — Преломление происходит из-за разницы показателей преломления воздуха и воды.'}
+]},
+logic:{title:'Логика',questions:[
+{num:8,type:'poly',tag:'logic',poly:{sides:8,start:56,hi:4},
+text:'В каждой вершине восьмиугольника расположена круглая ячейка. В одну из ячеек поместили 56 светлячков. Каждый час все светлячки из каждой ячейки перебираются в соседние: ровно половина в одну соседнюю ячейку, а другая половина — в другую. Сколько светлячков окажется в выделенной ячейке через 3 часа?',
+answer:'7.',correctNum:7},
+{num:9,type:'open',tag:'logic',
+text:'Белочка отправилась из дупла в орешниковую рощу. Вышла она в 08:30. Через 180 метров она так увлеклась видом желудей, что остановилась любоваться ими на 12 минут. Потом пробежала ещё 90 метров, снова любовалась, снова стояла 12 минут и т.д. Каждый раз остановка занимала ровно 12 минут, но после каждой остановки Белочка пробегала вдвое меньше, чем до неё. Во сколько Белочка доберётся до рощи, если расстояние от дупла до рощи — 315 метров, а без остановок она пробежала бы этот путь за 25 минут? Ответ запишите в формате ЧЧ:ММ.',
+answer:'09:19.'}
+]}},
+// ── V4: ЧГ4 + Л1 ──
+{id:4,label:'Вариант 4',
+reading:{title:'Растения · Фотосинтез · Игра Го',
+texts:[
+{title:'Текст 1. Растения',body:`<p>Растения — многоклеточные организмы, характеризующиеся способностью к фотосинтезу, автотрофным питанием и преимущественно стационарным образом жизни. С биологической точки зрения растения обладают рядом уникальных признаков и функций, обеспечивающих их выживание и размножение. Растения обладают следующими признаками.</p><p><strong>1. Фотосинтез:</strong> процесс преобразования солнечной энергии в химическую энергию органических соединений посредством хлоропластов, содержащих пигмент хлорофилл.</p><p><strong>2. Автотрофизм:</strong> способность самостоятельно синтезировать органические вещества из углекислого газа и воды.</p><p><strong>3. Структура тела:</strong> наличие специализированных тканей и органов (корень, стебель, листья, цветки), выполняющих конкретные функции.</p><p><strong>4. Стационарность:</strong> большинство растений ведут прикреплённый образ жизни, ограничивающий их подвижность.</p><p>Растения важны для различных экосистем, поскольку отвечают за продукцию кислорода (выделение кислорода в процессе фотосинтеза поддерживает дыхание других организмов), также растения служат основной кормовой базой для большинства существ, начиная от насекомых и заканчивая крупными млекопитающими. Более того, растения участвуют в процессах регуляции влажности, температуры и состава атмосферы, корни растений укрепляют почву, предотвращая эрозию и улучшая структуру грунта.</p><p>Биология растений изучает разнообразные группы растительного мира, включая водоросли, мхи, папоротники, голосеменные и покрытосеменные растения. Исследования направлены на понимание механизмов роста, размножения, адаптации и эволюции растительных форм, что важно для сельского хозяйства, медицины, экологии и охраны природы.</p>`},
+{title:'Текст 2. Фотосинтез',body:`<p>Фотосинтез — ключевой биохимический процесс, протекающий в зелёных частях растений, некоторых бактериях и водорослях, в ходе которого энергия солнечного света преобразуется в химическую энергию органических веществ. Процесс протекает в два этапа: световую фазу и темновые реакции.</p><h4>Световая фаза.</h4><p>Под действием света происходят следующие события: 1. Поглощение квантов света молекулами пигментов (хлорофилла и каротиноидов). 2. Возбуждение электронов и перенос их по цепочке белков и ферментов. 3. Образование АТФ (молекулы энергии) и НАДФН (переносчика водорода). 4. Разложение воды на кислород и водород.</p><h4>Темновые реакции (цикл Кальвина).</h4><p>Используя продукты световой фазы, растение осуществляет превращение углерода в глюкозу и крахмал.</p><p>Результатом фотосинтеза становится синтез органических соединений (углеводов) и освобождение кислорода в атмосферу. Фотосинтез обеспечивает практически весь доступный запас свободного кислорода на Земле и служит источником пищи для всего живого населения планеты.</p><p>Изучение процесса фотосинтеза крайне важно для наук, связанных с сельским хозяйством, экологией и энергетикой, так как открывает широкие перспективы для повышения урожайности сельскохозяйственных культур, производства экологически чистого топлива и решения проблем изменения климата.</p>`},
+{title:'Текст 3. Игра Го',body:`<p>Игра Го — древняя настольная стратегия, зародившаяся в Китае приблизительно в III тысячелетии до нашей эры. Точная дата появления неизвестна, но первые письменные свидетельства относятся ко временам династии Чжоу (около X–XI веков до н.э.). Игра изначально называлась «Вэйци» («окружающая игра») и постепенно распространилась по Восточной Азии, завоёвывая популярность в Японии и Корее.</p><p>Первоначально Го рассматривалась как символ мудрости и власти, символизируя гармонию космоса и земных структур. Древнекитайские философы использовали игру для иллюстрации принципов управления государством и военных тактик. Со временем правила немного менялись, и появились национальные вариации: японская версия называется «Иго», корейская — «Бадук».</p><p>Интерес к игре возродился в эпоху Средневековья, особенно в Японии, где самурайские классы активно играли в Го, считая её тренировкой ума и характера. Позже, в период Токугава (XVI–XIX вв.), игра приобрела статус национальной стратегии, стали проводиться турниры и соревнования.</p><p>Со второй половины XX века Го начала распространяться за пределами Азии, обретая поклонников в Европе и Америке. Сегодня игра популярна по всему миру, проводятся международные чемпионаты и соревнования, существует профессиональная лига игроков.</p><p>Правила Го просты: игроки расставляют камни на доску, стремясь захватить территорию противника, однако сама игра отличается глубокой стратегичностью и множеством возможных комбинаций ходов. Го считается одной из самых интеллектуальных стратегических игр человечества, способствующей развитию логики, внимательности и интуиции.</p>`}
+],
+questions:[
+{num:1,type:'match',tag:'read',text:'Соотнесите свойства растений и их суть.',keys:['А. Автотрофизм','Б. Фотосинтез','В. Стационарность','Г. Структура'],vals:['1. Наличие корня, стебля, листьев и цветков.','2. Преобразование солнечной энергии.','3. Ограниченная подвижность.','4. Синтез углекислого газа и воды.'],correct:['4','2','3','1'],answer:'А–4 (синтез орг. веществ из CO₂ и воды — автотрофизм), Б–2 (преобразование солнечной энергии), В–3 (ограниченная подвижность), Г–1 (корень, стебель, листья, цветки).'},
+{num:2,type:'single',tag:'read',text:'Выберите верное утверждение.',opts:['1) Мхи и водоросли не относятся к растениям.','2) Растения являются важной частью любой экосистемы.','3) Растения не являются источником питания для живых существ.','4) Растения вырабатывают кислород, но не участвуют в других биологических процессах.'],correct:1,answer:'2 — Растения являются важной частью любой экосистемы.'},
+{num:3,type:'single',tag:'read',text:'Какие фазы выделяются у процесса фотосинтеза?',opts:['1) световая и теневая','2) солнечная и теневая','3) световая и темновая','4) солнечная и темновая'],correct:2,answer:'3 — световая и темновая (темновые реакции — цикл Кальвина).'},
+{num:4,type:'single',tag:'read',text:'Какой процесс происходит в световой фазе фотосинтеза?',opts:['1) образование АТФ','2) превращение углерода в крахмал','3) превращение углерода в глюкозу','4) разложение воды на углерод и водород'],correct:0,answer:'1 — образование АТФ (молекулы энергии).'},
+{num:5,type:'match2',tag:'read',text:'Соотнесите название игры и страну.',keys:['А. Япония','Б. Китай','В. Корея'],vals:['1. Го','2. Бадук','3. Иго'],correct:['3','1','2'],answer:'А–3 (Иго — японское название), Б–1 (Го — китайское), В–2 (Бадук — корейское).'},
+{num:6,type:'single',tag:'read',text:'Выберите верное утверждение.',opts:['1) В Го играют шахматными фигурами.','2) Игра Го одновременно зародилась в нескольких странах Азии.','3) Игра использовалась для иллюстрации военных тактик.','4) Правила игры в Го сложны и требуют долгого изучения.'],correct:2,answer:'3 — Игра использовалась для иллюстрации принципов управления государством и военных тактик.'},
+{num:7,type:'single',tag:'read',text:'Гармонию каких стихий первоначально символизировала игра Го?',opts:['1) огонь и воду','2) воздух и землю','3) мудрость и власть','4) космос и землю'],correct:3,answer:'4 — космос и землю.'}
+]},
+logic:{title:'Логика',questions:[
+{num:8,type:'poly',tag:'logic',poly:{sides:6,start:32,hi:3},
+text:'В каждой вершине шестиугольника расположена круглая ячейка. В одну из ячеек поместили 32 улитки. Каждый час все улитки из каждой ячейки перебираются в соседние: ровно половина в одну соседнюю ячейку, а другая половина — в другую. Сколько улиток окажется в выделенной ячейке через 5 часов?',
+answer:'11.',correctNum:11},
+{num:9,type:'open',tag:'logic',
+text:'Бодрая улитка решила проползти из комнаты в кухню. Она стартовала в 10 утра от порога комнаты. Через 128 см улитка устала и остановилась отдохнуть на 10 минут. Ещё через 64 см она снова устала и снова остановилась отдохнуть на 10 минут. И так далее: каждый раз на отдых уходило ровно 10 минут, но после этого улитка проползала в два раза меньше, чем предыдущий раз. Во сколько улитка достигнет порога кухни, если расстояние между кухней и комнатой 2,5 метра, а скорость улитки постоянна и равна 5 см/мин? Ответ запишите в формате ЧЧ:ММ.',
+answer:'11:40.'}
+]}}
+];
+
+// ═══ STATE ═══
+let CV=null,UA={},SCORED={},timerSec=0,timerInt=null;
+const TIMER_TOTAL=45*60,ARC=2*Math.PI*17;
+
+document.addEventListener('DOMContentLoaded',()=>renderVcards());
+
+function renderVcards(){
+  document.getElementById('vcard-list').innerHTML=VARIANTS.map(v=>`
+    <div class="vcard" onclick="startVariant(${v.id-1})">
+      <div class="vn">${String(v.id).padStart(2,'0')}</div>
+      <div class="vcard-labels">
+        <span class="vcard-label vlr">📖 ${v.reading.title}</span>
+        <span class="vcard-label vll">🧩 ${v.logic.title}</span>
+      </div>
+      <div class="vcta">Начать →</div>
+    </div>`).join('');
+}
+
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
+function goHome(){stopTimer();showScreen('sc-landing');}
+function confirmBack(){if(timerInt&&timerSec<TIMER_TOTAL&&!confirm('Вернуться на главную? Прогресс будет потерян.'))return;goHome();}
+
+function startVariant(idx){
+  CV=VARIANTS[idx];UA={};SCORED={};
+  document.getElementById('hdr-title').textContent=CV.label;
+  document.getElementById('hdr-sub').textContent=`${CV.reading.title} · ${CV.logic.title}`;
+  document.getElementById('ans-tot').textContent=CV.reading.questions.length+CV.logic.questions.length;
+  renderTexts();renderQuestions();updateProg();
+  switchTab('texts',document.querySelector('.tab'));
+  showScreen('sc-quiz');startTimer();
+}
+
+function startTimer(){timerSec=TIMER_TOTAL;updateTimerUI();clearInterval(timerInt);timerInt=setInterval(()=>{timerSec--;updateTimerUI();if(timerSec<=0){clearInterval(timerInt);document.getElementById('to-overlay').classList.add('on');}},1000);}
+function stopTimer(){clearInterval(timerInt);timerInt=null;}
+function updateTimerUI(){
+  const m=Math.floor(timerSec/60),s=timerSec%60;
+  const mEl=document.getElementById('t-min'),sEl=document.getElementById('t-sec'),arc=document.getElementById('t-arc');
+  mEl.textContent=String(m).padStart(2,'0');sEl.textContent=':'+String(s).padStart(2,'0');
+  arc.style.strokeDashoffset=ARC*(1-timerSec/TIMER_TOTAL);
+  if(timerSec<=60){arc.style.stroke='#E74C3C';mEl.style.color='#E74C3C';mEl.style.animation='tpulse .8s infinite';}
+  else if(timerSec<=10*60){arc.style.stroke='#F39C12';mEl.style.color='#F39C12';mEl.style.animation='';}
+  else{arc.style.stroke='#F5A623';mEl.style.color='#fff';mEl.style.animation='';}
+}
+function onTimeUp(){document.getElementById('to-overlay').classList.remove('on');finishQuiz();}
+
+function switchTab(name,btn){
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
+  if(btn)btn.classList.add('on');
+  document.getElementById('panel-texts').classList.toggle('on',name==='texts');
+  document.getElementById('panel-questions').classList.toggle('on',name==='questions');
+}
+
+function renderTexts(){
+  document.getElementById('panel-texts').innerHTML=
+    `<div class="sec-divider"><div class="sec-divider-line"></div><span class="sec-divider-badge sdb-read">📖 Читательская грамотность</span><div class="sec-divider-line"></div></div>`+
+    CV.reading.texts.map((t,i)=>`
+      <div class="txt-block">
+        <div class="txt-hdr" onclick="toggleTxt(${i})">
+          <span class="txt-hdr-lbl">${t.title}</span>
+          <span class="txt-hdr-ic" id="tic-${i}">▲</span>
+        </div>
+        <div class="txt-body open" id="tb-${i}">${t.body}</div>
+      </div>`).join('');
+}
+function toggleTxt(i){
+  const b=document.getElementById(`tb-${i}`),ic=document.getElementById(`tic-${i}`);
+  b.classList.toggle('open');ic.textContent=b.classList.contains('open')?'▲':'▼';
+}
+
+function allQ(){return[...CV.reading.questions,...CV.logic.questions];}
+
+function renderQuestions(){
+  const rqs=CV.reading.questions,lqs=CV.logic.questions;
+  document.getElementById('panel-questions').innerHTML=
+    `<div class="sec-divider"><div class="sec-divider-line"></div><span class="sec-divider-badge sdb-read">📖 Читательская грамотность</span><div class="sec-divider-line"></div></div>`+
+    rqs.map((q,i)=>renderQ(q,i)).join('')+
+    `<div class="sec-divider"><div class="sec-divider-line"></div><span class="sec-divider-badge sdb-logic">🧩 Логика</span><div class="sec-divider-line"></div></div>`+
+    lqs.map((q,i)=>renderQ(q,rqs.length+i)).join('');
+}
+
+function renderQ(q,gi){
+  let body='',polyHtml='';
+  if(q.poly){
+    const p=q.poly;
+    polyHtml=`<div class="polygon-wrap">
+      <div class="poly-svg-box">${makePolygon(p.sides,p.start,p.hi)}</div>
+      <div class="poly-caption">🟣 Выделенная ячейка (куда считаем); 🟡 Стартовая ячейка с числом улиток.</div>
+    </div>`;
+  }
+  if(q.type==='single'){
+    body=`<ul class="opts">${q.opts.map((o,oi)=>`
+      <li class="opt" id="opt-${gi}-${oi}" onclick="pickSingle(${gi},${oi},${q.opts.length})">
+        <div class="odot" id="od-${gi}-${oi}"></div><span>${o}</span></li>`).join('')}</ul>`;
+  }else if(q.type==='match'){
+    if(!UA[gi])UA[gi]=q.keys.map(()=>'');
+    const opts=q.vals.map((v,vi)=>`<option value="${vi}">${v}</option>`).join('');
+    body=`<div class="match-wrap">${q.keys.map((k,ki)=>`
+      <div class="match-row">
+        <div class="match-label">${k}</div>
+        <div class="match-arrow">→</div>
+        <select class="match-select" id="ms-${gi}-${ki}" onchange="pickMatchSingle(${gi},${ki},this.value)">
+          <option value="">— выбрать —</option>${opts}
+        </select>
+      </div>`).join('')}</div>`;
+  }else if(q.type==='match2'){
+    if(!UA[gi])UA[gi]=q.keys.map(()=>[]);
+    body=`<div class="match-wrap">${q.keys.map((k,ki)=>`
+      <div class="mmatch-block">
+        <div class="mmatch-key">${k}</div>
+        <div class="mmatch-opts">${q.vals.map((v,vi)=>`
+          <div class="mmatch-opt" id="mm-${gi}-${ki}-${vi}" onclick="pickMatchMulti(${gi},${ki},${vi})">
+            <div class="mmatch-cb" id="mc-${gi}-${ki}-${vi}"></div>
+            <span>${v}</span>
+          </div>`).join('')}</div>
+      </div>`).join('')}</div>`;
+  }else{
+    body=`<textarea class="open-in" id="oi-${gi}" placeholder="Запишите ваш ответ..." oninput="updateProg()"></textarea>`;
+  }
+  return `<div class="qcard" id="qc-${gi}">
+    <div class="qtop">
+      <div class="qnum">${q.num}</div>
+      <div class="qmeta">
+        <span class="qtag ${q.tag}">${q.tag==='read'?'Читательская грамотность':'Логика'}</span>
+        <div class="qtext">${q.text}</div>
+      </div>
+    </div>
+    ${polyHtml}${body}
+    <div class="qactions"><button class="btn-chk" onclick="checkQ(${gi})">Проверить</button></div>
+    <div class="reveal" id="rev-${gi}"></div>
+  </div>`;
+}
+
+function pickSingle(gi,oi,total){
+  for(let i=0;i<total;i++){document.getElementById(`opt-${gi}-${i}`)?.classList.remove('sel');const d=document.getElementById(`od-${gi}-${i}`);if(d)d.textContent='';}
+  document.getElementById(`opt-${gi}-${oi}`).classList.add('sel');
+  document.getElementById(`od-${gi}-${oi}`).textContent='✓';
+  UA[gi]=oi;updateProg();
+}
+function pickMatchSingle(gi,ki,val){if(!UA[gi])UA[gi]=[];UA[gi][ki]=val;updateProg();}
+function pickMatchMulti(gi,ki,vi){
+  if(!UA[gi])UA[gi]=[];if(!UA[gi][ki])UA[gi][ki]=[];
+  const el=document.getElementById(`mm-${gi}-${ki}-${vi}`),cb=document.getElementById(`mc-${gi}-${ki}-${vi}`),sv=String(vi);
+  if(UA[gi][ki].includes(sv)){UA[gi][ki]=UA[gi][ki].filter(x=>x!==sv);el.classList.remove('sel');cb.textContent='';}
+  else{UA[gi][ki].push(sv);el.classList.add('sel');cb.textContent='✓';}
+  updateProg();
+}
+function updateProg(){
+  const qs=allQ();let c=0;
+  qs.forEach((q,gi)=>{
+    const a=UA[gi];
+    if(q.type==='single'&&a!==undefined)c++;
+    else if(q.type==='match'&&Array.isArray(a)&&a.some(x=>x!==''))c++;
+    else if(q.type==='match2'&&Array.isArray(a)&&a.some(x=>Array.isArray(x)&&x.length>0))c++;
+    else if((q.type==='open'||q.type==='poly')&&document.getElementById(`oi-${gi}`)?.value?.trim())c++;
+  });
+  document.getElementById('ans-cnt').textContent=c;
+  document.getElementById('prog-fill').style.width=(c/qs.length*100)+'%';
+  document.getElementById('prog-lbl').textContent=c+' / '+qs.length;
+}
+
+function checkQ(gi){
+  const qs=allQ(),q=qs[gi],rev=document.getElementById(`rev-${gi}`),card=document.getElementById(`qc-${gi}`);
+  if(q.type==='poly'){
+    const val=document.getElementById(`oi-${gi}`)?.value?.trim()||'';
+    const userNum=parseInt(val.replace(/[^\d]/g,''));
+    const ok=userNum===q.correctNum;
+    SCORED[gi]=ok?1:0;
+    card.classList.toggle('ok',ok);card.classList.toggle('bad',!ok);
+    rev.className='reveal auto on';
+    rev.innerHTML=`<strong>${ok?'✓ Верно!':'✗ Неверно.'}</strong> Правильный ответ: ${q.answer}`;
+    return;
+  }
+  if(q.type==='open'){
+    card.classList.add('open-done');
+    rev.className='reveal open-r on';
+    rev.innerHTML=`<strong>Ответ для проверки с учителем:</strong><br>${q.answer}`;
+    return;
+  }
+  let earned=0;
+  if(q.type==='single'){
+    const ua=UA[gi];if(ua===undefined){rev.className='reveal auto on';rev.innerHTML=`<strong>Правильный ответ:</strong> ${q.answer}`;return;}
+    const ok=ua===q.correct;
+    q.opts.forEach((_,oi)=>{const el=document.getElementById(`opt-${gi}-${oi}`);el?.classList.remove('sel');if(oi===q.correct)el?.classList.add('ok');else if(oi===ua&&!ok)el?.classList.add('bad');});
+    earned=ok?1:0;rev.className='reveal auto on';rev.innerHTML=`<strong>${ok?'✓ Верно!':'✗ Неверно.'}</strong> ${q.answer}`;
+  }else if(q.type==='match'){
+    const ua=UA[gi]||[];
+    const ok=q.correct.every((c,ki)=>String(ua[ki])===String(c));
+    q.keys.forEach((k,ki)=>{const sel=document.getElementById(`ms-${gi}-${ki}`);if(sel){sel.classList.remove('ok','bad');sel.classList.add(String(ua[ki])===String(q.correct[ki])?'ok':'bad');}});
+    earned=ok?1:0;rev.className='reveal auto on';rev.innerHTML=`<strong>${ok?'✓ Верно!':'✗ Неверно.'}</strong> ${q.answer}`;
+  }else if(q.type==='match2'){
+    const ua=UA[gi]||[];
+    let allOk=true;
+    q.keys.forEach((k,ki)=>{const cs=q.correct[ki].split('').sort().join(''),us=(ua[ki]||[]).map(Number).sort().join('');if(cs!==us)allOk=false;});
+    earned=allOk?1:0;rev.className='reveal auto on';rev.innerHTML=`<strong>${allOk?'✓ Верно!':'✗ Неверно.'}</strong> ${q.answer}`;
+  }
+  SCORED[gi]=earned;card.classList.toggle('ok',earned===1);card.classList.toggle('bad',earned===0);
+}
+
+function finishQuiz(){
+  stopTimer();const qs=allQ();
+  qs.forEach((q,gi)=>{if(SCORED[gi]===undefined)checkQ(gi);});
+  let auto=0,autoMax=0,openCount=0;
+  qs.forEach((q,gi)=>{if(q.type==='open'){openCount++;}else{autoMax++;auto+=SCORED[gi]||0;}});
+  const pct=Math.round(auto/autoMax*100);
+  document.getElementById('res-pts').textContent=auto;
+  document.getElementById('res-max').textContent='из '+autoMax;
+  const circ=2*Math.PI*68;
+  setTimeout(()=>{document.getElementById('res-arc').style.strokeDashoffset=circ-(pct/100)*circ;},120);
+  const titles=['Нужно больше практики','Хорошее начало!','Отличный результат!','Превосходно!'];
+  document.getElementById('res-title').textContent=titles[pct<40?0:pct<65?1:pct<85?2:3];
+  document.getElementById('res-sub').textContent=`${CV.label} · ${CV.reading.title}`;
+  document.getElementById('res-board').innerHTML=`
+    <div class="res-row"><span class="rl">Читательская грамотность + задача с фигурой (авто)</span><span class="rv ${auto>=6?'ok':auto>=4?'so':'bad'}">${auto} / ${autoMax}</span></div>
+    <div class="res-row"><span class="rl">Задача со временем (проверить с учителем)</span><span class="rv">${openCount} зад.</span></div>
+    <div class="res-row"><span class="rl">Процент выполнения (автопроверка)</span><span class="rv ${pct>=75?'ok':pct>=50?'so':'bad'}">${pct}%</span></div>`;
+  document.getElementById('save-status').textContent='';
+  showScreen('sc-results');
+}
+
+function saveResult(){
+  const qs=allQ();let auto=0,autoMax=0;
+  qs.forEach((q,gi)=>{if(q.type!=='open'){autoMax++;auto+=SCORED[gi]||0;}});
+  const openAnswers={};
+  qs.forEach((q,gi)=>{if(q.type==='open'||q.type==='poly'){const el=document.getElementById(`oi-${gi}`);openAnswers[gi]=el?.value||'';}});
+  const record={id:Date.now(),variantId:CV.id,variantLabel:CV.label,topic:CV.reading.title,date:new Date().toLocaleString('ru-RU'),auto,autoMax,pct:Math.round(auto/autoMax*100),scored:{...SCORED},openAnswers,questions:qs.map(q=>({num:q.num,text:q.text,type:q.type,answer:q.answer,correct:q.correct||null,correctNum:q.correctNum||null,tag:q.tag})),ua:{...UA}};
+  let saved=JSON.parse(localStorage.getItem('cpm7_results')||'[]');
+  saved.unshift(record);if(saved.length>20)saved=saved.slice(0,20);
+  localStorage.setItem('cpm7_results',JSON.stringify(saved));
+  document.getElementById('save-status').textContent='✓ Результат сохранён. Можно закрыть браузер — он останется.';
+}
+
+function showSaved(){renderSavedList();showScreen('sc-saved');}
+function renderSavedList(){
+  const saved=JSON.parse(localStorage.getItem('cpm7_results')||'[]');
+  const el=document.getElementById('saved-list');
+  if(!saved.length){el.innerHTML='<div class="saved-empty">Сохранённых результатов пока нет.</div>';return;}
+  el.innerHTML=saved.map(r=>`
+    <div class="saved-item" onclick="openSavedReview(${r.id})">
+      <div class="si-top"><span class="si-vnum">${r.variantLabel}</span><button class="si-del" onclick="event.stopPropagation();deleteSaved(${r.id})">✕</button><span class="si-date">${r.date}</span></div>
+      <div class="si-score"><span>${r.auto}</span> / ${r.autoMax} баллов · ${r.pct}%</div>
+      <div class="si-meta">${r.topic}</div>
+    </div>`).join('');
+}
+function deleteSaved(id){let saved=JSON.parse(localStorage.getItem('cpm7_results')||'[]');saved=saved.filter(r=>r.id!==id);localStorage.setItem('cpm7_results',JSON.stringify(saved));renderSavedList();}
+function openSavedReview(id){
+  const saved=JSON.parse(localStorage.getItem('cpm7_results')||'[]');
+  const r=saved.find(x=>x.id===id);if(!r)return;
+  document.getElementById('review-title').textContent=`Разбор: ${r.variantLabel} · ${r.date}`;
+  document.getElementById('review-body').innerHTML=r.questions.map((q,i)=>{
+    const sc=r.scored[i];
+    let ansHtml='';
+    if(q.type==='open'){
+      ansHtml=`<div class="rq-ans open-ans">Ответ ученика: ${r.openAnswers[i]||'(не заполнено)'}</div><div class="rq-correct">Правильный ответ: ${q.answer}</div>`;
+    }else{
+      const ok=sc===1;
+      ansHtml=`<div class="rq-ans ${ok?'ok-ans':'bad-ans'}">${ok?'✓ Верно':'✗ Неверно'}</div><div class="rq-correct">Правильный ответ: ${q.answer}</div>`;
+    }
+    return `<div class="review-q"><div class="rq-num">Задание ${q.num} · ${q.tag==='read'?'Читательская грамотность':'Логика'}</div><div class="rq-text">${q.text}</div>${ansHtml}</div>`;
+  }).join('');
+  document.getElementById('review-modal').classList.add('on');
+}
+function closeReview(){document.getElementById('review-modal').classList.remove('on');}
+function reviewMode(){switchTab('questions',document.querySelectorAll('.tab')[1]);showScreen('sc-quiz');}
+</script>
+</body>
+</html>
