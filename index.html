@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Эрудиция · 7 класс · Новые варианты · Школа ЦПМ</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Mulish:wght@400;600;700;800&display=swap');
+:root{--or:#F5A623;--orl:#FEF3DC;--dk:#1A1A2E;--dk2:#16213E;--grn:#27AE60;--red:#E74C3C;--blu:#3498DB;--txt:#1C1C2E;--gray:#7A7A8C;--brd:#E8E8F0;--bg:#F7F7FC;--wh:#fff;--logic:#8E44AD;--logic-l:#F5EEF8;--read:#1A6E9E;--read-l:#EBF5FB;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Mulish',sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;}
+.screen{display:none;}.screen.active{display:block;}
+#sc-results.active,#sc-saved.active{display:flex;}
+#sc-landing{min-height:100vh;background:var(--dk);position:relative;overflow:hidden;}
+.land-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 15% 50%,rgba(245,166,35,.18) 0%,transparent 55%),radial-gradient(ellipse at 85% 20%,rgba(52,152,219,.12) 0%,transparent 50%),radial-gradient(ellipse at 60% 80%,rgba(142,68,173,.1) 0%,transparent 45%);}
+.land-inner{position:relative;z-index:1;max-width:780px;margin:0 auto;padding:52px 24px 48px;}
+.badge{display:inline-flex;align-items:center;gap:8px;background:rgba(245,166,35,.15);border:1px solid rgba(245,166,35,.3);border-radius:24px;padding:6px 16px;font-size:11px;font-weight:700;letter-spacing:2px;color:var(--or);text-transform:uppercase;margin-bottom:28px;}
+.land-title{font-family:'Unbounded',sans-serif;font-size:clamp(26px,5vw,48px);font-weight:900;color:#fff;line-height:1.12;margin-bottom:12px;}
+.land-title em{color:var(--or);font-style:normal;}
+.land-sub{font-size:15px;color:rgba(255,255,255,.5);margin-bottom:12px;line-height:1.7;}
+.land-tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:40px;}
+.land-tag{padding:5px 12px;border-radius:20px;font-size:12px;font-weight:700;}
+.tag-r{background:rgba(26,110,158,.3);color:#74C0E8;border:1px solid rgba(116,192,232,.3);}
+.tag-l{background:rgba(142,68,173,.3);color:#C39BD3;border:1px solid rgba(195,155,211,.3);}
+.tag-t{background:rgba(245,166,35,.15);color:var(--or);border:1px solid rgba(245,166,35,.3);}
+.vcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-bottom:28px;}
+.vcard{background:rgba(255,255,255,.04);border:1.5px solid rgba(255,255,255,.1);border-radius:18px;padding:22px 16px 18px;cursor:pointer;transition:all .25s;text-align:center;}
+.vcard:hover{border-color:var(--or);transform:translateY(-3px);box-shadow:0 14px 36px rgba(245,166,35,.18);}
+.vn{font-family:'Unbounded',sans-serif;font-size:36px;font-weight:900;color:var(--or);line-height:1;margin-bottom:8px;}
+.vcard-labels{display:flex;flex-direction:column;gap:4px;margin-bottom:14px;}
+.vlbl{font-size:11px;font-weight:700;padding:3px 8px;border-radius:8px;display:inline-block;}
+.vlr{background:rgba(26,110,158,.25);color:#74C0E8;}.vll{background:rgba(142,68,173,.25);color:#C39BD3;}
+.vcta{display:inline-block;background:var(--or);color:var(--dk);font-weight:800;font-size:12px;padding:7px 18px;border-radius:18px;}
+.vcard:hover .vcta{background:#ffba42;}
+.saved-btn-wrap{text-align:center;margin-bottom:12px;}
+.btn-sv-open{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.6);font-family:'Mulish',sans-serif;font-size:13px;font-weight:600;padding:9px 22px;border-radius:20px;cursor:pointer;}
+.land-note{font-size:12px;color:rgba(255,255,255,.25);line-height:1.7;text-align:center;}
+.qhdr{background:var(--dk);padding:12px 20px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:200;border-bottom:1px solid rgba(255,255,255,.06);}
+.back-btn{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.08);border:none;color:#fff;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.back-btn:hover{background:rgba(255,255,255,.18);}
+.qhdr-info{flex:1;min-width:0;}
+.qhdr-title{font-family:'Unbounded',sans-serif;font-size:11px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.qhdr-sub{font-size:10px;color:var(--or);margin-top:2px;}
+.t-ring{position:relative;width:42px;height:42px;flex-shrink:0;}
+.t-ring svg{position:absolute;top:0;left:0;}
+.t-ring-txt{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.t-min{font-family:'Unbounded',sans-serif;font-size:10px;font-weight:900;color:#fff;line-height:1;}
+.t-sec{font-size:8px;color:rgba(255,255,255,.4);line-height:1;margin-top:1px;}
+@keyframes tpulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+.qhdr-prog{flex-shrink:0;text-align:right;}
+.prog-track{width:80px;height:5px;background:rgba(255,255,255,.12);border-radius:3px;overflow:hidden;}
+.prog-fill{height:100%;background:var(--or);border-radius:3px;transition:width .4s;}
+.prog-lbl{font-size:9px;color:rgba(255,255,255,.35);margin-top:3px;text-align:right;}
+.to-overlay{position:fixed;inset:0;background:rgba(26,26,46,.93);z-index:999;display:none;align-items:center;justify-content:center;}
+.to-overlay.on{display:flex;}
+.to-box{background:var(--dk2);border:2px solid var(--red);border-radius:22px;padding:36px 32px;text-align:center;max-width:340px;width:90%;}
+.to-icon{font-size:44px;margin-bottom:14px;}
+.to-title{font-family:'Unbounded',sans-serif;font-size:18px;font-weight:900;color:#fff;margin-bottom:8px;}
+.to-sub{font-size:13px;color:rgba(255,255,255,.5);margin-bottom:20px;line-height:1.6;}
+.to-btn{width:100%;padding:11px;border-radius:20px;background:var(--or);color:var(--dk);font-family:'Mulish',sans-serif;font-weight:800;font-size:14px;border:none;cursor:pointer;}
+.tabs{display:flex;gap:8px;padding:16px 20px 0;flex-wrap:wrap;background:var(--wh);border-bottom:1px solid var(--brd);}
+.tab{padding:7px 16px;border-radius:18px 18px 0 0;border:1.5px solid var(--brd);border-bottom:none;background:var(--bg);color:var(--gray);font-family:'Mulish',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;}
+.tab.on{background:var(--or);color:var(--dk);border-color:var(--or);}
+.qbody{max-width:840px;margin:0 auto;padding:20px 20px 90px;}
+.panel{display:none;}.panel.on{display:block;}
+.sec-divider{display:flex;align-items:center;gap:12px;margin:24px 0 16px;}
+.sec-divider-line{flex:1;height:1px;background:var(--brd);}
+.sec-divider-badge{padding:5px 14px;border-radius:20px;font-size:11px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;}
+.sdb-r{background:var(--read-l);color:var(--read);}
+.sdb-l{background:var(--logic-l);color:var(--logic);}
+.txt-block{background:var(--wh);border-radius:14px;border:1px solid var(--brd);margin-bottom:14px;overflow:hidden;}
+.txt-hdr{background:var(--dk);padding:11px 18px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;}
+.txt-hdr-lbl{font-family:'Unbounded',sans-serif;font-size:10px;font-weight:700;color:var(--or);letter-spacing:.5px;}
+.txt-hdr-ic{color:var(--or);font-size:12px;}
+.txt-body{padding:18px 20px;font-size:14px;line-height:1.85;color:var(--txt);display:none;text-align:justify;}
+.txt-body.open{display:block;}
+.txt-body p{margin-bottom:10px;}.txt-body p:last-child{margin-bottom:0;}
+.txt-body strong{color:var(--dk);}
+.txt-body ul{margin:8px 0 8px 20px;}.txt-body li{margin-bottom:5px;}
+.qcard{background:var(--wh);border-radius:14px;border:1.5px solid var(--brd);padding:20px;margin-bottom:14px;}
+.qcard.ok{border-color:var(--grn);background:#f0faf5;}
+.qcard.bad{border-color:var(--red);background:#fff5f5;}
+.qcard.open-done{border-color:var(--blu);background:#f0f7ff;}
+.qtop{display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;}
+.qnum{min-width:30px;height:30px;background:var(--dk);color:var(--or);font-family:'Unbounded',sans-serif;font-size:10px;font-weight:700;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.qmeta{flex:1;}
+.qtag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:2px 8px;border-radius:8px;border:1px solid var(--brd);color:var(--gray);background:var(--bg);margin-bottom:5px;}
+.qtag.read{color:var(--read);background:var(--read-l);border-color:rgba(26,110,158,.2);}
+.qtag.logic{color:var(--logic);background:var(--logic-l);border-color:rgba(142,68,173,.2);}
+.qtext{font-size:14px;font-weight:600;line-height:1.5;color:var(--txt);}
+.opts{list-style:none;margin-top:10px;}
+.opt{display:flex;align-items:flex-start;gap:9px;padding:9px 13px;border-radius:9px;border:1.5px solid var(--brd);margin-bottom:6px;cursor:pointer;transition:all .15s;font-size:14px;line-height:1.4;}
+.opt:hover{border-color:var(--or);background:var(--orl);}
+.opt.sel{border-color:var(--or);background:var(--orl);}
+.opt.ok{border-color:var(--grn);background:#e8f8f0;}
+.opt.bad{border-color:var(--red);background:#fde8e8;}
+.odot{width:18px;height:18px;border-radius:50%;border:2px solid var(--brd);flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;transition:all .15s;}
+.opt.sel .odot{border-color:var(--or);background:var(--or);color:#fff;}
+.opt.ok .odot{border-color:var(--grn);background:var(--grn);color:#fff;}
+.opt.bad .odot{border-color:var(--red);background:var(--red);color:#fff;}
+.match-wrap{margin-top:10px;}
+.match-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap;}
+.match-lbl{flex:1;min-width:150px;font-size:13px;padding:8px 12px;background:var(--bg);border-radius:8px;border:1px solid var(--brd);font-weight:600;}
+.match-arr{color:var(--gray);font-size:14px;flex-shrink:0;}
+.match-sel{flex:1.2;min-width:150px;padding:8px 10px;border-radius:8px;border:1.5px solid var(--brd);font-family:'Mulish',sans-serif;font-size:13px;color:var(--txt);background:var(--wh);cursor:pointer;transition:border .2s;}
+.match-sel:focus{outline:none;border-color:var(--or);}
+.match-sel.ok{border-color:var(--grn);background:#e8f8f0;}
+.match-sel.bad{border-color:var(--red);background:#fde8e8;}
+.mmatch-block{margin-bottom:14px;}
+.mmatch-key{font-size:13px;font-weight:700;color:var(--dk);margin-bottom:6px;padding:6px 12px;background:var(--read-l);border-radius:8px;}
+.mmatch-opts{display:flex;flex-wrap:wrap;gap:6px;}
+.mmatch-opt{display:flex;align-items:center;gap:5px;padding:5px 12px;border-radius:8px;border:1.5px solid var(--brd);cursor:pointer;font-size:13px;transition:all .15s;background:var(--wh);}
+.mmatch-opt:hover{border-color:var(--or);background:var(--orl);}
+.mmatch-opt.sel{border-color:var(--or);background:var(--orl);}
+.mmatch-opt.ok{border-color:var(--grn);background:#e8f8f0;}
+.mmatch-opt.bad{border-color:var(--red);background:#fde8e8;}
+.mmatch-cb{width:14px;height:14px;border-radius:4px;border:2px solid var(--brd);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0;}
+.mmatch-opt.sel .mmatch-cb{border-color:var(--or);background:var(--or);color:#fff;}
+.mmatch-opt.ok .mmatch-cb{border-color:var(--grn);background:var(--grn);color:#fff;}
+.mmatch-opt.bad .mmatch-cb{border-color:var(--red);background:var(--red);color:#fff;}
+.open-in{width:100%;margin-top:10px;padding:11px 14px;border-radius:9px;border:1.5px solid var(--brd);font-family:'Mulish',sans-serif;font-size:14px;color:var(--txt);resize:vertical;min-height:90px;transition:border .2s;}
+.open-in:focus{outline:none;border-color:var(--or);}
+.rule-banner{display:flex;align-items:flex-start;gap:8px;background:var(--logic-l);border:1px solid rgba(142,68,173,.25);border-radius:9px;padding:9px 13px;margin-bottom:10px;font-size:13px;color:var(--logic);font-weight:600;line-height:1.5;}
+.qactions{margin-top:12px;}
+.btn-chk{padding:8px 20px;border-radius:18px;background:var(--dk);color:#fff;font-family:'Mulish',sans-serif;font-weight:700;font-size:12px;border:none;cursor:pointer;transition:background .2s;}
+.btn-chk:hover{background:#2d2d50;}
+.reveal{margin-top:10px;padding:11px 14px;border-radius:9px;font-size:13px;line-height:1.6;display:none;}
+.reveal.on{display:block;}
+.reveal.auto{background:#eef9f3;border-left:3px solid var(--grn);}
+.reveal.open-r{background:#edf5ff;border-left:3px solid var(--blu);}
+.reveal strong{color:var(--grn);}
+.reveal.open-r strong{color:var(--blu);}
+.fin-bar{position:fixed;bottom:0;left:0;right:0;background:var(--wh);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:14px;box-shadow:0 -4px 20px rgba(0,0,0,.1);z-index:300;}
+.fin-info{font-size:13px;color:var(--gray);}
+.fin-info strong{color:var(--dk);}
+.btn-fin{padding:10px 22px;border-radius:20px;background:var(--or);color:var(--dk);font-family:'Mulish',sans-serif;font-weight:800;font-size:13px;border:none;cursor:pointer;}
+.btn-fin:hover{background:#ffba42;}
+#sc-results{min-height:100vh;background:var(--dk);align-items:flex-start;justify-content:center;padding:40px 16px;}
+.res-card{max-width:520px;width:100%;text-align:center;}
+.res-ring{width:140px;height:140px;margin:0 auto 20px;border-radius:50%;border:5px solid rgba(255,255,255,.07);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;}
+.res-ring svg{position:absolute;top:-5px;left:-5px;}
+.res-pts{font-family:'Unbounded',sans-serif;font-size:36px;font-weight:900;color:var(--or);line-height:1;z-index:1;}
+.res-max{font-size:12px;color:rgba(255,255,255,.4);z-index:1;margin-top:2px;}
+.res-title{font-family:'Unbounded',sans-serif;font-size:20px;font-weight:900;color:#fff;margin-bottom:8px;}
+.res-sub{font-size:13px;color:rgba(255,255,255,.45);margin-bottom:24px;}
+.res-board{background:rgba(255,255,255,.05);border-radius:14px;padding:18px;margin-bottom:22px;text-align:left;}
+.res-row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:13px;}
+.res-row:last-child{border:none;}
+.rl{color:rgba(255,255,255,.5);}
+.rv{font-weight:700;}
+.rv.ok{color:var(--grn);}.rv.so{color:#E67E22;}.rv.bad{color:var(--red);}
+.res-btns{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+.btn-primary{padding:11px 26px;border-radius:22px;background:var(--or);color:var(--dk);font-family:'Mulish',sans-serif;font-weight:800;font-size:13px;border:none;cursor:pointer;}
+.btn-primary:hover{background:#ffba42;}
+.btn-sec{padding:11px 26px;border-radius:22px;background:rgba(255,255,255,.08);color:#fff;font-family:'Mulish',sans-serif;font-weight:700;font-size:13px;border:1.5px solid rgba(255,255,255,.15);cursor:pointer;}
+.btn-save{padding:11px 26px;border-radius:22px;background:var(--grn);color:#fff;font-family:'Mulish',sans-serif;font-weight:800;font-size:13px;border:none;cursor:pointer;}
+.save-status{font-size:12px;color:rgba(255,255,255,.4);margin-top:10px;}
+#sc-saved{min-height:100vh;background:var(--dk);align-items:flex-start;justify-content:center;padding:40px 16px;}
+.saved-wrap{max-width:600px;width:100%;}
+.saved-title{font-family:'Unbounded',sans-serif;font-size:18px;font-weight:900;color:#fff;margin-bottom:6px;text-align:center;}
+.saved-sub{font-size:13px;color:rgba(255,255,255,.4);text-align:center;margin-bottom:24px;}
+.saved-empty{text-align:center;padding:40px 20px;color:rgba(255,255,255,.3);font-size:14px;}
+.saved-item{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:16px 18px;margin-bottom:12px;cursor:pointer;transition:all .2s;}
+.saved-item:hover{border-color:rgba(245,166,35,.4);}
+.si-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+.si-vnum{font-family:'Unbounded',sans-serif;font-size:12px;font-weight:700;color:var(--or);}
+.si-date{font-size:11px;color:rgba(255,255,255,.35);}
+.si-score{font-size:15px;font-weight:800;color:#fff;}
+.si-score span{color:var(--or);}
+.si-meta{font-size:11px;color:rgba(255,255,255,.35);margin-top:4px;}
+.si-del{float:right;background:rgba(231,76,60,.15);border:none;color:var(--red);font-size:11px;font-weight:700;padding:4px 10px;border-radius:8px;cursor:pointer;margin-left:8px;}
+.btn-back-land{display:block;margin:20px auto 0;padding:10px 24px;border-radius:20px;background:rgba(255,255,255,.08);color:#fff;font-family:'Mulish',sans-serif;font-weight:700;font-size:13px;border:1.5px solid rgba(255,255,255,.15);cursor:pointer;width:fit-content;}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:500;display:none;align-items:flex-start;justify-content:center;padding:30px 16px;overflow-y:auto;}
+.modal-overlay.on{display:flex;}
+.modal-box{background:var(--wh);border-radius:18px;max-width:660px;width:100%;padding:24px;position:relative;}
+.modal-close{position:absolute;top:14px;right:14px;background:var(--bg);border:none;width:30px;height:30px;border-radius:50%;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--gray);}
+.modal-title{font-family:'Unbounded',sans-serif;font-size:14px;font-weight:700;color:var(--dk);margin-bottom:18px;}
+.review-q{padding:12px 0;border-bottom:1px solid var(--brd);}
+.review-q:last-child{border:none;}
+.rq-num{font-size:11px;font-weight:800;color:var(--gray);margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px;}
+.rq-text{font-size:13px;font-weight:600;color:var(--dk);margin-bottom:6px;line-height:1.4;}
+.rq-ans{font-size:13px;padding:6px 10px;border-radius:7px;line-height:1.4;}
+.rq-ans.ok-a{background:#e8f8f0;color:var(--grn);}
+.rq-ans.bad-a{background:#fde8e8;color:var(--red);}
+.rq-ans.open-a{background:#edf5ff;color:var(--blu);}
+.rq-correct{font-size:12px;color:var(--gray);margin-top:4px;}
+@media(max-width:600px){.land-inner,.qbody{padding-left:14px;padding-right:14px;}.vcards{grid-template-columns:1fr 1fr;}.qbody{padding-bottom:100px;}}
+</style>
+</head>
+<body>
+
+<div id="sc-landing" class="screen active">
+  <div class="land-bg"></div>
+  <div class="land-inner">
+    <div class="badge">Школа ЦПМ · 7 класс · Новые варианты</div>
+    <h1 class="land-title">Общая<br><em>эрудиция</em></h1>
+    <p class="land-sub">Читательская грамотность и логика · Тренировочные варианты</p>
+    <div class="land-tags">
+      <span class="land-tag tag-r">📖 Читательская грамотность</span>
+      <span class="land-tag tag-l">🧩 Логика</span>
+      <span class="land-tag tag-t">⏱ 45 минут</span>
+    </div>
+    <div class="vcards" id="vcard-list"></div>
+    <div class="saved-btn-wrap">
+      <button class="btn-sv-open" onclick="showSaved()">📋 Сохранённые результаты</button>
+    </div>
+    <p class="land-note">7 заданий по читательской грамотности + 2 логические задачи.<br>Логические задачи проверяются с учителем после завершения варианта.</p>
+  </div>
+</div>
+
+<div id="sc-quiz" class="screen">
+  <div class="qhdr">
+    <button class="back-btn" onclick="confirmBack()">←</button>
+    <div class="qhdr-info">
+      <div class="qhdr-title" id="hdr-title">Вариант 1</div>
+      <div class="qhdr-sub" id="hdr-sub">Космос · Музыка и искусство</div>
+    </div>
+    <div class="t-ring">
+      <svg width="42" height="42" viewBox="0 0 42 42">
+        <circle cx="21" cy="21" r="17" fill="none" stroke="rgba(255,255,255,.1)" stroke-width="3"/>
+        <circle id="t-arc" cx="21" cy="21" r="17" fill="none" stroke="#F5A623" stroke-width="3" stroke-linecap="round" stroke-dasharray="107" stroke-dashoffset="0" transform="rotate(-90 21 21)" style="transition:stroke-dashoffset .9s linear,stroke .4s;"/>
+      </svg>
+      <div class="t-ring-txt"><div class="t-min" id="t-min">45</div><div class="t-sec" id="t-sec">:00</div></div>
+    </div>
+    <div class="qhdr-prog">
+      <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+      <div class="prog-lbl" id="prog-lbl">0 / 9</div>
+    </div>
+  </div>
+  <div class="to-overlay" id="to-overlay">
+    <div class="to-box">
+      <div class="to-icon">⏰</div>
+      <div class="to-title">Время вышло!</div>
+      <div class="to-sub">45 минут истекли. Переходим к результату.</div>
+      <button class="to-btn" onclick="onTimeUp()">Посмотреть результат →</button>
+    </div>
+  </div>
+  <div class="tabs">
+    <button class="tab on" onclick="switchTab('texts',this)">📖 Тексты</button>
+    <button class="tab" onclick="switchTab('questions',this)">✏️ Задания</button>
+  </div>
+  <div class="qbody">
+    <div class="panel on" id="panel-texts"></div>
+    <div class="panel" id="panel-questions"></div>
+  </div>
+  <div class="fin-bar">
+    <div class="fin-info">Отвечено: <strong id="ans-cnt">0</strong> из <strong id="ans-tot">9</strong></div>
+    <button class="btn-fin" onclick="finishQuiz()">Завершить →</button>
+  </div>
+</div>
+
+<div id="sc-results" class="screen">
+  <div class="res-card">
+    <div class="res-ring">
+      <svg width="150" height="150" viewBox="0 0 150 150">
+        <circle cx="75" cy="75" r="68" fill="none" stroke="rgba(255,255,255,.07)" stroke-width="5"/>
+        <circle id="res-arc" cx="75" cy="75" r="68" fill="none" stroke="#F5A623" stroke-width="5" stroke-linecap="round" stroke-dasharray="427" stroke-dashoffset="427" transform="rotate(-90 75 75)" style="transition:stroke-dashoffset 1s ease;"/>
+      </svg>
+      <div class="res-pts" id="res-pts">0</div>
+      <div class="res-max" id="res-max">из 7</div>
+    </div>
+    <div class="res-title" id="res-title">Результат</div>
+    <div class="res-sub" id="res-sub"></div>
+    <div class="res-board" id="res-board"></div>
+    <div class="res-btns">
+      <button class="btn-save" onclick="saveResult()">💾 Сохранить результат</button>
+      <button class="btn-primary" onclick="reviewMode()">Разбор ответов</button>
+      <button class="btn-sec" onclick="goHome()">← На главную</button>
+    </div>
+    <div class="save-status" id="save-status"></div>
+  </div>
+</div>
+
+<div id="sc-saved" class="screen">
+  <div class="saved-wrap">
+    <div class="saved-title">📋 Сохранённые результаты</div>
+    <div class="saved-sub">Нажми на запись для разбора ответов</div>
+    <div id="saved-list"></div>
+    <button class="btn-back-land" onclick="showScreen('sc-landing')">← Назад</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="review-modal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeReview()">✕</button>
+    <div class="modal-title" id="review-title">Разбор ответов</div>
+    <div id="review-body"></div>
+  </div>
+</div>
+
+<script>
+const VARIANTS=[
+// ══ ВАРИАНТ 1: Космос и планеты · Музыка и искусство ══
+{id:1,label:'Вариант 1',topics:'Космос и планеты · Музыка и искусство',
+texts:[
+{title:'Текст 1. Солнечная система и её планеты',body:`<p>Солнечная система — это звёздная система, в центре которой находится Солнце, а вокруг него по орбитам движутся восемь больших планет, сотни тысяч малых тел — астероидов и комет, а также их спутники. Солнце — обычная звезда средних размеров, но в нашей системе оно содержит около 99,86% всей массы. Именно его гравитация удерживает все остальные тела на их орбитах.</p><p>Восемь планет принято делить на две группы. Планеты земной группы — Меркурий, Венера, Земля и Марс — небольшие, каменистые, расположены ближе к Солнцу. Планеты-гиганты — Юпитер, Сатурн, Уран и Нептун — огромные, преимущественно газовые (или ледяные для Урана и Нептуна), значительно удалённые от Солнца. Между орбитами Марса и Юпитера расположен пояс астероидов — скопление каменистых тел самых разных размеров, от мелких обломков до карликовых планет.</p><p>Особый интерес представляет вопрос о существовании жизни за пределами Земли. Учёные активно исследуют Марс на предмет следов прошлой жизни, а спутники Юпитера и Сатурна — Европу, Энцелад и Титан — считают перспективными кандидатами для поиска простейших организмов. Под ледяной поверхностью Европы скрывается огромный солёный океан, что делает её одним из самых интригующих объектов в Солнечной системе.</p>`},
+{title:'Текст 2. Исследование космоса',body:`<p>Освоение космоса началось в середине XX века и стало одним из величайших достижений человечества. 4 октября 1957 года Советский Союз запустил первый искусственный спутник Земли — «Спутник-1». Этот момент принято считать началом космической эры. Менее чем через четыре года, 12 апреля 1961 года, советский космонавт Юрий Гагарин стал первым человеком, совершившим орбитальный полёт вокруг Земли. С тех пор 12 апреля отмечается как День космонавтики.</p><p>В 1969 году американские астронавты Нил Армстронг и Базз Олдрин впервые высадились на Луне в рамках миссии «Аполлон-11». Нил Армстронг стал первым человеком, ступившим на поверхность другого небесного тела. С тех пор на Луне побывали ещё 10 астронавтов. Международная космическая станция (МКС), совместный проект России, США и других стран, с 2000 года непрерывно обитаема: на ней постоянно работают космонавты и астронавты из разных государств.</p><p>Современные космические миссии преследуют самые разные цели. Роботизированные зонды изучают планеты, астероиды и кометы. Телескопы — такие как «Хаббл» и запущенный в 2021 году «Джеймс Уэбб» — позволяют наблюдать галактики на расстоянии миллиардов световых лет. Спутники обеспечивают связь, навигацию и наблюдение за погодой на Земле. В ближайшем будущем планируется возвращение людей на Луну и первые пилотируемые миссии к Марсу.</p>`},
+{title:'Текст 3. Звёзды и созвездия',body:`<p>Звёзды — это гигантские плазменные шары, в недрах которых происходят термоядерные реакции: водород превращается в гелий с выделением колоссального количества энергии в виде света и тепла. Наше Солнце — типичная звезда средней яркости и размера класса «жёлтый карлик». Звёзды существенно различаются по размеру, температуре и яркости: есть красные гиганты, белые карлики, нейтронные звёзды и чёрные дыры.</p><p>Созвездия — это условные участки звёздного неба, в которых человек издревле видел очертания людей, животных или предметов и давал им имена. Сегодня астрономы выделяют 88 официальных созвездий. Самые известные в северном полушарии — Большая Медведица, Орион, Кассиопея, Лебедь. Важнейшим ориентиром для определения направления на север служит Полярная звезда — она расположена почти точно над Северным полюсом и практически не смещается на небосводе при вращении Земли.</p><p>Расстояния до звёзд настолько велики, что для их измерения используют особые единицы. Световой год — расстояние, которое свет проходит за один год: около 9,46 триллиона километров. Ближайшая к нам звезда (не считая Солнца) — Проксима Центавра, расположенная на расстоянии около 4,24 световых лет. Даже самый быстрый современный космический аппарат добирался бы до неё тысячи лет.</p>`},
+{title:'Текст 4. Музыкальные инструменты',body:`<p>Музыкальные инструменты — это приспособления для извлечения звуков определённой высоты и тембра. Их принято классифицировать по способу звукообразования. Струнные инструменты издают звук с помощью вибрирующих струн. Они делятся на смычковые (скрипка, виолончель, контрабас), щипковые (гитара, арфа, мандолина) и клавишно-струнные (фортепиано, клавесин). Духовые инструменты извлекают звук с помощью воздушного столба: деревянные духовые — это флейта, гобой, кларнет, фагот; медные — труба, тромбон, валторна, туба.</p><p>Ударные инструменты производят звук при ударе по мембране, пластине или корпусу. К ним относятся барабаны, литавры, ксилофон, маримба, тарелки и треугольник. В оркестре ударные задают ритм и создают динамику. Клавишные инструменты — фортепиано, орган, синтезатор — управляются с помощью клавиш и могут принадлежать к разным группам по способу звукообразования.</p><p>Симфонический оркестр объединяет все эти группы инструментов. Типичный большой оркестр насчитывает от 60 до 100 музыкантов. Струнная группа — самая многочисленная: она включает скрипки, альты, виолончели и контрабасы. Оркестром руководит дирижёр, который с помощью дирижёрской палочки и жестов задаёт темп, динамику и характер исполнения. Музыкальные инструменты разных народов мира отражают их культуру, историю и традиции.</p>`},
+{title:'Текст 5. Изобразительное искусство',body:`<p>Изобразительное искусство — это вид художественного творчества, создающий визуальные образы на плоскости или в пространстве. К нему относятся живопись, скульптура, графика, декоративно-прикладное искусство и фотография. На протяжении тысячелетий изобразительное искусство было главным способом фиксации образов окружающего мира, исторических событий и внутренних переживаний человека.</p><p>Живопись — создание образов с помощью красок на холсте, бумаге, дереве или других поверхностях. Известнейшие художники мира — Леонардо да Винчи, Микеланджело, Рафаэль, Рембрандт, Ван Гог, Пикассо — создали произведения, ставшие частью мирового культурного наследия. Каждая эпоха порождала свои художественные стили: Возрождение, барокко, классицизм, романтизм, импрессионизм, абстракционизм. Скульптура создаёт трёхмерные образы из камня, металла, дерева, глины или других материалов. Графика включает рисунок, гравюру, иллюстрацию.</p><p>В России изобразительное искусство имеет богатую историю. Передвижники — художники второй половины XIX века — отказались от академических канонов и стали изображать реальную жизнь простых людей и природу России. Среди них — Илья Репин, Василий Суриков, Исаак Левитан, Иван Шишкин. Их картины хранятся в крупнейших музеях страны, прежде всего в Третьяковской галерее в Москве.</p>`}
+],
+questions:[
+{num:1,type:'single',tag:'read',text:'На сколько групп делятся планеты Солнечной системы и как они называются?',opts:['1) На три группы: земные, гигантские и карликовые.','2) На две группы: планеты земной группы и планеты-гиганты.','3) На две группы: внутренние и внешние, по расположению от центра.','4) На четыре группы: каменистые, газовые, ледяные и смешанные.'],correct:1,answer:'2 — На две группы: планеты земной группы (Меркурий, Венера, Земля, Марс) и планеты-гиганты (Юпитер, Сатурн, Уран, Нептун).'},
+{num:2,type:'match',tag:'read',text:'Соотнесите дату и событие в истории освоения космоса.',keys:['А. 4 октября 1957 г.','Б. 12 апреля 1961 г.','В. 1969 г.'],vals:['1. Первый орбитальный полёт человека вокруг Земли','2. Первая высадка людей на Луне','3. Запуск первого искусственного спутника Земли'],correct:['3','1','2'],answer:'А–3 (запуск «Спутника-1»), Б–1 (полёт Гагарина), В–2 (высадка на Луну).'},
+{num:3,type:'single',tag:'read',text:'Выберите ВЕРНОЕ утверждение.',opts:['1) Полярная звезда указывает на юг.','2) Созвездий на небе официально насчитывается 88.','3) Световой год — это единица времени.','4) Ближайшая к нам звезда — Сириус.'],correct:1,answer:'2 — Официально астрономы выделяют 88 созвездий. Полярная звезда указывает на север, световой год — единица расстояния, ближайшая звезда — Проксима Центавра.'},
+{num:4,type:'single',tag:'read',text:'Выберите НЕВЕРНОЕ утверждение.',opts:['1) Солнце содержит около 99,86% массы Солнечной системы.','2) МКС непрерывно обитаема с 2000 года.','3) Нейл Армстронг был вторым человеком на Луне.','4) Телескоп «Джеймс Уэбб» был запущен в 2021 году.'],correct:2,answer:'3 — НЕВЕРНОЕ: Нил Армстронг был ПЕРВЫМ человеком на Луне. Второй — Базз Олдрин.'},
+{num:5,type:'match',tag:'read',text:'Соотнесите группу музыкальных инструментов и её представителя.',keys:['А. Смычковые струнные','Б. Деревянные духовые','В. Ударные'],vals:['1. Барабан','2. Флейта','3. Скрипка'],correct:['3','2','1'],answer:'А–3 (скрипка — смычковый), Б–2 (флейта — деревянный духовой), В–1 (барабан — ударный).'},
+{num:6,type:'single',tag:'read',text:'Как называлось объединение русских художников второй половины XIX века, изображавших реальную жизнь?',opts:['1) Авангардисты','2) Импрессионисты','3) Передвижники','4) Академисты'],correct:2,answer:'3 — Передвижники — художники, отказавшиеся от академических канонов и изображавшие реальную жизнь простых людей. Репин, Суриков, Левитан, Шишкин.'},
+{num:7,type:'single',tag:'read',text:'Выберите ВЕРНОЕ утверждение.',opts:['1) Симфонический оркестр состоит исключительно из струнных инструментов.','2) Живопись относится к изобразительному искусству.','3) Фортепиано относится к духовым инструментам.','4) Дирижёр управляет оркестром с помощью флейты.'],correct:1,answer:'2 — Живопись относится к изобразительному искусству. Фортепиано — клавишно-струнный, оркестр включает все группы инструментов, дирижёр управляет палочкой.'},
+{num:8,type:'open',tag:'logic',text:'Пять учеников музыкальной школы — Алина, Борис, Вера, Гриша и Даша — играют на разных инструментах: скрипке, фортепиано, флейте, гитаре и барабанах. Известно:\n• Алина и Борис не играют на ударных инструментах.\n• Вера занимается в классе смычковых инструментов (скрипка).\n• Гриша не играет на фортепиано и не на флейте.\n• Даша занимается на инструменте, который стоит в классном кабинете (фортепиано).\n• Борис не играет на гитаре.\n\nКто на каком инструменте играет?',answer:'Даша → фортепиано (стоит в классе, п.4). Вера → скрипка (смычковый, п.2). Борис: не ударные, не гитара → скрипка (занята) или флейта → Борис — флейта. Гриша: не фортепиано (Даша), не флейта (Борис), не скрипка (Вера) → гитара или барабаны. Алина: не ударные → не барабаны → Алина — гитара. Гриша → барабаны.\n\n✅ Алина — гитара, Борис — флейта, Вера — скрипка, Гриша — барабаны, Даша — фортепиано.'},
+{num:9,type:'open',tag:'logic',rule:true,text:'На острове рыцарей и лжецов живут трое: Игорь, Женя и Зина.\n• Игорь сказал: «Женя — лжец».\n• Женя сказал: «Зина — рыцарь».\n• Зина сказала: «Игорь и Женя — оба лжецы».\n\nОпределите, кем является каждый из них.',answer:'Случай А: Игорь — рыцарь → Женя — лжец → «Зина — рыцарь» ложь → Зина — лжец. Зина-лжец → «Игорь и Женя оба лжецы» ложь → не оба лжецы. Игорь-рыцарь, Женя-лжец → не оба лжецы ✓ СОГЛАСОВАННО.\n\nСлучай Б: Игорь — лжец → «Женя — лжец» ложь → Женя — рыцарь. Женя-рыцарь → «Зина — рыцарь» правда → Зина — рыцарь. Зина-рыцарь → «Игорь и Женя оба лжецы» правда → оба лжецы. Но Женя — рыцарь → ПРОТИВОРЕЧИЕ.\n\n✅ Единственное решение: Игорь — рыцарь, Женя — лжец, Зина — лжец.'}
+]},
+// ══ ВАРИАНТ 2: Биология клетки · Спорт и олимпиады ══
+{id:2,label:'Вариант 2',topics:'Биология клетки · Спорт и Олимпиады',
+texts:[
+{title:'Текст 1. Клетка — основа жизни',body:`<p>Клетка — это наименьшая структурная и функциональная единица всех живых организмов. Каждая живая клетка способна выполнять все основные функции жизни: питаться, расти, размножаться, реагировать на изменения окружающей среды и выделять продукты обмена веществ. Живые организмы бывают одноклеточными — например, амёбы, бактерии, инфузории — и многоклеточными, к которым относимся и мы с вами.</p><p>В клетке можно выделить несколько основных частей. Клеточная мембрана — тонкая гибкая оболочка — отделяет клетку от окружающей среды и регулирует поступление веществ. Цитоплазма — вязкое полужидкое вещество, заполняющее клетку, в котором находятся все органоиды. Ядро — командный центр клетки, содержащий ДНК с генетической информацией, необходимой для построения всех белков и управления жизнедеятельностью клетки.</p><p>Важнейшие органоиды клетки: митохондрии — «энергетические станции», обеспечивающие клетку энергией путём клеточного дыхания; рибосомы — места синтеза белков; хлоропласты (у растений) — органоиды, в которых происходит фотосинтез. У растительных клеток в отличие от животных есть жёсткая клеточная стенка из целлюлозы, вакуоли с клеточным соком и хлоропласты.</p>`},
+{title:'Текст 2. ДНК и наследственность',body:`<p>ДНК (дезоксирибонуклеиновая кислота) — это молекула, в которой закодирована вся наследственная информация живого организма. ДНК имеет форму двойной спирали — две цепочки нуклеотидов, закрученные вокруг общей оси. Каждый нуклеотид содержит одно из четырёх азотистых оснований: аденин (A), тимин (T), гуанин (G) или цитозин (C). Последовательность этих оснований — своего рода «алфавит», которым записан генетический код.</p><p>Гены — это участки ДНК, каждый из которых содержит инструкцию для синтеза определённого белка или регуляции какого-либо процесса в организме. Совокупность всех генов организма называется геномом. Геном человека содержит около 3 миллиардов пар нуклеотидов и около 20–25 тысяч генов. Расшифровка генома человека была завершена в 2003 году в рамках международного проекта «Геном человека» — одного из крупнейших достижений биологии XX века.</p><p>Наследственность — это способность организма передавать свои признаки потомкам. Именно ДНК обеспечивает эту передачу: при делении клетки ДНК копируется, и каждая дочерняя клетка получает полный набор генетической информации. Мутации — случайные изменения в последовательности нуклеотидов — могут приводить как к безвредным вариациям, так и к серьёзным болезням. Изучение генетики открывает огромные перспективы для медицины, сельского хозяйства и биотехнологий.</p>`},
+{title:'Текст 3. Микроорганизмы вокруг нас',body:`<p>Микроорганизмы — это живые существа, которые невозможно увидеть невооружённым глазом. К ним относятся бактерии, вирусы, грибки и простейшие. Они населяют буквально все уголки нашей планеты: воздух, воду, почву, глубоководные впадины, горячие источники и даже наш собственный организм. Число бактерий в кишечнике одного человека превышает число клеток его тела.</p><p>Большинство микроорганизмов совершенно безвредны или даже полезны. Бактерии разлагают органические вещества, возвращая питательные элементы в почву. Молочнокислые бактерии используются при производстве йогурта, кефира и сыра. Бактерии кишечника помогают переваривать пищу и синтезируют некоторые витамины. Без микроорганизмов нормальное существование экосистем было бы невозможным.</p><p>Однако некоторые микроорганизмы вызывают болезни — их называют патогенными. Бактериальные инфекции (туберкулёз, холера, пневмония) лечатся антибиотиками — веществами, подавляющими жизнедеятельность бактерий. Вирусные инфекции (грипп, COVID-19, корь) антибиотикам не поддаются: против них используются противовирусные препараты и вакцины. Главная защита от инфекций — иммунитет и соблюдение правил гигиены.</p>`},
+{title:'Текст 4. История Олимпийских игр',body:`<p>Олимпийские игры — крупнейшее международное спортивное соревнование, проводимое раз в четыре года. История Олимпийских игр уходит корнями в Древнюю Грецию: первые Олимпийские игры состоялись в 776 году до нашей эры в Олимпии. Они проводились в честь верховного бога Зевса и включали бег, прыжки, метание диска и копья, борьбу и кулачный бой. На время игр объявлялось священное перемирие — экехейрия — и все войны прекращались.</p><p>В 394 году нашей эры римский император Феодосий I запретил Олимпийские игры как языческий обряд. Возрождение Олимпийских игр в современном виде произошло в 1896 году по инициативе французского барона Пьера де Кубертена. Первые современные Олимпийские игры прошли в Афинах и собрали спортсменов из 14 стран. С тех пор Игры проводятся непрерывно, за исключением 1916, 1940 и 1944 годов — они были отменены из-за Первой и Второй мировых войн.</p><p>Символика Олимпийских игр хорошо узнаваема во всём мире. Олимпийский флаг — пять переплетённых колец разных цветов (синего, жёлтого, чёрного, зелёного и красного) на белом фоне — символизируют единство пяти континентов. Олимпийский огонь зажигается в Олимпии и эстафетой доносится до места проведения Игр. Девиз Олимпийских игр: «Быстрее, выше, сильнее — вместе» (лат. Citius, Altius, Fortius — Communiter).</p>`},
+{title:'Текст 5. Спорт и здоровье',body:`<p>Регулярные физические нагрузки — один из важнейших факторов здоровья и долголетия. Медицинские исследования убедительно показывают, что люди, занимающиеся спортом хотя бы 150–300 минут в неделю, значительно реже страдают от сердечно-сосудистых заболеваний, диабета, ожирения, депрессии и многих других болезней. При физической нагрузке в мозге выделяются эндорфины — гормоны радости, которые улучшают настроение и снижают стресс.</p><p>Виды спорта принято делить по различным признакам. Индивидуальные виды — плавание, лёгкая атлетика, гимнастика, теннис — человек выступает один. Командные виды — футбол, баскетбол, волейбол, хоккей — требуют слаженной работы коллектива. По двигательной активности спорт делится на циклические виды (бег, плавание, велоспорт, где движения повторяются), ациклические (гимнастика, борьба, единоборства) и игровые.</p><p>Россия — одна из ведущих спортивных держав мира. Отечественные спортсмены традиционно сильны в художественной и спортивной гимнастике, фигурном катании, борьбе, тяжёлой атлетике, дзюдо и командных видах спорта. Особую гордость вызывают победы на зимних Олимпийских играх: в лыжных гонках, биатлоне, хоккее и фигурном катании наши атлеты исторически входят в число сильнейших в мире.</p>`}
+],
+questions:[
+{num:1,type:'single',tag:'read',text:'Что является «командным центром» клетки, содержащим ДНК?',opts:['1) Митохондрия','2) Рибосома','3) Ядро','4) Клеточная мембрана'],correct:2,answer:'3 — Ядро является командным центром клетки и содержит ДНК с генетической информацией.'},
+{num:2,type:'match',tag:'read',text:'Соотнесите органоид клетки и его функцию.',keys:['А. Митохондрия','Б. Рибосома','В. Хлоропласт'],vals:['1. Синтез белков','2. Фотосинтез (только у растений)','3. Выработка энергии (клеточное дыхание)'],correct:['3','1','2'],answer:'А–3 (энергия), Б–1 (белки), В–2 (фотосинтез).'},
+{num:3,type:'single',tag:'read',text:'Выберите ВЕРНОЕ утверждение о ДНК и наследственности.',opts:['1) Геном человека содержит около 100 тысяч генов.','2) Расшифровка генома человека завершена в 2003 году.','3) Мутации всегда приводят к тяжёлым болезням.','4) ДНК находится в митохондриях.'],correct:1,answer:'2 — Расшифровка генома человека была завершена в 2003 году в рамках проекта «Геном человека». У человека около 20–25 тыс. генов, а ДНК хранится в ядре.'},
+{num:4,type:'single',tag:'read',text:'Выберите НЕВЕРНОЕ утверждение.',opts:['1) Большинство микроорганизмов полезны или безвредны.','2) Антибиотики эффективны против вирусных инфекций.','3) Бактерии кишечника помогают переваривать пищу.','4) Молочнокислые бактерии используются при производстве кефира.'],correct:1,answer:'2 — НЕВЕРНОЕ: антибиотики действуют только на бактерии и не эффективны против вирусных инфекций (грипп, COVID-19 и др.).'},
+{num:5,type:'match',tag:'read',text:'Соотнесите событие в истории Олимпийских игр и дату или имя.',keys:['А. Первые древние Олимпийские игры','Б. Возрождение современных Игр','В. Место первых современных Игр'],vals:['1. Афины','2. 776 год до н.э.','3. 1896 год'],correct:['2','3','1'],answer:'А–2 (776 г. до н.э.), Б–3 (1896 г.), В–1 (Афины).'},
+{num:6,type:'single',tag:'read',text:'Что означают пять переплетённых колец на Олимпийском флаге?',opts:['1) Пять видов спорта на первых Играх.','2) Единство пяти континентов.','3) Пять стран-основательниц МОК.','4) Пять принципов олимпизма.'],correct:1,answer:'2 — Пять переплетённых колец символизируют единство пяти континентов Земли.'},
+{num:7,type:'single',tag:'read',text:'Выберите ВЕРНОЕ утверждение.',opts:['1) Баскетбол — индивидуальный вид спорта.','2) Эндорфины — гормоны, выделяемые при физической нагрузке и улучшающие настроение.','3) Олимпийские игры отменялись только один раз.','4) Экехейрия — название первых Олимпийских игр.'],correct:1,answer:'2 — При физической нагрузке выделяются эндорфины, улучшающие настроение и снижающие стресс. Баскетбол — командный вид, Игры отменялись трижды, экехейрия — священное перемирие.'},
+{num:8,type:'open',tag:'logic',text:'Пятеро спортсменов — Андрей, Борис, Вика, Гоша и Диана — занимаются разными видами спорта: плаванием, теннисом, баскетболом, гимнастикой и борьбой. Известно:\n• Андрей и Борис не занимаются единоборствами (борьбой).\n• Вика занимается видом спорта, требующим гибкости (гимнастика).\n• Гоша ездит на тренировки на автобусе, а пловец живёт у бассейна и ходит пешком — значит Гоша не пловец.\n• Диана занимается командным видом спорта (баскетбол).\n• Борис занимается ракеточным видом спорта (теннис).\n\nКто каким видом спорта занимается?',answer:'Диана → баскетбол (командный). Борис → теннис (ракеточный), не борьба ✓. Вика → гимнастика (гибкость). Гоша → не плавание (автобус); не баскетбол (Диана), не теннис (Борис), не гимнастика (Вика) → Гоша — борьба. Андрей: не борьба (Гоша), не баскетбол, не теннис, не гимнастика → Андрей — плавание.\n\n✅ Андрей — плавание, Борис — теннис, Вика — гимнастика, Гоша — борьба, Диана — баскетбол.'},
+{num:9,type:'open',tag:'logic',rule:true,text:'На острове рыцарей и лжецов живут трое: Оля, Паша и Рома.\n• Оля сказала: «Паша — лжец».\n• Паша сказал: «Рома — рыцарь».\n• Рома сказал: «Оля и Паша — оба лжецы».\n\nОпределите, кем является каждый из них.',answer:'Случай А: Оля — рыцарь → Паша — лжец → «Рома — рыцарь» ложь → Рома — лжец. Рома-лжец → «Оля и Паша оба лжецы» ложь → не оба лжецы. Оля-рыцарь, Паша-лжец → не оба лжецы ✓ СОГЛАСОВАННО.\n\nСлучай Б: Оля — лжец → «Паша — лжец» ложь → Паша — рыцарь. Паша-рыцарь → «Рома — рыцарь» правда → Рома — рыцарь. Рома-рыцарь → «Оля и Паша оба лжецы» правда → оба лжецы. Но Паша — рыцарь → ПРОТИВОРЕЧИЕ.\n\n✅ Единственное решение: Оля — рыцарь, Паша — лжец, Рома — лжец.'}
+]},
+// ══ ВАРИАНТ 3: История России 18-19 вв. · Русская литература ══
+{id:3,label:'Вариант 3',topics:'История России 18–19 вв. · Русская литература',
+texts:[
+{title:'Текст 1. Пётр I и реформы',body:`<p>Пётр I (1672–1725) — один из наиболее значимых правителей в истории России. Придя к власти, он взял курс на коренное преобразование страны по западноевропейскому образцу. Реформы Петра охватили практически все сферы жизни: государственное управление, армию, флот, экономику, культуру и быт. Введение новой системы государственного управления — коллегий вместо приказов, а впоследствии и Сената — сделало власть более централизованной и эффективной.</p><p>Военные реформы превратили Россию в мощную военную державу. Пётр создал регулярную армию на основе рекрутских наборов и построил с нуля военно-морской флот. Победа в Северной войне со Швецией (1700–1721) открыла России выход к Балтийскому морю. В 1703 году Пётр основал новую столицу — Санкт-Петербург — как «окно в Европу». В 1721 году Россия была провозглашена Империей, а сам Пётр принял титул императора.</p><p>Культурные преобразования Петра были не менее революционны: он ввёл гражданский шрифт, повелел дворянам брить бороды и носить европейскую одежду, открыл первый публичный музей — Кунсткамеру, основал Академию наук. Всё это встречало сопротивление части общества, привыкшей к традиционному укладу жизни. Однако именно петровские реформы определили вектор развития России на несколько столетий вперёд.</p>`},
+{title:'Текст 2. Эпоха Екатерины II',body:`<p>Екатерина II (1729–1796), вошедшая в историю как Екатерина Великая, правила Россией с 1762 по 1796 год. Её царствование стало «золотым веком» российского дворянства и временем расцвета просвещённого абсолютизма. Будучи немецкой принцессой по происхождению, Екатерина глубоко изучила российскую историю и культуру, переписывалась с европейскими философами — Вольтером, Дидро, д'Аламбером — и старалась воплощать в жизнь идеи Просвещения.</p><p>При Екатерине Россия значительно расширила свои территории. В результате войн с Османской империей страна получила выход к Чёрному морю и присоединила Крым. Три раздела Польши привели к присоединению значительной части польских земель. Был открыт Смольный институт — первое в России учебное заведение для женщин. Основан Государственный Эрмитаж как частная коллекция императрицы.</p><p>Однако блестящий фасад екатерининской эпохи скрывал серьёзные противоречия. Права крестьян были существенно ограничены: крепостное право усилилось, помещики получили право ссылать крестьян в Сибирь. В 1773–1775 годах вспыхнуло крупнейшее в истории страны крестьянское восстание под руководством Емельяна Пугачёва, охватившее огромные территории. Восстание было подавлено, но обнажило глубокое социальное неравенство в российском обществе.</p>`},
+{title:'Текст 3. Великая русская литература XIX века',body:`<p>XIX век называют золотым веком русской литературы: именно в это время были созданы произведения, ставшие частью мирового культурного наследия. Александр Сергеевич Пушкин считается основоположником современного русского литературного языка. Его роман в стихах «Евгений Онегин», поэма «Руслан и Людмила», трагедия «Борис Годунов», повести «Капитанская дочка» и «Пиковая дама» заложили основы нескольких литературных жанров.</p><p>Николай Васильевич Гоголь создал непревзойдённые образцы сатирической прозы: комедию «Ревизор», поэму в прозе «Мёртвые души», цикл «Петербургские повести», куда входит фантастическая история «Нос». Иван Сергеевич Тургенев в романе «Отцы и дети» поднял проблему конфликта поколений, а Александр Николаевич Островский стал мастером социальной драмы: его пьеса «Гроза» — один из шедевров русского театра.</p><p>Лев Николаевич Толстой в романах «Война и мир» и «Анна Каренина» создал грандиозные полотна русской жизни, ставшие вершиной мирового реализма. Фёдор Михайлович Достоевский в «Преступлении и наказании», «Идиоте» и «Братьях Карамазовых» исследовал глубины человеческой психологии и нравственные дилеммы. Иван Александрович Гончаров в романе «Обломов» создал образ человека, неспособного к активной жизни, — «обломовщина» стала нарицательным понятием.</p>`},
+{title:'Текст 4. Что читают школьники сегодня',body:`<p>Чтение — один из важнейших навыков, который закладывается в школьные годы и остаётся с человеком на всю жизнь. Регулярное чтение развивает словарный запас, улучшает грамматическую грамотность, тренирует концентрацию внимания и развивает эмпатию — способность сопереживать другим людям. Исследования показывают, что читающие дети в среднем лучше успевают по всем предметам.</p><p>Современные школьники читают значительно меньше, чем несколько десятилетий назад: конкуренцию книге составляют социальные сети, видеоигры и стриминговые сервисы. Тем не менее интерес к чтению не угас. Особой популярностью пользуются жанры фэнтези, научной фантастики, детективы и книги о подростках, переживающих приключения или взросление. Серии книг — «Гарри Поттер» Джоан Роулинг, «Голодные игры» Сюзанны Коллинз — приобщили к чтению миллионы детей во всём мире.</p><p>Библиотеки продолжают играть важную роль в жизни читателей: сегодня они трансформируются в культурные центры с электронными ресурсами, читальными клубами и событиями. Электронные книги и аудиокниги делают чтение доступным в любом месте и в любое время. Всемирный день книги отмечается ежегодно 23 апреля — в этот день в 1616 году умерли Уильям Шекспир и Мигель де Сервантес.</p>`},
+{title:'Текст 5. Школьная библиотека',body:`<p>Школьная библиотека — это не просто хранилище книг, а образовательный и культурный центр, играющий важную роль в учебном процессе. Здесь ученики могут найти учебники и справочники, художественную литературу, периодические издания, энциклопедии и электронные ресурсы. Хорошая школьная библиотека помогает формировать у детей культуру чтения и умение работать с информацией.</p><p>Работа библиотекаря не ограничивается выдачей книг. Библиотекари помогают ученикам находить нужную информацию для рефератов и проектов, организуют книжные выставки и читательские конкурсы, проводят библиотечные уроки, обучая школьников ориентироваться в информационном пространстве. В современных школьных библиотеках есть компьютеры с доступом в интернет, электронные каталоги и зоны для самостоятельной работы.</p><p>Особое значение имеет работа библиотеки с программой внеклассного чтения. Рекомендательные списки помогают ученикам выбирать книги, соответствующие их возрасту и интересам. Совместные читательские обсуждения развивают критическое мышление и умение выражать свою точку зрения. Библиотека — это пространство, где у ученика может возникнуть любовь к чтению, которая останется с ним на всю жизнь.</p>`}
+],
+questions:[
+{num:1,type:'single',tag:'read',text:'Что Пётр I назвал «окном в Европу» и основал в 1703 году?',opts:['1) Академию наук','2) Кунсткамеру','3) Санкт-Петербург','4) Сенат'],correct:2,answer:'3 — Санкт-Петербург, основанный в 1703 году, Пётр I назвал «окном в Европу».'},
+{num:2,type:'match',tag:'read',text:'Соотнесите событие эпохи Екатерины II и его описание.',keys:['А. Смольный институт','Б. Восстание Пугачёва','В. Государственный Эрмитаж'],vals:['1. Начался в 1773 году, крупнейшее восстание в истории страны','2. Первое учебное заведение для женщин в России','3. Основан как частная коллекция императрицы'],correct:['2','1','3'],answer:'А–2 (первое женское учебное заведение), Б–1 (восстание 1773–1775 гг.), В–3 (частная коллекция Екатерины).'},
+{num:3,type:'single',tag:'read',text:'Кто из писателей XIX века создал образ «лишнего человека» — Обломова?',opts:['1) Лев Толстой','2) Фёдор Достоевский','3) Иван Гончаров','4) Николай Гоголь'],correct:2,answer:'3 — Иван Александрович Гончаров в романе «Обломов» создал образ человека, неспособного к активной жизни. «Обломовщина» стала нарицательным понятием.'},
+{num:4,type:'single',tag:'read',text:'Выберите НЕВЕРНОЕ утверждение.',opts:['1) Пётр I основал Академию наук и Кунсткамеру.','2) Крепостное право при Екатерине II усилилось.','3) Пушкин написал пьесу «Гроза».','4) «Мёртвые души» написал Гоголь.'],correct:2,answer:'3 — НЕВЕРНОЕ: «Гроза» — пьеса Александра Островского, а не Пушкина. Пушкин написал «Бориса Годунова».'},
+{num:5,type:'match',tag:'read',text:'Соотнесите писателя XIX века и его произведение.',keys:['А. Иван Тургенев','Б. Александр Островский','В. Николай Гоголь'],vals:['1. «Ревизор»','2. «Отцы и дети»','3. «Гроза»'],correct:['2','3','1'],answer:'А–2 («Отцы и дети»), Б–3 («Гроза»), В–1 («Ревизор»).'},
+{num:6,type:'single',tag:'read',text:'Когда отмечается Всемирный день книги?',opts:['1) 1 сентября','2) 23 апреля','3) 12 июня','4) 5 октября'],correct:1,answer:'2 — Всемирный день книги отмечается 23 апреля — в день смерти Шекспира и Сервантеса (1616).'},
+{num:7,type:'single',tag:'read',text:'Выберите ВЕРНОЕ утверждение.',opts:['1) Электронные книги сделали чтение менее доступным.','2) Северная война со Швецией закончилась победой России.','3) Екатерина II родилась в России.','4) Пугачёвское восстание было подавлено самим Петром I.'],correct:1,answer:'2 — Северная война (1700–1721) закончилась победой России, и страна получила выход к Балтийскому морю. Екатерина была немецкой принцессой, восстание Пугачёва произошло при Екатерине II.'},
+{num:8,type:'open',tag:'logic',text:'Четыре одноклассника — Катя, Лёша, Маша и Никита — читают разные книги: «Отцы и дети» (Тургенев), «Гроза» (Островский), «Обломов» (Гончаров) и «Нос» (Гоголь). Каждый читает одну книгу. Известно:\n• Катя читает произведение Тургенева.\n• Лёша не читает Гончарова.\n• Маша читает пьесу.\n• Никита не читает Тургенева и не читает Гоголя.\n\nКто что читает?',answer:'Катя → «Отцы и дети» (Тургенев, п.1). Маша → пьесу → «Гроза» (Островский — единственная пьеса в списке). Никита: не Тургенев (Катя), не Гоголь → не «Нос» → Никита: «Обломов» (Гончаров). Лёша: не Гончаров (Никита), не Тургенев (Катя), не Островский (Маша) → Лёша: «Нос» (Гоголь). Проверка: Лёша не Гончаров ✓\n\n✅ Катя — «Отцы и дети», Лёша — «Нос», Маша — «Гроза», Никита — «Обломов».'},
+{num:9,type:'open',tag:'logic',rule:true,text:'На острове рыцарей и лжецов живут трое: Стас, Тина и Ульяна.\n• Стас сказал: «Тина — лжец».\n• Тина сказала: «Ульяна — рыцарь».\n• Ульяна сказала: «Стас и Тина — оба лжецы».\n\nОпределите, кем является каждый из них.',answer:'Случай А: Стас — рыцарь → Тина — лжец → «Ульяна — рыцарь» ложь → Ульяна — лжец. Ульяна-лжец → «Стас и Тина оба лжецы» ложь → не оба лжецы. Стас-рыцарь, Тина-лжец → не оба лжецы ✓ СОГЛАСОВАННО.\n\nСлучай Б: Стас — лжец → «Тина — лжец» ложь → Тина — рыцарь. Тина-рыцарь → «Ульяна — рыцарь» правда → Ульяна — рыцарь. Ульяна-рыцарь → «Стас и Тина оба лжецы» правда → оба лжецы. Но Тина — рыцарь → ПРОТИВОРЕЧИЕ.\n\n✅ Единственное решение: Стас — рыцарь, Тина — лжец, Ульяна — лжец.'}
+]},
+// ══ ВАРИАНТ 4: Технологии и будущее · Математика вокруг нас ══
+{id:4,label:'Вариант 4',topics:'Технологии будущего · Математика вокруг нас',
+texts:[
+{title:'Текст 1. Искусственный интеллект',body:`<p>Искусственный интеллект (ИИ) — это раздел информатики, изучающий создание компьютерных систем, способных выполнять задачи, которые обычно требуют человеческого интеллекта: распознавание речи и изображений, перевод текстов, принятие решений, игра в шахматы и решение сложных математических задач. Термин «искусственный интеллект» был введён в 1956 году американским учёным Джоном Маккарти.</p><p>Современный ИИ основан преимущественно на методах машинного обучения — особого рода алгоритмах, которые не программируются напрямую, а «обучаются» на огромных массивах данных. Нейронные сети, вдохновлённые строением человеческого мозга, стали основой для прорывных систем: именно они позволили создать ChatGPT, DALL-E и другие генеративные модели, способные создавать тексты, изображения и музыку.</p><p>ИИ уже сегодня активно используется в медицине (диагностика болезней по снимкам), транспорте (беспилотные автомобили), банковской сфере (обнаружение мошенничества), образовании (персонализированные системы обучения) и развлечениях (рекомендательные алгоритмы). Вместе с тем развитие ИИ поднимает важные этические вопросы: о защите данных, ответственности за ошибки алгоритмов и возможном вытеснении людей с рабочих мест.</p>`},
+{title:'Текст 2. Робототехника и автоматизация',body:`<p>Роботы — это программируемые механические устройства, способные выполнять различные задачи автоматически. История робототехники началась задолго до появления компьютеров: первые автоматы — механические устройства, имитирующие движения живых существ, — создавались ещё в XVIII веке. Само слово «робот» было введено в оборот в 1920 году чешским писателем Карелом Чапеком в пьесе «Р.У.Р.».</p><p>Современные роботы делятся на несколько основных типов. Промышленные роботы применяются на заводах для сборки автомобилей, сварки, покраски и упаковки товаров. Сервисные роботы помогают людям в повседневной жизни: роботы-пылесосы, роботы-курьеры, роботы для ухода за пожилыми людьми. Медицинские роботы ассистируют хирургам при сложных операциях. Военные и поисково-спасательные дроны работают в опасных для людей условиях.</p><p>Автоматизация производства имеет неоднозначные последствия. С одной стороны, она повышает производительность, снижает себестоимость продуктов, устраняет тяжёлый ручной труд и снижает количество ошибок. С другой стороны, массовое внедрение роботов вытесняет работников с ряда профессий — в первую очередь тех, чья работа связана с однообразными, повторяющимися операциями. Это требует переквалификации работников и новых подходов к образованию.</p>`},
+{title:'Текст 3. Интернет и цифровая грамотность',body:`<p>Интернет — глобальная компьютерная сеть, объединяющая миллиарды устройств по всему миру. Его история началась в 1969 году с запуска американской военной сети ARPANET. Всемирная паутина (World Wide Web) — система взаимосвязанных гипертекстовых документов, которую мы используем ежедневно, — была создана британским учёным Тимом Бернерс-Ли в 1989 году и открыта для общественного доступа в 1991-м.</p><p>Сегодня интернет используется для общения, поиска информации, обучения, работы, покупок, развлечений. По данным 2023 года, более 5,4 миллиарда человек — около 67% населения Земли — имеют доступ к интернету. Социальные сети, мессенджеры, стриминговые платформы и облачные сервисы стали неотъемлемой частью жизни. Однако вместе с возможностями интернет несёт и риски: кибербуллинг, мошенничество, распространение ложной информации (фейков), угрозы персональным данным.</p><p>Цифровая грамотность — умение эффективно и безопасно использовать цифровые технологии — стала необходимым навыком XXI века. Она включает умение находить и проверять информацию, защищать свои данные, создавать цифровой контент и понимать, как работают алгоритмы. Важно уметь отличать достоверные источники от ненадёжных, распознавать манипуляции и нести ответственность за своё поведение в сети.</p>`},
+{title:'Текст 4. Математика в природе',body:`<p>Математика — это не только таблицы умножения и уравнения. Она пронизывает природу и окружающий нас мир самыми неожиданными способами. Одно из самых удивительных явлений — числа Фибоначчи: последовательность 1, 1, 2, 3, 5, 8, 13, 21, 34…, в которой каждое следующее число равно сумме двух предыдущих. Эти числа встречаются в расположении семян подсолнуха, чешуек шишек, лепестков цветов и спиралях морских раковин.</p><p>С числами Фибоначчи тесно связано «золотое сечение» — соотношение примерно 1:1,618, которое обозначается греческой буквой φ (фи). Этот пропорциональный принцип использовали художники и архитекторы эпохи Возрождения, считая его эталоном красоты и гармонии. Его можно обнаружить в пропорциях знаменитых архитектурных сооружений — Парфенона в Афинах, Великой пирамиды в Гизе.</p><p>Симметрия — ещё один математический принцип, пронизывающий природу. Снежинки обладают шестилучевой симметрией, морские звёзды — пятилучевой, большинство цветов — радиальной. Симметрия присутствует в строении животных, кристаллов, молекул. Фракталы — самоподобные геометрические структуры — встречаются в форме облаков, береговых линий, кровеносных сосудов и ветвей деревьев. Математика помогает нам понять, по каким законам устроен окружающий мир.</p>`},
+{title:'Текст 5. Логика и критическое мышление',body:`<p>Логика — наука о правилах правильного мышления и рассуждения. Она изучает законы, которым подчиняются верные умозаключения, помогает выявлять ошибки в рассуждениях и принимать обоснованные решения. Основы формальной логики заложил древнегреческий философ Аристотель в IV веке до нашей эры. Его учение об умозаключениях — силлогизмах — стало фундаментом всей западной науки.</p><p>Критическое мышление — это способность анализировать информацию, оценивать аргументы и делать выводы на основе доказательств, а не эмоций или предрассудков. Оно включает несколько ключевых навыков: умение задавать правильные вопросы, выявлять скрытые допущения, проверять источники информации, замечать логические ошибки и предвзятость. В эпоху информационного перегруза критическое мышление стало одним из важнейших навыков.</p><p>Логические задачи — отличный тренажёр для ума. Задачи на дедукцию (от общего к частному), индукцию (от частного к общему), аналогию и комбинаторику развивают гибкость мышления, внимательность и умение работать с условиями. Именно такие задачи чаще всего встречаются в олимпиадах и вступительных испытаниях. Решение логических задач доступно каждому, кто готов думать внимательно и последовательно.</p>`}
+],
+questions:[
+{num:1,type:'single',tag:'read',text:'Кто ввёл термин «искусственный интеллект» и в каком году?',opts:['1) Тим Бернерс-Ли, в 1989 году.','2) Карел Чапек, в 1920 году.','3) Джон Маккарти, в 1956 году.','4) Алан Тьюринг, в 1950 году.'],correct:2,answer:'3 — Термин «искусственный интеллект» введён американским учёным Джоном Маккарти в 1956 году.'},
+{num:2,type:'match',tag:'read',text:'Соотнесите тип робота и область его применения.',keys:['А. Промышленный робот','Б. Медицинский робот','В. Военный дрон'],vals:['1. Опасные для людей условия','2. Ассистирование при сложных операциях','3. Сборка автомобилей на заводе'],correct:['3','2','1'],answer:'А–3 (завод, сборка), Б–2 (операции), В–1 (опасные условия).'},
+{num:3,type:'single',tag:'read',text:'Кто создал Всемирную паутину (World Wide Web)?',opts:['1) Билл Гейтс','2) Стив Джобс','3) Тим Бернерс-Ли','4) Джон Маккарти'],correct:2,answer:'3 — Всемирную паутину создал британский учёный Тим Бернерс-Ли в 1989 году, открыта для широкой публики в 1991-м.'},
+{num:4,type:'single',tag:'read',text:'Выберите ВЕРНОЕ утверждение о числах Фибоначчи.',opts:['1) Числа Фибоначчи — это степени двойки: 1, 2, 4, 8, 16…','2) Каждое число Фибоначчи равно сумме двух предыдущих.','3) Числа Фибоначчи встречаются только в архитектуре.','4) Золотое сечение равно соотношению 1:2.'],correct:1,answer:'2 — Каждое следующее число Фибоначчи равно сумме двух предыдущих: 1, 1, 2, 3, 5, 8, 13, 21…'},
+{num:5,type:'match',tag:'read',text:'Соотнесите математическое понятие и его проявление в природе.',keys:['А. Числа Фибоначчи','Б. Симметрия','В. Фракталы'],vals:['1. Форма облаков и ветви деревьев','2. Расположение семян в подсолнухе','3. Шестилучевая структура снежинки'],correct:['2','3','1'],answer:'А–2 (семена подсолнуха), Б–3 (снежинка — шестилучевая симметрия), В–1 (облака, ветви — самоподобные структуры).'},
+{num:6,type:'single',tag:'read',text:'Что такое цифровая грамотность?',opts:['1) Умение быстро набирать текст на клавиатуре.','2) Умение эффективно и безопасно использовать цифровые технологии.','3) Знание языков программирования.','4) Умение пользоваться социальными сетями.'],correct:1,answer:'2 — Цифровая грамотность — умение эффективно и безопасно использовать цифровые технологии, находить и проверять информацию, защищать данные.'},
+{num:7,type:'single',tag:'read',text:'Выберите НЕВЕРНОЕ утверждение.',opts:['1) Логику как науку основал Аристотель.','2) ARPANET — военная сеть, ставшая предшественником интернета.','3) Робот Чапека умел самостоятельно обучаться и думать как человек.','4) Критическое мышление помогает замечать логические ошибки.'],correct:2,answer:'3 — НЕВЕРНОЕ: в пьесе Чапека «Р.У.Р.» слово «робот» появилось, но характеристики этих роботов — литературный вымысел, и утверждение о самообучении не содержится в изученных текстах. Главное: в тексте о робототехнике не говорится, что роботы Чапека самостоятельно думали — речь шла только о введении термина.'},
+{num:8,type:'open',tag:'logic',text:'Четверо учеников технического кружка — Алёша, Белла, Вова и Галя — занимаются разными направлениями: программированием, робототехникой, 3D-печатью и кибербезопасностью. Известно:\n• Алёша не занимается программированием.\n• Белла занимается направлением, связанным с созданием физических объектов (3D-печать).\n• Вова изучает защиту информационных систем (кибербезопасность).\n• Галя не занимается робототехникой.\n\nКто чем занимается?',answer:'Белла → 3D-печать (физические объекты, п.2). Вова → кибербезопасность (защита информации, п.3). Галя: не робототехника, не 3D-печать (Белла), не кибербезопасность (Вова) → Галя — программирование. Алёша: не программирование (Галя), не 3D-печать (Белла), не кибербезопасность (Вова) → Алёша — робототехника.\n\n✅ Алёша — робототехника, Белла — 3D-печать, Вова — кибербезопасность, Галя — программирование.'},
+{num:9,type:'open',tag:'logic',rule:true,text:'На острове рыцарей и лжецов живут трое: Ваня, Галя и Денис.\n• Ваня сказал: «Галя — лжец».\n• Галя сказала: «Денис — рыцарь».\n• Денис сказал: «Ваня и Галя — оба лжецы».\n\nОпределите, кем является каждый из них.',answer:'Случай А: Ваня — рыцарь → Галя — лжец → «Денис — рыцарь» ложь → Денис — лжец. Денис-лжец → «Ваня и Галя оба лжецы» ложь → не оба лжецы. Ваня-рыцарь, Галя-лжец → не оба лжецы ✓ СОГЛАСОВАННО.\n\nСлучай Б: Ваня — лжец → «Галя — лжец» ложь → Галя — рыцарь. Галя-рыцарь → «Денис — рыцарь» правда → Денис — рыцарь. Денис-рыцарь → «Ваня и Галя оба лжецы» правда → оба лжецы. Но Галя — рыцарь → ПРОТИВОРЕЧИЕ.\n\n✅ Единственное решение: Ваня — рыцарь, Галя — лжец, Денис — лжец.'}
+]}
+];
+
+// ═══ STATE ═══
+let CV=null,UA={},SCORED={},timerSec=0,timerInt=null;
+const TIMER_TOTAL=45*60,ARC_C=2*Math.PI*17;
+
+document.addEventListener('DOMContentLoaded',renderVcards);
+
+function renderVcards(){
+  document.getElementById('vcard-list').innerHTML=VARIANTS.map(v=>`
+    <div class="vcard" onclick="startVariant(${v.id-1})">
+      <div class="vn">${String(v.id).padStart(2,'0')}</div>
+      <div class="vcard-labels">
+        <span class="vlbl vlr">📖 ${v.topics.split('·')[0].trim()}</span>
+        <span class="vlbl vll">🧩 ${v.topics.split('·')[1]?.trim()||'Логика'}</span>
+      </div>
+      <div class="vcta">Начать →</div>
+    </div>`).join('');
+}
+
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
+function goHome(){stopTimer();showScreen('sc-landing');}
+function confirmBack(){if(timerInt&&timerSec<TIMER_TOTAL&&!confirm('Вернуться на главную? Прогресс будет потерян.'))return;goHome();}
+
+function startVariant(idx){
+  CV=VARIANTS[idx];UA={};SCORED={};
+  document.getElementById('hdr-title').textContent=CV.label;
+  document.getElementById('hdr-sub').textContent=CV.topics;
+  document.getElementById('ans-tot').textContent=CV.questions.length;
+  renderTexts();renderQuestions();updateProg();
+  switchTab('texts',document.querySelector('.tab'));
+  showScreen('sc-quiz');startTimer();
+}
+
+function startTimer(){timerSec=TIMER_TOTAL;updateTimerUI();clearInterval(timerInt);timerInt=setInterval(()=>{timerSec--;updateTimerUI();if(timerSec<=0){clearInterval(timerInt);document.getElementById('to-overlay').classList.add('on');}},1000);}
+function stopTimer(){clearInterval(timerInt);timerInt=null;}
+function onTimeUp(){document.getElementById('to-overlay').classList.remove('on');finishQuiz();}
+function updateTimerUI(){
+  const m=Math.floor(timerSec/60),s=timerSec%60;
+  const mEl=document.getElementById('t-min'),sEl=document.getElementById('t-sec'),arc=document.getElementById('t-arc');
+  mEl.textContent=String(m).padStart(2,'0');sEl.textContent=':'+String(s).padStart(2,'0');
+  arc.style.strokeDashoffset=ARC_C*(1-timerSec/TIMER_TOTAL);
+  if(timerSec<=60){arc.style.stroke='#E74C3C';mEl.style.color='#E74C3C';mEl.style.animation='tpulse .8s infinite';}
+  else if(timerSec<=10*60){arc.style.stroke='#F39C12';mEl.style.color='#F39C12';mEl.style.animation='';}
+  else{arc.style.stroke='#F5A623';mEl.style.color='#fff';mEl.style.animation='';}
+}
+
+function switchTab(name,btn){
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
+  if(btn)btn.classList.add('on');
+  document.getElementById('panel-texts').classList.toggle('on',name==='texts');
+  document.getElementById('panel-questions').classList.toggle('on',name==='questions');
+}
+
+function renderTexts(){
+  document.getElementById('panel-texts').innerHTML=
+    `<div class="sec-divider"><div class="sec-divider-line"></div><span class="sec-divider-badge sdb-r">📖 Читательская грамотность</span><div class="sec-divider-line"></div></div>`+
+    CV.texts.map((t,i)=>`
+      <div class="txt-block">
+        <div class="txt-hdr" onclick="toggleTxt(${i})">
+          <span class="txt-hdr-lbl">${t.title}</span>
+          <span class="txt-hdr-ic" id="tic-${i}">▲</span>
+        </div>
+        <div class="txt-body open" id="tb-${i}">${t.body}</div>
+      </div>`).join('');
+}
+function toggleTxt(i){const b=document.getElementById(`tb-${i}`),ic=document.getElementById(`tic-${i}`);b.classList.toggle('open');ic.textContent=b.classList.contains('open')?'▲':'▼';}
+
+function allQ(){return CV.questions;}
+
+function renderQuestions(){
+  const rqs=CV.questions.filter(q=>q.tag==='read');
+  const lqs=CV.questions.filter(q=>q.tag==='logic');
+  document.getElementById('panel-questions').innerHTML=
+    `<div class="sec-divider"><div class="sec-divider-line"></div><span class="sec-divider-badge sdb-r">📖 Читательская грамотность</span><div class="sec-divider-line"></div></div>`+
+    rqs.map((q,i)=>renderQ(q,i)).join('')+
+    `<div class="sec-divider"><div class="sec-divider-line"></div><span class="sec-divider-badge sdb-l">🧩 Логика</span><div class="sec-divider-line"></div></div>`+
+    lqs.map((q,i)=>renderQ(q,rqs.length+i)).join('');
+}
+
+function renderQ(q,gi){
+  let body='';
+  if(q.type==='single'){
+    body=`<ul class="opts">${q.opts.map((o,oi)=>`
+      <li class="opt" id="opt-${gi}-${oi}" onclick="pickSingle(${gi},${oi},${q.opts.length})">
+        <div class="odot" id="od-${gi}-${oi}"></div><span>${o}</span></li>`).join('')}</ul>`;
+  }else if(q.type==='match'){
+    if(!UA[gi])UA[gi]=q.keys.map(()=>'');
+    const opts=q.vals.map((v,vi)=>`<option value="${vi}">${v}</option>`).join('');
+    body=`<div class="match-wrap">${q.keys.map((k,ki)=>`
+      <div class="match-row">
+        <div class="match-lbl">${k}</div>
+        <div class="match-arr">→</div>
+        <select class="match-sel" id="ms-${gi}-${ki}" onchange="pickMatch(${gi},${ki},this.value)">
+          <option value="">— выбрать —</option>${opts}
+        </select>
+      </div>`).join('')}</div>`;
+  }else{
+    body=`<textarea class="open-in" id="oi-${gi}" placeholder="Запишите ваш ответ..." oninput="updateProg()"></textarea>`;
+  }
+  const ruleBanner=q.rule?`<div class="rule-banner"><span>📌</span><span>Правило: рыцари всегда говорят правду, лжецы всегда лгут.</span></div>`:'';
+  return `<div class="qcard" id="qc-${gi}">
+    <div class="qtop">
+      <div class="qnum">${q.num}</div>
+      <div class="qmeta">
+        <span class="qtag ${q.tag}">${q.tag==='read'?'Читательская грамотность':'Логика'}</span>
+        <div class="qtext">${q.text.replace(/\n/g,'<br>')}</div>
+      </div>
+    </div>
+    ${ruleBanner}${body}
+    <div class="qactions"><button class="btn-chk" onclick="checkQ(${gi})">Проверить</button></div>
+    <div class="reveal" id="rev-${gi}"></div>
+  </div>`;
+}
+
+function pickSingle(gi,oi,total){
+  for(let i=0;i<total;i++){document.getElementById(`opt-${gi}-${i}`)?.classList.remove('sel');const d=document.getElementById(`od-${gi}-${i}`);if(d)d.textContent='';}
+  document.getElementById(`opt-${gi}-${oi}`).classList.add('sel');
+  document.getElementById(`od-${gi}-${oi}`).textContent='✓';
+  UA[gi]=oi;updateProg();
+}
+function pickMatch(gi,ki,val){if(!UA[gi])UA[gi]=[];UA[gi][ki]=val;updateProg();}
+function updateProg(){
+  if(!CV)return;let c=0;
+  CV.questions.forEach((q,gi)=>{
+    const a=UA[gi];
+    if(q.type==='single'&&a!==undefined)c++;
+    else if(q.type==='match'&&Array.isArray(a)&&a.some(x=>x!==''))c++;
+    else if(q.type==='open'&&document.getElementById(`oi-${gi}`)?.value?.trim())c++;
+  });
+  document.getElementById('ans-cnt').textContent=c;
+  document.getElementById('prog-fill').style.width=(c/CV.questions.length*100)+'%';
+  document.getElementById('prog-lbl').textContent=c+' / '+CV.questions.length;
+}
+
+function checkQ(gi){
+  const q=CV.questions[gi],rev=document.getElementById(`rev-${gi}`),card=document.getElementById(`qc-${gi}`);
+  if(q.type==='open'){
+    card.classList.add('open-done');
+    rev.className='reveal open-r on';
+    rev.innerHTML=`<strong>Ответ для проверки с учителем:</strong><br><span style="white-space:pre-line">${q.answer}</span>`;
+    return;
+  }
+  let earned=0;
+  if(q.type==='single'){
+    const ua=UA[gi];
+    if(ua===undefined){rev.className='reveal auto on';rev.innerHTML='Сначала выберите ответ.';return;}
+    const ok=ua===q.correct;
+    q.opts.forEach((_,oi)=>{const el=document.getElementById(`opt-${gi}-${oi}`);el?.classList.remove('sel');if(oi===q.correct)el?.classList.add('ok');else if(oi===ua&&!ok)el?.classList.add('bad');});
+    earned=ok?1:0;rev.className='reveal auto on';
+    rev.innerHTML=`<strong>${ok?'✓ Верно!':'✗ Неверно.'}</strong> ${q.answer}`;
+  }else if(q.type==='match'){
+    const ua=UA[gi]||[];
+    const ok=q.correct.every((c,ki)=>String(ua[ki])===String(c));
+    q.keys.forEach((_,ki)=>{const sel=document.getElementById(`ms-${gi}-${ki}`);if(sel){sel.classList.remove('ok','bad');sel.classList.add(String(ua[ki])===String(q.correct[ki])?'ok':'bad');}});
+    earned=ok?1:0;rev.className='reveal auto on';
+    rev.innerHTML=`<strong>${ok?'✓ Верно!':'✗ Неверно.'}</strong> ${q.answer}`;
+  }
+  SCORED[gi]=earned;
+  card.classList.toggle('ok',earned===1);card.classList.toggle('bad',earned===0);
+}
+
+function finishQuiz(){
+  stopTimer();
+  CV.questions.forEach((_,gi)=>{if(SCORED[gi]===undefined)checkQ(gi);});
+  let auto=0,autoMax=0,openCount=0;
+  CV.questions.forEach((q,gi)=>{if(q.type==='open')openCount++;else{autoMax++;auto+=SCORED[gi]||0;}});
+  const pct=Math.round(auto/autoMax*100);
+  document.getElementById('res-pts').textContent=auto;
+  document.getElementById('res-max').textContent='из '+autoMax+' (авто)';
+  const circ=2*Math.PI*68;
+  setTimeout(()=>{document.getElementById('res-arc').style.strokeDashoffset=circ-(pct/100)*circ;},120);
+  const titles=['Нужно больше практики','Хорошее начало!','Отличный результат!','Превосходно!'];
+  document.getElementById('res-title').textContent=titles[pct<40?0:pct<65?1:pct<85?2:3];
+  document.getElementById('res-sub').textContent=`${CV.label} · ${CV.topics}`;
+  document.getElementById('res-board').innerHTML=`
+    <div class="res-row"><span class="rl">Читательская грамотность (авто)</span><span class="rv ${auto>=6?'ok':auto>=4?'so':'bad'}">${auto} / ${autoMax}</span></div>
+    <div class="res-row"><span class="rl">Логические задачи (с учителем)</span><span class="rv">${openCount} зад.</span></div>
+    <div class="res-row"><span class="rl">Процент (закрытые)</span><span class="rv ${pct>=75?'ok':pct>=50?'so':'bad'}">${pct}%</span></div>`;
+  document.getElementById('save-status').textContent='';
+  showScreen('sc-results');
+}
+
+function saveResult(){
+  let auto=0,autoMax=0;
+  CV.questions.forEach((q,gi)=>{if(q.type!=='open'){autoMax++;auto+=SCORED[gi]||0;}});
+  const openAnswers={};
+  CV.questions.forEach((q,gi)=>{if(q.type==='open'){const el=document.getElementById(`oi-${gi}`);openAnswers[gi]=el?.value||'';}});
+  const record={id:Date.now(),variantId:CV.id,variantLabel:CV.label,topics:CV.topics,date:new Date().toLocaleString('ru-RU'),auto,autoMax,pct:Math.round(auto/autoMax*100),scored:{...SCORED},openAnswers,questions:CV.questions.map(q=>({num:q.num,text:q.text.substring(0,120),type:q.type,answer:q.answer,correct:q.correct||null,tag:q.tag,rule:q.rule||false})),ua:{...UA}};
+  let saved=JSON.parse(localStorage.getItem('cpm7_eru2_results')||'[]');
+  saved.unshift(record);if(saved.length>20)saved=saved.slice(0,20);
+  localStorage.setItem('cpm7_eru2_results',JSON.stringify(saved));
+  document.getElementById('save-status').textContent='✓ Сохранено! Результат останется даже после закрытия браузера.';
+}
+
+function showSaved(){renderSavedList();showScreen('sc-saved');}
+function renderSavedList(){
+  const saved=JSON.parse(localStorage.getItem('cpm7_eru2_results')||'[]');
+  const el=document.getElementById('saved-list');
+  if(!saved.length){el.innerHTML='<div class="saved-empty">Сохранённых результатов пока нет.</div>';return;}
+  el.innerHTML=saved.map(r=>`
+    <div class="saved-item" onclick="openSavedReview(${r.id})">
+      <div class="si-top"><span class="si-vnum">${r.variantLabel}</span><button class="si-del" onclick="event.stopPropagation();deleteSaved(${r.id})">✕ удалить</button><span class="si-date">${r.date}</span></div>
+      <div class="si-score"><span>${r.auto}</span> / ${r.autoMax} · ${r.pct}%</div>
+      <div class="si-meta">${r.topics}</div>
+    </div>`).join('');
+}
+function deleteSaved(id){let saved=JSON.parse(localStorage.getItem('cpm7_eru2_results')||'[]');saved=saved.filter(r=>r.id!==id);localStorage.setItem('cpm7_eru2_results',JSON.stringify(saved));renderSavedList();}
+function openSavedReview(id){
+  const saved=JSON.parse(localStorage.getItem('cpm7_eru2_results')||'[]');
+  const r=saved.find(x=>x.id===id);if(!r)return;
+  document.getElementById('review-title').textContent=`Разбор: ${r.variantLabel} · ${r.date}`;
+  document.getElementById('review-body').innerHTML=r.questions.map((q,i)=>{
+    const sc=r.scored[i];
+    const ruleLine=q.rule?`<div style="font-size:11px;color:var(--logic);font-weight:700;margin-bottom:4px;">📌 Рыцари говорят правду, лжецы лгут.</div>`:'';
+    let ansHtml='';
+    if(q.type==='open'){ansHtml=`<div class="rq-ans open-a">Ответ ученика: ${r.openAnswers[i]||'(не заполнено)'}</div><div class="rq-correct" style="white-space:pre-line">Правильный ответ: ${q.answer}</div>`;}
+    else{const ok=sc===1;ansHtml=`<div class="rq-ans ${ok?'ok-a':'bad-a'}">${ok?'✓ Верно':'✗ Неверно'}</div><div class="rq-correct">Правильный ответ: ${q.answer}</div>`;}
+    return `<div class="review-q"><div class="rq-num">Задание ${q.num} · ${q.tag==='read'?'Читательская грамотность':'Логика'}</div>${ruleLine}<div class="rq-text">${q.text}</div>${ansHtml}</div>`;
+  }).join('');
+  document.getElementById('review-modal').classList.add('on');
+}
+function closeReview(){document.getElementById('review-modal').classList.remove('on');}
+function reviewMode(){switchTab('questions',document.querySelectorAll('.tab')[1]);showScreen('sc-quiz');}
+</script>
+</body>
+</html>
